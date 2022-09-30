@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane prefHeight="403.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.augustana.UIMockup.PrimaryController">
+   <center>
+      <VBox alignment="CENTER" spacing="20.0">
+         <children>
+            <Button fx:id="templateButton" mnemonicParsing="false" onAction="#switchToSecondary" text="Template For Ideas" />
+            <Button fx:id="scratchButton" mnemonicParsing="false" onAction="#switchToThird" text="Start From Scratch" />
+            <Button fx:id="loadFileButton" mnemonicParsing="false" onAction="#loadExistingFile" text="Load Existing File" />
+            <Button fx:id="GenRandomButton" onAction="#genRandom" text="Generate Random" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </center>
+   <top>
+      <Label text="Main Menu" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+   </top>
+</BorderPane>
