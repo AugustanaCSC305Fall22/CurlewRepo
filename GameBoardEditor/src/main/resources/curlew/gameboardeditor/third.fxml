@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane prefHeight="325.0" prefWidth="404.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18">
+   <top>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#clickedBack" prefHeight="25.0" prefWidth="189.0" text="Button" />
+            <Label alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="221.0" text="Terrain Editor">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <ImageView fitHeight="200.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+   </center>
+   <bottom>
+      <VBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="404.0" spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <Slider />
+            <Slider />
+            <Button fx:id="saveAsButton" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveAsFile" text="Save As" />
+         </children>
+      </VBox>
+   </bottom>
+   <left>
+      <ScrollPane prefHeight="235.0" prefWidth="117.0" BorderPane.alignment="CENTER">
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem id="featureOne" fx:id="TitleLabel" mnemonicParsing="false" text="Feature One" />
+                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                  <MenuItem id="featureOne" mnemonicParsing="false" text="Feature One" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+      </ScrollPane>
+   </left>
+</BorderPane>
