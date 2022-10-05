@@ -10,6 +10,7 @@ import java.io.IOException;
 	import javafx.fxml.FXML;
 	import javafx.scene.control.Button;
 	import javafx.scene.control.MenuItem;
+import javafx.scene.control.Slider;
 
 	public class ThirdController {
 
@@ -18,6 +19,12 @@ import java.io.IOException;
 
 	    @FXML
 	    private Button saveAsButton;
+	    
+	    @FXML
+	    private Slider widthSlider;
+	    
+	    @FXML
+	    private Slider lengthSlider;
 
 	    @FXML
 	    void saveAsFile(ActionEvent event) {
