@@ -30,6 +30,8 @@ import javafx.scene.control.Slider;
 	    void saveAsFile(ActionEvent event) {
 
 	    }
+	    @FXML
+	    private Button backButton;
 
 	
 

@@ -12,12 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane prefHeight="325.0" prefWidth="404.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="curlew.gameboardeditor.thirdController">
+<BorderPane prefHeight="325.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ThirdController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#clickedBack" prefHeight="25.0" prefWidth="189.0" text="Button" />
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#clickedBack" prefHeight="25.0" prefWidth="189.0" text="Back" />
             <Label alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="221.0" text="Terrain Editor">
                <font>
                   <Font name="System Bold" size="24.0" />
