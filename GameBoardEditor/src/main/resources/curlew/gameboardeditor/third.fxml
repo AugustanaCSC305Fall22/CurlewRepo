@@ -33,7 +33,7 @@
          <children>
             <Slider />
             <Slider />
-            <Button fx:id="saveAsButton" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveAsFile" text="Save As" />
+            <Button fx:id="saveAsButton" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveAsButtonHandler" text="Save As" />
          </children>
       </VBox>
    </bottom>
