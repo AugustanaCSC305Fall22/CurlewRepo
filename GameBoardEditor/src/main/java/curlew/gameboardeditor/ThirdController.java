@@ -8,9 +8,14 @@ import java.io.IOException;
 
 	import javafx.event.ActionEvent;
 	import javafx.fxml.FXML;
-	import javafx.scene.control.Button;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 	import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 	public class ThirdController {
 
@@ -25,6 +30,8 @@ import javafx.scene.control.Slider;
 	    
 	    @FXML
 	    private Slider lengthSlider;
+	    
+	    private Stage stage;
 
 	    @FXML
 	    void saveAsFile(ActionEvent event) {
@@ -40,4 +47,8 @@ import javafx.scene.control.Slider;
     	App.setRoot("primary");
     }
 
+    @FXML
+    void saveAsButtonHandler(ActionEvent event) throws IOException {
+    	App.fileSaver();
+    }
 }
