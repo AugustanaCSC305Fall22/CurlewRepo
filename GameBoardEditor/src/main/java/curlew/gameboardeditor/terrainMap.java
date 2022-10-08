@@ -2,7 +2,7 @@ package curlew.gameboardeditor;
 
 import javafx.scene.shape.Box;
 
-public class map {
+public class terrainMap {
 	private Box[][] boxArray;
 	private final double BOX_LENGHT = 2;
 	private final double BOX_WIDTH = 2;
@@ -11,7 +11,7 @@ public class map {
 	private final double MAX_HEIGHT = 8;
 	private final double MIN_HEIGHT = 0;
 	
-	public map(int length, int width) {
+	public terrainMap(int length, int width) {
 		boxArray = new Box[length][width];
 		for (Box[] row:boxArray) {
 			for(Box box:row) {
