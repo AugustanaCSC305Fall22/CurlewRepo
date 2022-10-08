@@ -14,7 +14,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="325.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ThirdController">
+
+
+
+
+<BorderPane prefHeight="325.0" prefWidth="404.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="curlew.gameboardeditor.ThirdController">
+
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -33,13 +38,23 @@
    <bottom>
       <VBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="404.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Slider fx:id="lengthSlider" blockIncrement="1.0" max="10.0" prefHeight="45.0" prefWidth="409.0">
+            <Label text="Length">
                <padding>
-                  <Insets left="20.0" right="20.0" top="10.0" />
+                  <Insets bottom="-5.0" />
+               </padding>
+            </Label>
+            <Slider fx:id="lengthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="64.0" min="10.0" minorTickCount="0" prefHeight="45.0" prefWidth="409.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+               <padding>
+                  <Insets left="20.0" right="20.0" />
                </padding></Slider>
-            <Slider fx:id="widthSlider">
+            <Label text="Width">
                <padding>
-                  <Insets left="20.0" right="20.0" top="10.0" />
+                  <Insets bottom="-5.0" />
+               </padding>
+            </Label>
+            <Slider fx:id="widthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="64.0" min="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+               <padding>
+                  <Insets left="20.0" right="20.0" />
                </padding></Slider>
             <Button fx:id="saveAsButton" alignment="BOTTOM_RIGHT" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveAsButtonHandler" text="Save As" />
          </children>
