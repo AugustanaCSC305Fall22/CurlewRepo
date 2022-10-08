@@ -37,7 +37,7 @@
                   <Insets bottom="-5.0" />
                </padding>
             </Label>
-            <Slider fx:id="lengthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="64.0" minorTickCount="0" prefHeight="45.0" prefWidth="409.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <Slider fx:id="lengthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="64.0" min="10.0" minorTickCount="0" prefHeight="45.0" prefWidth="409.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <padding>
                   <Insets left="20.0" right="20.0" />
                </padding></Slider>
@@ -46,7 +46,7 @@
                   <Insets bottom="-5.0" />
                </padding>
             </Label>
-            <Slider fx:id="widthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="64.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <Slider fx:id="widthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="64.0" min="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <padding>
                   <Insets left="20.0" right="20.0" />
                </padding></Slider>
