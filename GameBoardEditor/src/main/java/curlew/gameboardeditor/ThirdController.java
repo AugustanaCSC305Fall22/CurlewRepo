@@ -31,17 +31,21 @@ import javafx.stage.Window;
 	    @FXML
 	    private Slider lengthSlider;
 	    
-	    private Stage stage;
-
 	    @FXML
-	    void saveAsFile(ActionEvent event) {
+	    private MenuItem DigFeatureButton;
 
-	    }
+
+	    
 	    @FXML
 	    private Button backButton;
-	   
+	    
+	    private terrainMap terrain;
 	
-
+//	    int length1 = (int) lengthSlider.getValue();
+//	    int width1 = (int) widthSlider.getValue();
+	    
+//	    terrain = new terrainMap(length1, width1);
+	    
     @FXML
     void clickedBack(ActionEvent event) throws IOException {
     	App.setRoot("primary");
@@ -51,4 +55,5 @@ import javafx.stage.Window;
     void saveAsButtonHandler(ActionEvent event) throws IOException {
     	App.fileSaver();
     }
+    
 }

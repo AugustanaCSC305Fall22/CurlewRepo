@@ -8,13 +8,14 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane prefHeight="442.0" prefWidth="536.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ThirdController">
+
 
 
    <top>
@@ -30,7 +31,7 @@
       </HBox>
    </top>
    <center>
-      <ImageView fitHeight="200.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+      <ImageView fx:id="ImageViewEditor" fitHeight="200.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
       <VBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="404.0" spacing="10.0" BorderPane.alignment="CENTER">
@@ -58,16 +59,22 @@
       </VBox>
    </bottom>
    <left>
-      <ScrollPane prefHeight="235.0" prefWidth="117.0" BorderPane.alignment="CENTER">
-         <contextMenu>
-            <ContextMenu>
-              <items>
-                <MenuItem id="featureOne" fx:id="TitleLabel" mnemonicParsing="false" text="Feature One" />
-                  <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                  <MenuItem id="featureOne" mnemonicParsing="false" text="Feature One" />
-              </items>
-            </ContextMenu>
-         </contextMenu>
-      </ScrollPane>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <ScrollPane prefHeight="200.0" prefWidth="200.0">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="107.0" />
+              </content>
+               <contextMenu>
+                  <ContextMenu>
+                    <items>
+                      <MenuItem fx:id="DigFeatureButton" mnemonicParsing="false" text="DigFeature" />
+                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                    </items>
+                  </ContextMenu>
+               </contextMenu>
+            </ScrollPane>
+         </children>
+      </VBox>
    </left>
 </BorderPane>

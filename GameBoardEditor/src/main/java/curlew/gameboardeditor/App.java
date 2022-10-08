@@ -8,7 +8,7 @@ import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-
+import javafx.scene.shape.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,12 +38,12 @@ public class App extends Application {
     	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Object Files", "*.obj"));
     	File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
+        	selectedFile = file;
         	//selectedFile = fileChooser.showSaveDialog(stage);
             //filePath = (Path) file.toPath();
     }
     }
     public static void fileSaver() throws IOException{
-    	System.out.print("We Made it");
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Object Files", "*.obj"));
     	fileChooser.setTitle("Save As");
