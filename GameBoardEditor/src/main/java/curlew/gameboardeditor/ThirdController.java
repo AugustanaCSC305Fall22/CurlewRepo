@@ -31,12 +31,11 @@ import javafx.stage.Window;
 	    @FXML
 	    private Slider lengthSlider;
 	    
-	    private Stage stage;
-
 	    @FXML
-	    void saveAsFile(ActionEvent event) {
+	    private MenuItem DigFeatureButton;
 
-	    }
+
+	    
 	    @FXML
 	    private Button backButton;
 
