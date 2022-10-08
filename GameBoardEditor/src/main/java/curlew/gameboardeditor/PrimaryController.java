@@ -1,11 +1,13 @@
 package curlew.gameboardeditor;
 
+import java.io.File;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class PrimaryController {
 
@@ -29,8 +31,8 @@ public class PrimaryController {
 	}
 
 	@FXML
-	void loadExistingFile(ActionEvent event) {
-		FileChooser file = new FileChooser();
+	public void loadExistingFile() {
+		App.loadExistingFile();
 		
 	}
 
