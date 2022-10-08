@@ -32,11 +32,11 @@
    <bottom>
       <VBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="404.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Slider fx:id="lengthSlider" blockIncrement="1.0" max="10.0" prefHeight="45.0" prefWidth="409.0">
+            <Slider fx:id="lengthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="64.0" minorTickCount="0" prefHeight="45.0" prefWidth="409.0" snapToTicks="true">
                <padding>
                   <Insets left="20.0" right="20.0" top="10.0" />
                </padding></Slider>
-            <Slider fx:id="widthSlider">
+            <Slider fx:id="widthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="64.0" minorTickCount="0" snapToTicks="true">
                <padding>
                   <Insets left="20.0" right="20.0" top="10.0" />
                </padding></Slider>
