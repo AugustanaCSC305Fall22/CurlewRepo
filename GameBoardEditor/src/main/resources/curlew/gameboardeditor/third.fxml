@@ -17,8 +17,6 @@
 <BorderPane prefHeight="442.0" prefWidth="536.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ThirdController">
 
 
-<BorderPane prefHeight="325.0" prefWidth="404.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18" fx:controller="curlew.gameboardeditor.ThirdController">
-
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
