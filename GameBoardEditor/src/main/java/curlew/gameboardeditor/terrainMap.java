@@ -1,8 +1,14 @@
 package curlew.gameboardeditor;
 
+import java.io.Serializable;
+
 import javafx.scene.shape.Box;
 
-public class terrainMap {
+public class terrainMap implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5680049734865608997L;
 	private Box[][] boxArray;
 	private final double BOX_LENGHT = 2;
 	private final double BOX_WIDTH = 2;
@@ -46,5 +52,8 @@ public class terrainMap {
 		return boxArray[row][column];
 	}
 	
-
+	public int getlength() {
+		return boxArray.length;
+	}
+	
 }
