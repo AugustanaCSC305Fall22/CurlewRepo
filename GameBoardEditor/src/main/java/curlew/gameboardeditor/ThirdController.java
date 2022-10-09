@@ -18,6 +18,8 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 	public class ThirdController {
+		
+		
 
 	    @FXML
 	    private MenuItem TitleLabel;
@@ -55,5 +57,8 @@ import javafx.stage.Window;
     void saveAsButtonHandler(ActionEvent event) throws IOException {
     	App.fileSaver();
     }
+    
+    
+    
     
 }

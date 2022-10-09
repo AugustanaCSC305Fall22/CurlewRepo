@@ -45,5 +45,6 @@ public class terrainMap {
 	public Box getBox(int row, int column) {
 		return boxArray[row][column];
 	}
+	
 
 }
