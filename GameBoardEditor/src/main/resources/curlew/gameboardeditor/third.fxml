@@ -14,9 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-
-
+<BorderPane prefHeight="325.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ThirdController">
 
    <top>
       <HBox BorderPane.alignment="CENTER">
@@ -30,9 +28,6 @@
          </children>
       </HBox>
    </top>
-   <center>
-      <ImageView fx:id="ImageViewEditor" fitHeight="200.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-   </center>
    <bottom>
       <VBox alignment="BOTTOM_CENTER" prefHeight="49.0" prefWidth="404.0" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
@@ -77,4 +72,11 @@
          </children>
       </VBox>
    </left>
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="ImageViewEditor" fitHeight="200.0" fitWidth="292.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </HBox>
+   </center>
 </BorderPane>
