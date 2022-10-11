@@ -114,10 +114,7 @@ import javafx.stage.Window;
     void sliderHandler (ActionEvent event) throws IOException {
     	int length = (int) lengthSlider.getValue();
     	int width = (int) widthSlider.getValue();
-    	this.terrain = new terrainMap(length, width);
-    	double lngth = (double) length;
-    	double wdth = (double) width;
-    	mapDrawer = new Canvas(lngth, wdth);
+    	terrain = new terrainMap(length, width);
     }
     
 }

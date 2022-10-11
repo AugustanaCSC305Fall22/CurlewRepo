@@ -83,7 +83,7 @@ public class App extends Application {
     	}
     }
     
-   
+    
     
     private File getSelectedFile() {
     	return selectedFile;
