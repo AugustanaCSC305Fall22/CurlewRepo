@@ -2,20 +2,13 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
-
-
 
 <BorderPane prefHeight="325.0" prefWidth="404.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ThirdController">
    <top>
@@ -56,21 +49,13 @@
       </VBox>
    </bottom>
    <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="30.0" BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane prefHeight="200.0" prefWidth="200.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="107.0" />
-              </content>
-               <contextMenu>
-                  <ContextMenu>
-                    <items>
-                      <MenuItem fx:id="DigFeatureButton" mnemonicParsing="false" text="DigFeature" />
-                        <MenuItem mnemonicParsing="false" text="Unspecified Action" />
-                    </items>
-                  </ContextMenu>
-               </contextMenu>
-            </ScrollPane>
+            <Button fx:id="AddBlockButton" mnemonicParsing="false" onAction="#getTextAddBlockButton" text="Add Block" />
+            <Button fx:id="DigButton" mnemonicParsing="false" onAction="#getTextDigButton" text="Dig" />
+            <Button fx:id="AddMountianButton" mnemonicParsing="false" onAction="#getTextAddMountainButton" text="Add Mountian" />
+            <Button fx:id="AddValleyButton" mnemonicParsing="false" onAction="#getTextAddValleyButton" text="Add Valley" />
+            <Label fx:id="SelectedLabel" />
          </children>
       </VBox>
    </left>

@@ -50,9 +50,10 @@ public class App extends Application {
             //filePath = (Path) file.toPath();
         }
     }
+    
     public static void fileSaver() throws IOException{
     	
-        terrainMap mapAddy = new terrainMap(0,0); //calling terrain map object to get info about box to be saved in to a text file later
+        terrainMap mapAddy = new terrainMap(8,8); //calling terrain map object to get info about box to be saved in to a text file later
         mapAddy.getBox(3, 5); //test cases for now methods must be added to terrain map later to get final connection
         
     	FileChooser fileChooser = new FileChooser();
@@ -60,7 +61,7 @@ public class App extends Application {
     	fileChooser.setTitle("Save As");
     	fileChooser.setInitialFileName("DefaultFileName");
     	File file = fileChooser.showSaveDialog(stage);
-    	
+    	if (file != null) {
     	// writing the object into a text file
     	try {
     		String absolute = file.getAbsolutePath();
@@ -79,8 +80,11 @@ public class App extends Application {
     	catch(IOException e){
     		System.err.println("Error saving to file");
     	}
-    	
+    	}
     }
+    
+   
+    
     private File getSelectedFile() {
     	return selectedFile;
     }
