@@ -68,9 +68,7 @@ import javafx.stage.Window;
     @FXML
     void sliderHandler(ActionEvent event) throws IOException {
     	int length = (int) lengthSlider.getValue();
-    	System.out.println(length);
     	int width = (int) widthSlider.getValue();
-    	System.out.println(width);
     	this.terrain = new terrainMap(length, width);
     }
     
