@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.stage.FileChooser;
@@ -36,12 +37,25 @@ import javafx.stage.Window;
 	    @FXML
 	    private MenuItem DigFeatureButton;
 
-
+	    @FXML
+	    private Label SelectedLabel;
 	    
 	    @FXML
 	    private Button backButton;
 	    @FXML
 	    private terrainMap terrain;
+	    
+	    @FXML
+	    private Button AddBlockButton;
+
+	    @FXML
+	    private Button AddMountianButton;
+
+	    @FXML
+	    private Button AddValleyButton;
+
+	    @FXML
+	    private Button DigButton;
 //      I just left these lines of code in case of my code is not correct.	
 //	    int length1 = (int) lengthSlider.getValue();
 //	    int width1 = (int) widthSlider.getValue();
@@ -55,6 +69,31 @@ import javafx.stage.Window;
 //	    @FXML
 //	    private terrainMap terrain = new terrainMap(length, width);
 //	    
+	@FXML
+	void getTextDigButton(ActionEvent event) {
+		String text = DigButton.getText();
+		lastClickedFeature(text);
+	}
+	@FXML
+	void getTextAddBlockButton(ActionEvent event) {
+		String text = AddBlockButton.getText();
+		lastClickedFeature(text);
+	}
+	@FXML
+	void getTextAddMountainButton(ActionEvent event) {
+		String text = AddMountianButton.getText();
+		lastClickedFeature(text);
+	}
+	@FXML
+	void getTextAddValleyButton(ActionEvent event) {
+		String text = AddValleyButton.getText();
+		lastClickedFeature(text);
+	}
+	    
+	@FXML 
+	void lastClickedFeature(String str) {
+		SelectedLabel.setText(str);
+	}
     @FXML
     void clickedBack(ActionEvent event) throws IOException {
     	App.setRoot("primary");
