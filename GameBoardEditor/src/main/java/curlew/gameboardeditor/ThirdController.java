@@ -54,7 +54,14 @@ import javafx.stage.Window;
 //	    
 //	    @FXML
 //	    private terrainMap terrain = new terrainMap(length, width);
-//	    
+//	   
+	    @FXML
+	    void sliderHandler(ActionEvent event) throws IOException {
+	    	int length = (int) lengthSlider.getValue();
+	    	int width = (int) widthSlider.getValue();
+	    	this.terrain = new terrainMap(length, width);
+	    }    
+	    
     @FXML
     void clickedBack(ActionEvent event) throws IOException {
     	App.setRoot("primary");
@@ -64,13 +71,7 @@ import javafx.stage.Window;
     void saveAsButtonHandler(ActionEvent event) throws IOException {
     	App.fileSaver();
     }
-    
-    @FXML
-    void sliderHandler(ActionEvent event) throws IOException {
-    	int length = (int) lengthSlider.getValue();
-    	int width = (int) widthSlider.getValue();
-    	this.terrain = new terrainMap(length, width);
-    }
+ 
     
     
 }
