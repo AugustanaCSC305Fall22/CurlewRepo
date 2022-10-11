@@ -40,14 +40,21 @@ import javafx.stage.Window;
 	    
 	    @FXML
 	    private Button backButton;
-	    
+	    @FXML
 	    private terrainMap terrain;
-	
+//      I just left these lines of code in case of my code is not correct.	
 //	    int length1 = (int) lengthSlider.getValue();
 //	    int width1 = (int) widthSlider.getValue();
 	    
 //	    terrain = new terrainMap(length1, width1);
 	    
+	    
+//	    private int length = (int) lengthSlider.getValue();
+//	    private int width = (int) widthSlider.getValue();
+//	    
+//	    @FXML
+//	    private terrainMap terrain = new terrainMap(length, width);
+//	    
     @FXML
     void clickedBack(ActionEvent event) throws IOException {
     	App.setRoot("primary");
@@ -58,7 +65,14 @@ import javafx.stage.Window;
     	App.fileSaver();
     }
     
-    
+    @FXML
+    void sliderHandler(ActionEvent event) throws IOException {
+    	int length = (int) lengthSlider.getValue();
+    	System.out.println(length);
+    	int width = (int) widthSlider.getValue();
+    	System.out.println(width);
+    	this.terrain = new terrainMap(length, width);
+    }
     
     
 }
