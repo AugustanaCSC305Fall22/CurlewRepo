@@ -4,33 +4,25 @@ import java.io.Serializable;
 
 import javafx.scene.shape.Box;
 
-public class terrainMap implements Serializable {
+public class terrainMap  {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5680049734865608997L;
-	private Box[][] boxArray;
-	private final double BOX_LENGHT = 2;
-	private final double BOX_WIDTH = 2;
-	private final double BOX_DEPTH = 2;
+	private double[][] heightArray;
+
 	private final double DEPTH_CHANGE = 2;
 	private final double MAX_HEIGHT = 8;
 	private final double MIN_HEIGHT = 0;
 	
 	public terrainMap(int length, int width) {
-		boxArray = new Box[length][width];
-		for (Box[] row:boxArray) {
-			for(Box box:row) {
-				box = new Box(BOX_WIDTH, BOX_LENGHT, BOX_DEPTH);
-			}
-		}	
+		heightArray = new double[length][width];	
 	}
 	
 	public void dig(int row, int column, double decreaseDepth) {
-		if(boxArray[row][column].getDepth()<=MIN_HEIGHT) {
+		if(heightArray[row][column]- decreaseDepth<=MIN_HEIGHT) {
 			throw new IllegalArgumentException("You have reached the minimium depth");
 		}
-		boxArray[row][column].setDepth(boxArray[row][column].getDepth() - decreaseDepth); 
+		heightArray[row][column]= heightArray[row][column] - decreaseDepth; 
 	}
 	
 	public void dig(int row, int column) {
@@ -38,22 +30,25 @@ public class terrainMap implements Serializable {
 	}
 	
 	public void build(int row, int column, double increaseDepth) {
-		if(boxArray[row][column].getDepth()>=MAX_HEIGHT) {
+		if(heightArray[row][column]+ increaseDepth>=MAX_HEIGHT) {
 			throw new IllegalArgumentException("You have reached the maximium height");
 		}
-		boxArray[row][column].setDepth(boxArray[row][column].getDepth() + increaseDepth); 
+		heightArray[row][column]= heightArray[row][column] + increaseDepth; 
 	}
 	
 	public void build(int row, int column) {
 		dig(row,column, DEPTH_CHANGE);
 	}
 	
-	public Box getBox(int row, int column) {
-		return boxArray[row][column];
+	public double getHeight(int row, int column) {
+		return heightArray[row][column];
 	}
 	
-	public int getlength() {
-		return boxArray.length;
+	public int getLength() {
+		return heightArray.length;
+	}
+	public int getWidth() {
+		return heightArray[1].length;
 	}
 	
 }
