@@ -53,7 +53,7 @@ public class App extends Application {
     public static void fileSaver() throws IOException{
     	
         terrainMap mapAddy = new terrainMap(8,8); //calling terrain map object to get info about box to be saved in to a text file later
-        mapAddy.getBox(3, 5); //test cases for now methods must be added to terrain map later to get final connection
+        mapAddy.getHeight(3, 5); //test cases for now methods must be added to terrain map later to get final connection
         
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Object Files", "*.obj"));
@@ -67,7 +67,7 @@ public class App extends Application {
     		FileOutputStream output = new FileOutputStream(file);
     		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("boxAddy.dat"));
     		
-    		for (int row = 0; row < mapAddy.getlength() ; row++) {
+    		for (int row = 0; row < mapAddy.getLength() ; row++) {
     			oos.writeObject(row);
     			for (int col = 0; col < row ; col++ ) {
     				oos.writeObject(col);
