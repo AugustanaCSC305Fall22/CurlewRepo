@@ -1,9 +1,5 @@
 package curlew.gameboardeditor;
 
-import java.io.Serializable;
-
-import javafx.scene.shape.Box;
-
 public class terrainMap  {
 	/**
 	 * 

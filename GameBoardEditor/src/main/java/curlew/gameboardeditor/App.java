@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import org.json.JSONObject;
 
 /**
  * JavaFX App
@@ -64,25 +63,7 @@ public class App extends Application {
     	fileChooser.setInitialFileName("DefaultFileName");
     	File file = fileChooser.showSaveDialog(stage);
     	if (file != null) {
-    	// writing the object into a text file
-    	try {
-    		String absolute = file.getAbsolutePath();
-    		FileOutputStream output = new FileOutputStream(file);
-    		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("CreateJSONFile"));
-    		JSONObject jsonObject = new JSONObject();
-    		
-    		for (int row = 0; row < mapAddy.getRow() ; row++) {
-    			for (int col = 0; col < row ; col++ ) {    				
-    				jsonObject.put("index" , mapAddy.getValue(row, col));
-    				
-    			}
-    		}
-     		output.close();
-    	}
-    	
-    	catch(IOException e){
-    		System.err.println("Error saving to file");
-    	}
+    		JSONExporter.writeJSONFile(file, mapAddy);
     	}
     }
     
