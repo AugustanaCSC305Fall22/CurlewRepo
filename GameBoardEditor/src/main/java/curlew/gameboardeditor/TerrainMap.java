@@ -1,6 +1,6 @@
 package curlew.gameboardeditor;
 
-public class terrainMap  {
+public class TerrainMap  {
 	/**
 	 * 
 	 */
@@ -10,7 +10,7 @@ public class terrainMap  {
 	private final double MAX_HEIGHT = 8;
 	private final double MIN_HEIGHT = 0;
 	
-	public terrainMap(int length, int width) {
+	public TerrainMap(int length, int width) {
 		heightArray = new double[length][width];	
 	}
 	

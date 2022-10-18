@@ -54,7 +54,7 @@ public class App extends Application {
     
     public static void fileSaver() throws IOException{
     	
-        terrainMap mapAddy = new terrainMap(8,8); //calling terrain map object to get info about box to be saved in to a text file later
+        TerrainMap mapAddy = new TerrainMap(8,8); //calling terrain map object to get info about box to be saved in to a text file later
         mapAddy.getHeight(3, 5); //test cases for now methods must be added to terrain map later to get final connection
         
     	FileChooser fileChooser = new FileChooser();
