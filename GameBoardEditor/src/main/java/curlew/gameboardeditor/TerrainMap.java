@@ -1,5 +1,7 @@
 package curlew.gameboardeditor;
 
+import java.util.Random;
+
 public class TerrainMap  {
 	/**
 	 * 
@@ -47,19 +49,36 @@ public class TerrainMap  {
 		return heightArray[1].length;	
 	}
 	public double getValue(int indexRow, int indexCol) {
-		double value = 0;
-		 for(int row = heightArray.length ; row > heightArray.length ; row-- ) {
-			 if (row == indexRow) {		 
-				 for(int col = 0 ; col < heightArray[row].length ; col++ ) {
-					 if(col == indexCol) {
-						 value = heightArray[row][col];
-					 }
-				 }
-			 }
-		 }
-		return value;
+		return heightArray[indexRow][indexCol];
+//		double value = 0;
+//		 for(int row = heightArray.length ; row > heightArray.length ; row-- ) {
+//			 if (row == indexRow) {		 
+//				 for(int col = 0 ; col < heightArray[row].length ; col++ ) {
+//					 if(col == indexCol) {
+//						 value = heightArray[row][col];
+//					 }
+//				 }
+//			 }
+//		 }
+//		return value;
 	}
 	
-	
+	public TerrainMap genRandMap() {
+		TerrainMap randomMap = new TerrainMap(8,8);
+		Random rand = new Random();
+		int row = randomMap.getRow();
+		int col = randomMap.getColoumn();
+		for (int i = 0; i < 1; i++) {
+			int randRowIndex = rand.nextInt(row);
+			int randColIndex = rand.nextInt(col);
+			randomMap.build(randRowIndex, randColIndex);
+		}
+		for (int j = 0; j < 1; j++) {
+			int randRowIndex = rand.nextInt(row);
+			int randColIndex = rand.nextInt(col);
+			randomMap.dig(randRowIndex, randColIndex);
+		}
+		return randomMap;
+	}
 	
 }
