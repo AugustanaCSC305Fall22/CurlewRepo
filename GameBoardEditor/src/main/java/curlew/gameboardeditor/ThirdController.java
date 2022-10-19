@@ -44,7 +44,7 @@ import javafx.stage.Window;
 	    @FXML
 	    private Button backButton;
 	    @FXML
-	    private terrainMap terrain;
+	    private TerrainMap terrain;
 	    
 	    @FXML
 	    private Button AddBlockButton;
@@ -114,7 +114,7 @@ import javafx.stage.Window;
     void sliderHandler (ActionEvent event) throws IOException {
     	int length = (int) lengthSlider.getValue();
     	int width = (int) widthSlider.getValue();
-    	terrain = new terrainMap(length, width);
+    	terrain = new TerrainMap(length, width);
     }
     
 }

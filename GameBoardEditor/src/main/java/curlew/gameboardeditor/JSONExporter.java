@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 public class JSONExporter {
 	
-	public static void writeJSONFile(File file, terrainMap mapAddy) {
+	public static void writeJSONFile(File file, TerrainMap mapAddy) {
     	// writing the object into a text file
     	try {
     		String absolute = file.getAbsolutePath();
