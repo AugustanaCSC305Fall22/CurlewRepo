@@ -46,18 +46,21 @@ public class terrainMap  {
 	public int getColoumn() {
 		return heightArray[1].length;	
 	}
-	public double getValue(int indexRow, int indexCol) {
-		double value = 0;
-		 for(int row = heightArray.length ; row > heightArray.length ; row-- ) {
-			 if (row == indexRow) {		 
-				 for(int col = 0 ; col < heightArray[row].length ; col++ ) {
-					 if(col == indexCol) {
-						 value = heightArray[row][col];
-					 }
-				 }
-			 }
-		 }
-		return value;
+	public double getValue(int indexRow, int indexCol){
+//		double value = 0;
+//		 for(int row = heightArray.length ; row > heightArray.length ; row-- ) {
+//			 if (row == indexRow) {		 
+//				 for(int col = 0 ; col < heightArray[row].length ; col++ ) {
+//					 if(col == indexCol) {
+//						 value = heightArray[row][col];
+//					 }
+//				 }
+//			 }
+//		 }
+		
+		
+		return heightArray[indexRow][indexCol];
+//		return value;
 	}
 	
 	
