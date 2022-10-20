@@ -1,4 +1,4 @@
-package curlew.gameboardeditor;
+package gameboardeditor.datamodel;
 
 public abstract class Landforms {
 	private static int defaultScale =3;

@@ -1,4 +1,4 @@
-package curlew.gameboardeditor;
+package gameboardeditor.datamodel;
 
 public class TestClass {
 

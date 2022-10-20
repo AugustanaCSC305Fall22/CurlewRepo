@@ -1,4 +1,4 @@
-package curlew.gameboardeditor;
+package gameboardeditor.datamodel;
 
 import java.util.Random;
 
@@ -51,21 +51,11 @@ public class TerrainMap  {
 		return heightArray.length;
 	}
 	public int getColoumn() {
-		return heightArray[1].length;	
+		return heightArray[0].length;	
 	}
 	public double getValue(int indexRow, int indexCol) {
 		return heightArray[indexRow][indexCol];
-//		double value = 0;
-//		 for(int row = heightArray.length ; row > heightArray.length ; row-- ) {
-//			 if (row == indexRow) {		 
-//				 for(int col = 0 ; col < heightArray[row].length ; col++ ) {
-//					 if(col == indexCol) {
-//						 value = heightArray[row][col];
-//					 }
-//				 }
-//			 }
-//		 }
-//		return value;
+
 	}
 	
 	public TerrainMap genRandMap() {

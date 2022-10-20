@@ -1,11 +1,11 @@
 
 
-package curlew.gameboardeditor;
+package gameboardeditor.ui;
+
 
 import java.io.IOException;
 
-    
-
+import gameboardeditor.datamodel.TerrainMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
