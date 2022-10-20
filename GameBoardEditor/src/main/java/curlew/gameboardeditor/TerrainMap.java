@@ -7,10 +7,10 @@ public class TerrainMap  {
 	 * 
 	 */
 	private double[][] heightArray;
-
-	private final double DEPTH_CHANGE = 2;
-	private final double MAX_HEIGHT = 8;
-	private final double MIN_HEIGHT = 0;
+	private final static double INITIAL_DEPTH = 2;
+	private final static double DEPTH_CHANGE = 2;
+	private final static double MAX_HEIGHT = 6*DEPTH_CHANGE;
+	private final static double MIN_HEIGHT = 0;
 	
 	public TerrainMap(int length, int width) {
 		heightArray = new double[length][width];	
@@ -28,7 +28,7 @@ public class TerrainMap  {
 	}
 	
 	public void build(int row, int column, double increaseDepth) {
-		if(heightArray[row][column]+ increaseDepth>=MAX_HEIGHT) {
+		if(heightArray[row][column]+ increaseDepth>MAX_HEIGHT) {
 			throw new IllegalArgumentException("You have reached the maximium height");
 		}
 		heightArray[row][column]= heightArray[row][column] + increaseDepth; 
@@ -79,6 +79,14 @@ public class TerrainMap  {
 			randomMap.dig(randRowIndex, randColIndex);
 		}
 		return randomMap;
+	}
+	
+	public double getInitialDepth() {
+		return INITIAL_DEPTH;
+	}
+	
+	public double getDepthChange() {
+		return DEPTH_CHANGE;
 	}
 	
 }
