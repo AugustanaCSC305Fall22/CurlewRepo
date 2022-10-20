@@ -13,7 +13,12 @@ public class TerrainMap  {
 	private final static double MIN_HEIGHT = 0;
 	
 	public TerrainMap(int length, int width) {
-		heightArray = new double[length][width];	
+		heightArray = new double[length][width];
+		for(int i=0; i<length;i++) {
+			for(int j=0;j<width;j++) {
+			heightArray[i][j]= INITIAL_DEPTH;
+			}
+		}
 	}
 	
 	public void dig(int row, int column, double decreaseDepth) {

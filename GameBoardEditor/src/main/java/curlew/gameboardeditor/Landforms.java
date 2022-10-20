@@ -10,7 +10,7 @@ public abstract class Landforms {
 		mapOnBuild = map;
 		this.row= row;
 		this.column = column;
-		build(row,column, defaultScale);
+		build(row, column, defaultScale);
 	}
 	
 	public int getRow() {
