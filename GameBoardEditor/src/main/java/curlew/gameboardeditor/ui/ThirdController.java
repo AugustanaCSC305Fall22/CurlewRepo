@@ -76,12 +76,21 @@ import javafx.stage.Window;
 //	    private terrainMap terrain = new terrainMap(length, width);
 
 //	    
-	    @FXML
-	    private void initialize() {
-	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-	    	gc.setStroke(Color.BLUE);
-	    	gc.strokeRect(10, 50, 100, 80);
-	    }
+	int width = SizeController.getWidth();
+	int length = SizeController.getLength();
+	
+	@FXML
+	private void makeMap() {
+		terrain = new TerrainMap(width, length);
+	}
+	
+	@FXML
+	private void initialize() {
+	    GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+	    gc.setStroke(Color.BLUE);
+	    gc.strokeRect(10, 50, 100, 80);
+	}
+	
 	@FXML
 	void getTextDigButton(ActionEvent event) {
 		String text = DigButton.getText();
@@ -117,7 +126,8 @@ import javafx.stage.Window;
     void saveAsButtonHandler(ActionEvent event) throws IOException {
     	App.fileSaver();
     }
- 
+    
+    
     @FXML
     void sliderHandler (ActionEvent event) throws IOException {
     	int length = (int) lengthSlider.getValue();

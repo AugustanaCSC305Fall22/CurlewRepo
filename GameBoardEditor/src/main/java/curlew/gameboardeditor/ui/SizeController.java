@@ -10,10 +10,10 @@ import javafx.scene.control.Slider;
 
 public class SizeController {
 	@FXML
-	private Slider widthSlider;
+	private static Slider widthSlider;
 	
 	@FXML
-	private Slider lengthSlider;
+	private static Slider lengthSlider;
 	
 	@FXML
 	private Button doneButton;
@@ -27,7 +27,7 @@ public class SizeController {
 //    	return width;
 //    }
 	@FXML
-	public int getWidth() {
+	public static int getWidth() {
 		int width = (int) widthSlider.getValue();
     	return width;
 	}
@@ -39,7 +39,7 @@ public class SizeController {
 //    }
 	
 	@FXML
-    public int getLength() {
+    public static int getLength() {
 		int length = (int) widthSlider.getValue();
     	return length;
     }
