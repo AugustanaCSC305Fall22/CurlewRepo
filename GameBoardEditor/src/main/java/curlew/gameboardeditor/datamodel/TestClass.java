@@ -10,11 +10,14 @@ public class TestClass {
 //		moutain.scale(4);
 //		moutain.delete();
 //		printMap(ourMap);
-		Valley valley = new Valley(ourMap,5,5);
-//		valley.delete();
-		valley.scale(5);
+
+		
+		Volcano volcano = new Volcano(ourMap, 5, 5);
+		volcano.scale(3);
+//		volcano.delete();
 		printMap(ourMap);
 		
+
 
 	}
 	
