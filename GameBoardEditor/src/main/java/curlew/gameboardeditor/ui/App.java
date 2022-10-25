@@ -1,4 +1,4 @@
-package gameboardeditor.ui;
+package curlew.gameboardeditor.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-import gameboardeditor.datamodel.TerrainMap;
+import curlew.gameboardeditor.datamodel.TerrainMap;
 
 
 /**

@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane prefHeight="310.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.SecondaryController">
+<BorderPane prefHeight="310.0" prefWidth="304.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.SecondaryController">
    <top>
       <HBox alignment="TOP_CENTER" BorderPane.alignment="TOP_RIGHT">
          <children>

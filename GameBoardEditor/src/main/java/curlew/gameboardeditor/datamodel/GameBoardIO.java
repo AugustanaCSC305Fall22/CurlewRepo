@@ -1,4 +1,4 @@
-package gameboardeditor.datamodel;
+package curlew.gameboardeditor.datamodel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

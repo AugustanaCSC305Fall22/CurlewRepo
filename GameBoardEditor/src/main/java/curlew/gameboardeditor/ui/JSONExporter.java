@@ -1,4 +1,4 @@
-package gameboardeditor.ui;
+package curlew.gameboardeditor.ui;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import gameboardeditor.datamodel.TerrainMap;
+import curlew.gameboardeditor.datamodel.TerrainMap;
 
 public class JSONExporter {
 	

@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane prefHeight="403.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.PrimaryController">
+<BorderPane prefHeight="403.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.PrimaryController">
    <center>
       <VBox alignment="CENTER" spacing="20.0">
          <children>

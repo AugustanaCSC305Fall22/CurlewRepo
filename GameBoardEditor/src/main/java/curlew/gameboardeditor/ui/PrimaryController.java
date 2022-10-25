@@ -1,4 +1,4 @@
-package gameboardeditor.ui;
+package curlew.gameboardeditor.ui;
 
 import java.io.File;
 import java.io.IOException;
