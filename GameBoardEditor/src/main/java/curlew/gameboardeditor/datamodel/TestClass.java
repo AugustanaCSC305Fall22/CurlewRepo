@@ -6,8 +6,11 @@ public class TestClass {
 		TerrainMap ourMap = new TerrainMap(10,10);
 //		printMap(ourMap);
 		
-		Mountains moutain = new Mountains(ourMap,1,1);
+		Mountains moutain = new Mountains(ourMap,6,6);
+		moutain.scale(4);
+		moutain.delete();
 		printMap(ourMap);
+		
 		
 
 	}

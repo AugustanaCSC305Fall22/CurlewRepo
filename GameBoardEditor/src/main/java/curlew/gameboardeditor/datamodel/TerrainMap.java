@@ -32,15 +32,15 @@ public class TerrainMap  {
 		dig(row,column, DEPTH_CHANGE);
 	}
 	
-	public void build(int row, int column, double increaseDepth) {
-		if(heightArray[row][column]+ increaseDepth>MAX_HEIGHT) {
+	public void build(int row, int column, double newDepth) {
+		if(newDepth>MAX_HEIGHT) {
 			throw new IllegalArgumentException("You have reached the maximium height");
 		}
-		heightArray[row][column]= heightArray[row][column] + increaseDepth; 
+		heightArray[row][column]= newDepth; 
 	}
 	
 	public void build(int row, int column) {
-		dig(row,column, DEPTH_CHANGE);
+		dig(row,column, heightArray[row][column] +DEPTH_CHANGE);
 	}
 	
 	public double getHeight(int row, int column) {
