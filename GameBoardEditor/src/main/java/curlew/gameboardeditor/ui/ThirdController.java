@@ -61,7 +61,7 @@ import javafx.stage.Window;
 	    private Button DigButton;
 	    
 	    @FXML
-	    private Canvas twoDCanvas;
+	    private static Canvas twoDCanvas;
 //      I just left these lines of code in case of my code is not correct.	
 //	    int length1 = (int) lengthSlider.getValue();
 //	    int width1 = (int) widthSlider.getValue();
@@ -76,6 +76,7 @@ import javafx.stage.Window;
 //	    private terrainMap terrain = new terrainMap(length, width);
 
 //	    
+
 	int width = SizeController.getWidth();
 	int length = SizeController.getLength();
 	
@@ -84,13 +85,24 @@ import javafx.stage.Window;
 		terrain = new TerrainMap(width, length);
 	}
 	
-	@FXML
-	private void initialize() {
-	    GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-	    gc.setStroke(Color.BLUE);
-	    gc.strokeRect(10, 50, 100, 80);
-	}
+//	@FXML
+//	private void initialize() {
+//	    GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+//	    gc.setStroke(Color.BLUE);
+//	    gc.strokeRect(10, 50, 100, 80);
+//	}
 	
+
+	    @FXML
+	    private void initialize() {
+	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+	    	gc.setStroke(Color.BLUE);
+	    	gc.strokeRect(10, 50, 100, 80);
+	    }
+	    public static Canvas getTwoDCanvas() {
+	    	return twoDCanvas;
+	    }
+	    
 	@FXML
 	void getTextDigButton(ActionEvent event) {
 		String text = DigButton.getText();
@@ -128,11 +140,5 @@ import javafx.stage.Window;
     }
     
     
-    @FXML
-    void sliderHandler (ActionEvent event) throws IOException {
-    	int length = (int) lengthSlider.getValue();
-    	int width = (int) widthSlider.getValue();
-    	terrain = new TerrainMap(length, width);
-    }
     
 }
