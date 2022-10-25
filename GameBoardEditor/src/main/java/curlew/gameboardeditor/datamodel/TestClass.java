@@ -19,12 +19,14 @@ public class TestClass {
 	}
 	
 	private static void printMap(TerrainMap ourMap) {
-		for(int i=0;i<ourMap.getRow();i++) {
+		for(int i=0;i<ourMap.getRows();i++) {
 			System.out.println();
-			for(int j=0;j<ourMap.getColoumn(); j++) {
+
+			for(int j=0;j<ourMap.getColumns(); j++) {
 				System.out.print(Math.round(ourMap.getHeight(i, j)) +" ");
-			}
+
 		}
 	}
 
+}
 }

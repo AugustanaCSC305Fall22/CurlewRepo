@@ -10,10 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -59,7 +61,7 @@ import javafx.stage.Window;
 	    private Button DigButton;
 	    
 	    @FXML
-	    private Canvas mapDrawer;
+	    private Canvas twoDCanvas;
 //      I just left these lines of code in case of my code is not correct.	
 //	    int length1 = (int) lengthSlider.getValue();
 //	    int width1 = (int) widthSlider.getValue();
@@ -74,6 +76,12 @@ import javafx.stage.Window;
 //	    private terrainMap terrain = new terrainMap(length, width);
 
 //	    
+	    @FXML
+	    private void initialize() {
+	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+	    	gc.setStroke(Color.BLUE);
+	    	gc.strokeRect(10, 50, 100, 80);
+	    }
 	@FXML
 	void getTextDigButton(ActionEvent event) {
 		String text = DigButton.getText();
