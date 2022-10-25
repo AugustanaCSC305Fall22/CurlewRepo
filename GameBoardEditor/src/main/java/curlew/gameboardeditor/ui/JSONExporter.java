@@ -20,7 +20,7 @@ public class JSONExporter {
     		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("CreateJSONFile"));
     		JSONObject jsonObject = new JSONObject();
     		
-    		for (int row = 0; row < mapAddy.getRow() ; row++) {
+    		for (int row = 0; row < mapAddy.getRows() ; row++) {
     			for (int col = 0; col < row ; col++ ) {    				
     				jsonObject.put("index" , mapAddy.getValue(row, col));
     				
