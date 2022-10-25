@@ -4,17 +4,10 @@ public class TestClass {
 
 	public static void main(String[] args) {
 		TerrainMap ourMap = new TerrainMap(10,10);
-//		printMap(ourMap);
-		
-//		Mountains moutain = new Mountains(ourMap,6,6);
-//		moutain.scale(4);
-//		moutain.delete();
-//		printMap(ourMap);
-
-		
-		Volcano volcano = new Volcano(ourMap, 5, 5);
-		volcano.scale(3);
-//		volcano.delete();
+		Landforms hell = new GateToHell(ourMap, 5,5);
+		Landforms hell2 = new GateToHell(ourMap, 5,5);
+//		hell.delete();
+//		hell.scale(4);
 		printMap(ourMap);
 		
 
