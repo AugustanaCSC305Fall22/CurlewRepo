@@ -6,11 +6,14 @@ public class TestClass {
 		TerrainMap ourMap = new TerrainMap(10,10);
 //		printMap(ourMap);
 		
-		Mountains moutain = new Mountains(ourMap,6,6);
-		moutain.scale(4);
-		moutain.delete();
+//		Mountains moutain = new Mountains(ourMap,6,6);
+//		moutain.scale(4);
+//		moutain.delete();
+//		printMap(ourMap);
+		Valley valley = new Valley(ourMap,5,5);
+//		valley.delete();
+		valley.scale(5);
 		printMap(ourMap);
-		
 		
 
 	}
@@ -19,7 +22,7 @@ public class TestClass {
 		for(int i=0;i<ourMap.getRow();i++) {
 			System.out.println();
 			for(int j=0;j<ourMap.getColoumn(); j++) {
-				System.out.print(ourMap.getHeight(i, j) +" ");
+				System.out.print(Math.round(ourMap.getHeight(i, j)) +" ");
 			}
 		}
 	}
