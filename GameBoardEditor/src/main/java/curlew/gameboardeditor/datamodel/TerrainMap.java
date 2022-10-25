@@ -47,10 +47,10 @@ public class TerrainMap  {
 		return heightArray[row][column];
 	}
 	
-	public int getRow() {
+	public int getRows() {
 		return heightArray.length;
 	}
-	public int getColoumn() {
+	public int getColumns() {
 		return heightArray[0].length;	
 	}
 	public double getValue(int indexRow, int indexCol) {
@@ -61,8 +61,8 @@ public class TerrainMap  {
 	public TerrainMap genRandMap() {
 		TerrainMap randomMap = new TerrainMap(8,8);
 		Random rand = new Random();
-		int row = randomMap.getRow();
-		int col = randomMap.getColoumn();
+		int row = randomMap.getRows();
+		int col = randomMap.getColumns();
 		for (int i = 0; i < 1; i++) {
 			int randRowIndex = rand.nextInt(row);
 			int randColIndex = rand.nextInt(col);
