@@ -3,6 +3,7 @@ package curlew.gameboardeditor.ui;
 import java.io.File;
 import java.io.IOException;
 
+import curlew.gameboardeditor.datamodel.TerrainMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,7 +27,6 @@ public class PrimaryController {
 	@FXML
 	void genRandom(ActionEvent event) throws IOException {
 		//Will do other stuff here too
-		
 		switchToThird(event);
 	}
 
