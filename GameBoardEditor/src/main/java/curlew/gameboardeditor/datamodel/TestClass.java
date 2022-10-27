@@ -4,6 +4,7 @@ public class TestClass {
 
 	public static void main(String[] args) {
 		TerrainMap ourMap = new TerrainMap(10,10);
+<<<<<<< HEAD
 //		printMap(ourMap);
 		
 		//Mountains mountain = new Mountains(ourMap,0,5);
@@ -21,6 +22,12 @@ public class TestClass {
 		Valley valley = new Valley(ourMap, 0,5);
 		//valley.scale(2);
 		valley.delete();
+=======
+		Landforms hell = new GateToHell(ourMap, 5,5);
+		Landforms hell2 = new GateToHell(ourMap, 5,5);
+//		hell.delete();
+//		hell.scale(4);
+>>>>>>> branch 'main' of https://github.com/AugustanaCSC305Fall22/CurlewRepo.git
 		printMap(ourMap);
 
 		
