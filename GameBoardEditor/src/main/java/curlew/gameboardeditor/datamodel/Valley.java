@@ -17,17 +17,12 @@ public class Valley extends Landforms {
 		rightMountain = new Mountains(map,row,column+3);
 		if(scale==0) {
 			for(int i =row-2;i<=row+2;i++) {
-				try {
 				map.build(i, column, map.getInitialDepth());
-				}
-				catch(IndexOutOfBoundsException e) {}
 			}
 		}
 		else {
 			for(int i =row-2;i<=row+2;i++) {
-				try {
 				map.build(i, column, map.getInitialDepth()/2);
-				} catch(IndexOutOfBoundsException e) {}
 			}
 		}
 		leftMountain.scale(scale);

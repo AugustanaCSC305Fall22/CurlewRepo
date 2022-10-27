@@ -36,12 +36,16 @@ public class TerrainMap  {
 		if(newDepth>MAX_HEIGHT) {
 			throw new IllegalArgumentException("You have reached the maximium height");
 		}
+		try {
 		heightArray[row][column]= newDepth; 
+		} catch (IndexOutOfBoundsException e){}
 	}
+	
 	
 	public void build(int row, int column) {
 		dig(row,column, heightArray[row][column] +DEPTH_CHANGE);
 	}
+	
 	
 	public double getHeight(int row, int column) {
 		return heightArray[row][column];
