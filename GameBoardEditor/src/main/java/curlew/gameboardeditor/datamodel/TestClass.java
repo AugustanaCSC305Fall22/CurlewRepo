@@ -6,16 +6,23 @@ public class TestClass {
 		TerrainMap ourMap = new TerrainMap(10,10);
 //		printMap(ourMap);
 		
-//		Mountains moutain = new Mountains(ourMap,6,6);
+		//Mountains mountain = new Mountains(ourMap,0,5);
+		//mountain.scale(1);
 //		moutain.scale(4);
 //		moutain.delete();
 //		printMap(ourMap);
 
 		
-		Volcano volcano = new Volcano(ourMap, 5, 5);
-		volcano.scale(3);
+	//	Volcano volcano = new Volcano(ourMap, 5, 5);
+	//	volcano.scale(3);
 //		volcano.delete();
+		
+		
+		Valley valley = new Valley(ourMap, 0,5);
+		//valley.scale(2);
+		valley.delete();
 		printMap(ourMap);
+
 		
 
 
