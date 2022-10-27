@@ -11,18 +11,23 @@ public class Valley extends Landforms {
 
 	@Override
 	protected void build(int row, int column, int scale) {
-		// TODO Auto-generated method stub
+		
 		TerrainMap map = super.getMapOnBuild();
 		leftMountain= new Mountains(map,row,column-3);
 		rightMountain = new Mountains(map,row,column+3);
 		if(scale==0) {
 			for(int i =row-2;i<=row+2;i++) {
+				try {
 				map.build(i, column, map.getInitialDepth());
+				}
+				catch(IndexOutOfBoundsException e) {}
 			}
 		}
 		else {
 			for(int i =row-2;i<=row+2;i++) {
+				try {
 				map.build(i, column, map.getInitialDepth()/2);
+				} catch(IndexOutOfBoundsException e) {}
 			}
 		}
 		leftMountain.scale(scale);
