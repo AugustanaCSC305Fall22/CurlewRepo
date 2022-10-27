@@ -4,8 +4,9 @@ public class TestClass {
 
 	public static void main(String[] args) {
 		TerrainMap ourMap = new TerrainMap(10,10);
-		Landforms hell = new GateToHell(ourMap, 5,5);
-		Landforms hell2 = new GateToHell(ourMap, 5,5);
+//		Landforms hell = new GateToHell(ourMap, 5,5);
+		Landforms hell2 = new Trench(ourMap, 1,1);
+		hell2.scale(1);
 //		hell.delete();
 //		hell.scale(4);
 		printMap(ourMap);
