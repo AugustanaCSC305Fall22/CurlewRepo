@@ -7,9 +7,11 @@ public class Volcano extends Mountains{
 	}
 	
 	
-	protected void build(int row, int column, int scale) {
-		super.build(row, column, scale);
+	public void build(int scale) {
+		super.build(scale);
 		TerrainMap map = super.getMapOnBuild();
+		int row = getRow();
+		int column = getColumn();
 		if (scale == 0) {
 			map.build(row, column, map.getInitialDepth());
 		} else {

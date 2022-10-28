@@ -21,19 +21,12 @@ public class TerrainMap  {
 		}
 	}
 	
-	public void dig(int row, int column, double decreaseDepth) {
-		if(heightArray[row][column]- decreaseDepth<=MIN_HEIGHT) {
-			throw new IllegalArgumentException("You have reached the minimium depth");
-		}
-		heightArray[row][column]= heightArray[row][column] - decreaseDepth; 
-	}
-	
 	public void dig(int row, int column) {
-		dig(row,column, DEPTH_CHANGE);
+		build(row,column,heightArray[row][column]- DEPTH_CHANGE);
 	}
 	
 	public void build(int row, int column, double newDepth) {
-		if(newDepth>MAX_HEIGHT) {
+		if(newDepth>MAX_HEIGHT||newDepth<MIN_HEIGHT) {
 			throw new IllegalArgumentException("You have reached the maximium height");
 		}
 		try {
@@ -43,7 +36,7 @@ public class TerrainMap  {
 	
 	
 	public void build(int row, int column) {
-		dig(row,column, heightArray[row][column] +DEPTH_CHANGE);
+		build(row,column, heightArray[row][column] +DEPTH_CHANGE);
 	}
 	
 	
@@ -62,23 +55,6 @@ public class TerrainMap  {
 
 	}
 	
-	public TerrainMap genRandMap() {
-		TerrainMap randomMap = new TerrainMap(8,8);
-		Random rand = new Random();
-		int row = randomMap.getRows();
-		int col = randomMap.getColumns();
-		for (int i = 0; i < 1; i++) {
-			int randRowIndex = rand.nextInt(row);
-			int randColIndex = rand.nextInt(col);
-			randomMap.build(randRowIndex, randColIndex);
-		}
-		for (int j = 0; j < 1; j++) {
-			int randRowIndex = rand.nextInt(row);
-			int randColIndex = rand.nextInt(col);
-			randomMap.dig(randRowIndex, randColIndex);
-		}
-		return randomMap;
-	}
 	
 	public double getInitialDepth() {
 		return INITIAL_DEPTH;

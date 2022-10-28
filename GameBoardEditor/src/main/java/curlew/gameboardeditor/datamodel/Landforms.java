@@ -10,7 +10,7 @@ public abstract class Landforms {
 		mapOnBuild = map;
 		this.row= row;
 		this.column = column;
-		build(row, column, defaultScale);
+//		build(row, column, defaultScale);
 	}
 	
 	public int getRow() {
@@ -29,7 +29,7 @@ public abstract class Landforms {
 
 
 	public void scale(int scaleSize) {
-		build(row,column, scaleSize);
+		build(scaleSize);
 	}
 	
 	public void delete() {
@@ -37,7 +37,7 @@ public abstract class Landforms {
 	}
 	
 	
-	protected abstract void build(int row, int column, int scale);
+	public abstract void build(int scale);
 	
 
 }

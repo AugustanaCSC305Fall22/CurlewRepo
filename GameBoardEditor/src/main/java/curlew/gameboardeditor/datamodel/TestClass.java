@@ -3,8 +3,12 @@ package curlew.gameboardeditor.datamodel;
 public class TestClass {
 
 	public static void main(String[] args) {
-		TerrainMap ourMap = new TerrainMap(10, 10);
-		Landforms some = new Trench(ourMap, 9, 5);
+		TerrainMap ourMap = new TerrainMap(10,10);
+		RandomMapGenerator gMap = new RandomMapGenerator(ourMap);
+		gMap.createMap();
+		//Landforms some = new Trench(ourMap, 9, 5);
+		//Landforms we = new Mountains(ourMap,5,5);
+		//we.build(3);
 		printMap(ourMap);
 	}
 

@@ -9,9 +9,11 @@ public class Trench extends Landforms{
 	}
 
 	@Override
-	protected void build(int row, int column, int scale) {
+	public void build(int scale) {
 		// TODO Auto-generated method stub
 		TerrainMap map = super.getMapOnBuild();
+		int row = getRow();
+		int column = getColumn();
 		for(int i =row;i<row+2;i++) {
 			for (int j=column; j<column+2;j++) {
 					map.build(i, j, map.getInitialDepth());

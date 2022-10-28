@@ -10,9 +10,11 @@ public class Valley extends Landforms {
 	}
 
 	@Override
-	protected void build(int row, int column, int scale) {
+	public void build(int scale) {
 		
 		TerrainMap map = super.getMapOnBuild();
+		int row = getRow();
+		int column = getColumn();
 		leftMountain= new Mountains(map,row,column-3);
 		rightMountain = new Mountains(map,row,column+3);
 		if(scale==0) {

@@ -7,8 +7,10 @@ public class Mountains extends Landforms {
 	}
 
 	@Override
-	protected void build(int row, int column, int scale) {
+	public void build(int scale) {
 		TerrainMap ourMap = super.getMapOnBuild();
+		int row =getRow();
+		int column = getColumn();
 		double maxHeight = ourMap.getInitialDepth() + ourMap.getDepthChange() *scale;
 		for(int i=row-2; i<=row+2;i++) {
 			for(int j =column-2; j<=column +2;j++) {
