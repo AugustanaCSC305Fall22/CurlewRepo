@@ -23,10 +23,14 @@ public class PrimaryController {
 
 	@FXML
 	private Button templateButton;
+	
+	@FXML
+	public TerrainMap terrain;
 
 	@FXML
 	void genRandom(ActionEvent event) throws IOException {
 		//Will do other stuff here too
+		terrain = new TerrainMap(8, 8);
 		switchToThird(event);
 	}
 
@@ -46,6 +50,10 @@ public class PrimaryController {
 		App.setRoot("third");
 	}
 
+	@FXML
+	void switchToSizeController(ActionEvent event) throws IOException {
+		App.setRoot("sizeScreen");
+	}
 }
 
 

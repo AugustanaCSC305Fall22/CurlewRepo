@@ -5,13 +5,21 @@ package curlew.gameboardeditor.ui;
 
 import java.io.IOException;
 
+import curlew.gameboardeditor.datamodel.GateToHell;
+import curlew.gameboardeditor.datamodel.Mountains;
 import curlew.gameboardeditor.datamodel.TerrainMap;
+import curlew.gameboardeditor.datamodel.Trench;
+import curlew.gameboardeditor.datamodel.Valley;
+import curlew.gameboardeditor.datamodel.Volcano;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
@@ -23,19 +31,13 @@ import javafx.stage.Window;
 
 	public class ThirdController {
 		
-		
+		ObservableList<String> featureList = FXCollections.observableArrayList("Mountain", "Valley", "Volcano", "Trench", "Gate to Hell");
 
 	    @FXML
 	    private MenuItem TitleLabel;
 
 	    @FXML
 	    private Button saveAsButton;
-	    
-	    @FXML
-	    private Slider widthSlider;
-	    
-	    @FXML
-	    private Slider lengthSlider;
 	    
 	    @FXML
 	    private MenuItem DigFeatureButton;
@@ -52,10 +54,10 @@ import javafx.stage.Window;
 	    private Button AddBlockButton;
 
 	    @FXML
-	    private Button AddMountianButton;
-
+	    private ComboBox<String> featureComboBox;
+	    
 	    @FXML
-	    private Button AddValleyButton;
+	    private Button addFeatureButton;
 
 	    @FXML
 	    private Button DigButton;
@@ -76,10 +78,10 @@ import javafx.stage.Window;
 //	    private terrainMap terrain = new terrainMap(length, width);
 
 //	    
-
+	@FXML
 	int width = SizeController.getWidth();
 	int length = SizeController.getLength();
-	
+
 	@FXML
 	private void makeMap() {
 		terrain = new TerrainMap(width, length);
@@ -98,6 +100,9 @@ import javafx.stage.Window;
 	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
 	    	gc.setStroke(Color.BLUE);
 	    	gc.strokeRect(10, 50, 100, 80);
+	    	
+	    	featureComboBox.setValue("Mountain");
+	    	featureComboBox.setItems(featureList);
 	    }
 	    public static Canvas getTwoDCanvas() {
 	    	return twoDCanvas;
@@ -113,15 +118,41 @@ import javafx.stage.Window;
 		String text = AddBlockButton.getText();
 		lastClickedFeature(text);
 	}
+//	@FXML
+//	void getTextAddMountainButton(ActionEvent event) {
+//		String text = AddMountianButton.getText();
+//		lastClickedFeature(text);
+//	}
+//	@FXML
+//	void getTextAddValleyButton(ActionEvent event) {
+//		String text = AddValleyButton.getText();
+//		lastClickedFeature(text);
+//	}
+	
 	@FXML
-	void getTextAddMountainButton(ActionEvent event) {
-		String text = AddMountianButton.getText();
-		lastClickedFeature(text);
-	}
-	@FXML
-	void getTextAddValleyButton(ActionEvent event) {
-		String text = AddValleyButton.getText();
-		lastClickedFeature(text);
+	void addFeature(ActionEvent event) {
+		int selectedRowIndex = 0; //need access method from Donny's 2d canvas
+		int selectedColIndex = 0; //need access method from Donny's 2d canvas
+		
+		if (selectedRowIndex = null || selectedColIndex = null) {
+			//Warning
+		} else {
+			if (featureComboBox.getId() == null) {
+				//Warning
+			} else {
+				if (featureComboBox.getId() == "Mountain") {
+					Mountains mtn = new Mountains(terrain, selectedRowIndex, selectedColIndex);
+				} else if (featureComboBox.getId() == "Trench") {
+					Trench trench = new Trench(terrain, selectedRowIndex, selectedColIndex);
+				} else if (featureComboBox.getId() == "Valley") {
+					Valley valley = new Valley(terrain, selectedRowIndex, selectedColIndex);
+				} else if (featureComboBox.getId() == "Volcano") {
+					Volcano volcano = new Volcano(terrain, selectedRowIndex, selectedColIndex);
+				} else if (featureComboBox.getId() == "Gate to Hell") {
+					GateToHell hell = new GateToHell(terrain, selectedRowIndex, selectedColIndex);
+				}
+			}
+		}
 	}
 	    
 	@FXML 
