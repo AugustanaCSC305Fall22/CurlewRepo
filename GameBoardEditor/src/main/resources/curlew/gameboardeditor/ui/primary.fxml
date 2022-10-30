@@ -7,13 +7,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<BorderPane prefHeight="403.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.PrimaryController">
+<BorderPane prefHeight="403.0" prefWidth="395.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.PrimaryController">
    <center>
       <VBox alignment="CENTER" spacing="20.0">
          <children>
             <Button fx:id="templateButton" mnemonicParsing="false" onAction="#switchToSecondary" text="Template For Ideas" />
-            <Button fx:id="scratchButton" mnemonicParsing="false" onAction="#switchToThird" text="Start From Scratch" />
+            <Button fx:id="scratchButton" mnemonicParsing="false" onAction="#switchToSizeController" text="Start From Scratch" />
             <Button fx:id="loadFileButton" mnemonicParsing="false" onAction="#loadExistingFile" text="Load Existing File" />
             <Button fx:id="GenRandomButton" onAction="#genRandom" text="Generate Random" />
          </children>
