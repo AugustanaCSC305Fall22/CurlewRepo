@@ -5,29 +5,21 @@ package curlew.gameboardeditor.ui;
 
 import java.io.IOException;
 
-import curlew.gameboardeditor.datamodel.GateToHell;
-import curlew.gameboardeditor.datamodel.Mountains;
 import curlew.gameboardeditor.datamodel.TerrainMap;
-import curlew.gameboardeditor.datamodel.Trench;
-import curlew.gameboardeditor.datamodel.Valley;
-import curlew.gameboardeditor.datamodel.Volcano;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 
 	public class ThirdController {
 		
@@ -47,8 +39,6 @@ import javafx.stage.Window;
 	    
 	    @FXML
 	    private Button backButton;
-	    @FXML
-	    private TerrainMap terrain;
 	    
 	    @FXML
 	    private Button AddBlockButton;
@@ -61,63 +51,72 @@ import javafx.stage.Window;
 
 	    @FXML
 	    private Button DigButton;
+	   
+	    @FXML
+	    private HBox hBoxCanvas;
+
+	    @FXML
+	    private Canvas twoDCanvas;
+	    
+	    private twoDMapEditor mapEditor;
 	    
 	    @FXML
-	    private static Canvas twoDCanvas;
-//      I just left these lines of code in case of my code is not correct.	
-//	    int length1 = (int) lengthSlider.getValue();
-//	    int width1 = (int) widthSlider.getValue();
-	    
-//	    terrain = new terrainMap(length1, width1);
-	    
-	    
-//	    private int length = (int) lengthSlider.getValue();
-//	    private int width = (int) widthSlider.getValue();
-//	    
-//	    @FXML
-//	    private terrainMap terrain = new terrainMap(length, width);
+	    private ToggleButton addBlockButton;
 
-//	    
-	@FXML
-	int width = SizeController.getWidth();
-	int length = SizeController.getLength();
-
-	@FXML
-	private void makeMap() {
-		terrain = new TerrainMap(width, length);
-	}
-	
-//	@FXML
-//	private void initialize() {
-//	    GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-//	    gc.setStroke(Color.BLUE);
-//	    gc.strokeRect(10, 50, 100, 80);
-//	}
-	
-
+	    @FXML
+	    private ToggleButton digBlockButton;
+	    
+	    @FXML
+	    private ToggleButton toggleButton3;
+	    
 	    @FXML
 	    private void initialize() {
+	    	//Initializes the canvas, builds the map and makes the 2DEditor
+	    	twoDCanvas.setHeight(400);
+	    	twoDCanvas.setWidth(400);
 	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-	    	gc.setStroke(Color.BLUE);
-	    	gc.strokeRect(10, 50, 100, 80);
+	    	mapEditor = new twoDMapEditor(makeMap(), twoDCanvas);
+	    	
+	    	//Nested for loops to outline the canvas based on the desired size from the user
+	    	for (int i = 1; i <= mapEditor.numRows+1; i++) {
+				for (int j = 1; j <= mapEditor.numCols+1; j++) {
+					//Sets the default colors for the outline of the canvas
+					gc.setStroke(Color.BLACK);
+					gc.setFill(Color.WHITE);
+					gc.fillRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+					//strokeRect(X coord, Y coord, length, width)
+					//Will build boxes top to bottem, then left to right
+			    	gc.strokeRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+					gc.fillRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+				}
+	    	}
+	    	
 	    	
 	    	featureComboBox.setValue("Mountain");
 	    	featureComboBox.setItems(featureList);
+	    
+	    	ToggleGroup toggleGroup = new ToggleGroup();
+	    	addBlockButton.setToggleGroup(toggleGroup);
+	    	digBlockButton.setToggleGroup(toggleGroup);
+
+
+	    
+	    	
 	    }
-	    public static Canvas getTwoDCanvas() {
+	    
+	  
+	    
+	    @FXML
+		private TerrainMap makeMap() {
+	    	TerrainMap terrain = new TerrainMap(SizeController.width, SizeController.length);
+			return terrain;
+		}
+	    
+	    public Canvas getTwoDCanvas() {
 	    	return twoDCanvas;
 	    }
 	    
-	@FXML
-	void getTextDigButton(ActionEvent event) {
-		String text = DigButton.getText();
-		lastClickedFeature(text);
-	}
-	@FXML
-	void getTextAddBlockButton(ActionEvent event) {
-		String text = AddBlockButton.getText();
-		lastClickedFeature(text);
-	}
+	
 //	@FXML
 //	void getTextAddMountainButton(ActionEvent event) {
 //		String text = AddMountianButton.getText();
@@ -131,28 +130,29 @@ import javafx.stage.Window;
 	
 	@FXML
 	void addFeature(ActionEvent event) {
-		int selectedRowIndex = 0; //need access method from Donny's 2d canvas
-		int selectedColIndex = 0; //need access method from Donny's 2d canvas
-		
-		if (selectedRowIndex = null || selectedColIndex = null) {
-			//Warning
-		} else {
-			if (featureComboBox.getId() == null) {
-				//Warning
-			} else {
-				if (featureComboBox.getId() == "Mountain") {
-					Mountains mtn = new Mountains(terrain, selectedRowIndex, selectedColIndex);
-				} else if (featureComboBox.getId() == "Trench") {
-					Trench trench = new Trench(terrain, selectedRowIndex, selectedColIndex);
-				} else if (featureComboBox.getId() == "Valley") {
-					Valley valley = new Valley(terrain, selectedRowIndex, selectedColIndex);
-				} else if (featureComboBox.getId() == "Volcano") {
-					Volcano volcano = new Volcano(terrain, selectedRowIndex, selectedColIndex);
-				} else if (featureComboBox.getId() == "Gate to Hell") {
-					GateToHell hell = new GateToHell(terrain, selectedRowIndex, selectedColIndex);
-				}
-			}
-		}
+//		Temporarily commented out need to test earlier feature
+//		int selectedRowIndex = 0; //need access method from Donny's 2d canvas
+//		int selectedColIndex = 0; //need access method from Donny's 2d canvas
+//		
+//		if (selectedRowIndex = null || selectedColIndex = null) {
+//			//Warning
+//		} else {
+//			if (featureComboBox.getId() == null) {
+//				//Warning
+//			} else {
+//				if (featureComboBox.getId() == "Mountain") {
+//					Mountains mtn = new Mountains(terrain, selectedRowIndex, selectedColIndex);
+//				} else if (featureComboBox.getId() == "Trench") {
+//					Trench trench = new Trench(terrain, selectedRowIndex, selectedColIndex);
+//				} else if (featureComboBox.getId() == "Valley") {
+//					Valley valley = new Valley(terrain, selectedRowIndex, selectedColIndex);
+//				} else if (featureComboBox.getId() == "Volcano") {
+//					Volcano volcano = new Volcano(terrain, selectedRowIndex, selectedColIndex);
+//				} else if (featureComboBox.getId() == "Gate to Hell") {
+//					GateToHell hell = new GateToHell(terrain, selectedRowIndex, selectedColIndex);
+//				}
+//			}
+//		}
 	}
 	    
 	@FXML 
