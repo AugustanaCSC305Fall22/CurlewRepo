@@ -3,6 +3,8 @@
 package curlew.gameboardeditor.ui;
 
 
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
@@ -34,8 +36,6 @@ import javafx.scene.paint.Color;
 	    @FXML
 	    private MenuItem DigFeatureButton;
 
-	    @FXML
-	    private Label SelectedLabel;
 	    
 	    @FXML
 	    private Button backButton;
@@ -51,9 +51,6 @@ import javafx.scene.paint.Color;
 
 	    @FXML
 	    private Button DigButton;
-	   
-	    @FXML
-	    private HBox hBoxCanvas;
 
 	    @FXML
 	    private Canvas twoDCanvas;
@@ -66,8 +63,6 @@ import javafx.scene.paint.Color;
 	    @FXML
 	    private ToggleButton digBlockButton;
 	    
-	    @FXML
-	    private ToggleButton toggleButton3;
 	    
 	    @FXML
 	    private void initialize() {
@@ -91,6 +86,19 @@ import javafx.scene.paint.Color;
 				}
 	    	}
 	    	
+	    	twoDCanvas.setOnMouseClicked(event -> {
+	    		//find the closest x box corrdinates, then find the closest y
+				
+				Point p = new Point((int) event.getX(), (int) event.getY());
+				int boxLength = mapEditor.boxLengthSize;
+				int boxWidth = mapEditor.boxWidthSize;
+				if (p.x >= 0 && p.y <= 400) {
+					int numRows = Math.round(p.x/(boxLength));
+					int numCols = Math.round(p.y/(boxWidth));
+					selectBox(numRows, numCols);
+				}
+	    	});
+	    	
 	    	
 	    	featureComboBox.setValue("Mountain");
 	    	featureComboBox.setItems(featureList);
@@ -104,29 +112,52 @@ import javafx.scene.paint.Color;
 	    	
 	    }
 	    
-	  
-	    
-	    @FXML
 		private TerrainMap makeMap() {
 	    	TerrainMap terrain = new TerrainMap(SizeController.width, SizeController.length);
 			return terrain;
 		}
-	    
+		
+//	    @FXML
+//		private void canvasMouseHandler(MouseEvent mouse) {
+//			//find the closest x box corrdinates, then find the closest y
+//			int numRows;
+//			int numCols;
+//			Point p = new Point(mouse.getX(), mouse.getY());
+//			int boxLength = mapEditor.boxLengthSize;
+//			int boxWidth = mapEditor.boxWidthSize;
+//			if (p.x >= 0 && p.y <= 400) {
+//				int rowsToSub = Math.round(p.x/(boxLength));
+//				if ((p.x / boxLength) - rowsToSub >= .5) {
+//					numRows = rowsToSub + 1;
+//				} else {
+//					numRows = rowsToSub - 1;
+//				}
+//				int colsToSub = Math.round(p.y/(boxWidth));
+//				if ((p.x / boxWidth) - colsToSub >= .5) {
+//					numCols = colsToSub + 1;
+//				} else {
+//					numCols = colsToSub - 1;
+//				}
+//				selectBox(numRows, numCols);
+//				
+//			}
+//			
+//		}
+		
+		private void selectBox(int numRows, int numCols) {
+			GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+			gc.setStroke(Color.AQUA);
+			gc.strokeRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+			//gc.fillRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+
+			
+			
+
+		}
+		
 	    public Canvas getTwoDCanvas() {
 	    	return twoDCanvas;
 	    }
-	    
-	
-//	@FXML
-//	void getTextAddMountainButton(ActionEvent event) {
-//		String text = AddMountianButton.getText();
-//		lastClickedFeature(text);
-//	}
-//	@FXML
-//	void getTextAddValleyButton(ActionEvent event) {
-//		String text = AddValleyButton.getText();
-//		lastClickedFeature(text);
-//	}
 	
 	@FXML
 	void addFeature(ActionEvent event) {
@@ -153,11 +184,6 @@ import javafx.scene.paint.Color;
 //				}
 //			}
 //		}
-	}
-	    
-	@FXML 
-	void lastClickedFeature(String str) {
-		SelectedLabel.setText(str);
 	}
 
     @FXML

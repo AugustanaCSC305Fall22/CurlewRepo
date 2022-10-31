@@ -74,6 +74,10 @@ public class twoDMapEditor {
 	public double getX() {
 		return this.x;
 	}
+	
+	public double getY() {
+		return this.y;
+	}
 	@Override
 	public String toString() {
 		return "twoDMapEditor [canvasLength=" + canvasLength + ", canvasWidth=" + canvasWidth + ", numRows=" + numRows

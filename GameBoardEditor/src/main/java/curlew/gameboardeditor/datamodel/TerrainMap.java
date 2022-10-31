@@ -12,6 +12,7 @@ public class TerrainMap  {
 	private final static double MAX_HEIGHT = 6*DEPTH_CHANGE;
 	private final static double MIN_HEIGHT = 0;
 	
+	
 	public TerrainMap(int length, int width) {
 		heightArray = new double[length][width];
 		for(int i=0; i<length;i++) {
