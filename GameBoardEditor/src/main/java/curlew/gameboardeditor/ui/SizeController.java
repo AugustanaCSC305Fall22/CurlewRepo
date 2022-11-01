@@ -15,10 +15,10 @@ import javafx.scene.control.Slider;
 
 public class SizeController implements Initializable {
 	@FXML
-	private static Slider widthSlider;
+	private Slider widthSlider;
 	
 	@FXML
-	private static Slider lengthSlider;
+	private Slider lengthSlider;
 	
 	@FXML
 	private Button doneButton;

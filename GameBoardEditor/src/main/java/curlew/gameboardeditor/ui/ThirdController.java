@@ -33,6 +33,7 @@ import javafx.scene.paint.Color;
 		
 		ObservableList<LandformsGenerator> featureList;
 		private TerrainMap map;
+		
 	    @FXML
 	    private MenuItem TitleLabel;
 
@@ -77,10 +78,11 @@ import javafx.scene.paint.Color;
 	    	twoDCanvas.setHeight(400);
 	    	twoDCanvas.setWidth(400);
 	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-	    	map = new TerrainMap(SizeController.length, SizeController.width);
+	    	map = new TerrainMap(SizeController.width, SizeController.length);
 	    	mapEditor = new twoDMapEditor(map, twoDCanvas);
-	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new ValleyGenerator(map),
-	    			new VolcanoGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
+	    	
+	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
+
 	    	
 	    	//Nested for loops to outline the canvas based on the desired size from the user
 	    	for (int i = 1; i <= mapEditor.numRows+1; i++) {
@@ -156,7 +158,7 @@ import javafx.scene.paint.Color;
 			GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.AQUA);
 			gc.strokeRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-			//gc.fillRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+			gc.fillRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
 
 			
 			
