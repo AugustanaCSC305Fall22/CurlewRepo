@@ -33,7 +33,7 @@ import javafx.scene.paint.Color;
 		
 		ObservableList<LandformsGenerator> featureList;
 		private TerrainMap map;
-
+		
 	    @FXML
 	    private MenuItem TitleLabel;
 
@@ -71,6 +71,7 @@ import javafx.scene.paint.Color;
 	    private ToggleButton digBlockButton;
 	    
 	    
+
 	    @FXML
 	    private void initialize() {
 	    	//Initializes the canvas, builds the map and makes the 2DEditor
@@ -81,6 +82,7 @@ import javafx.scene.paint.Color;
 	    	mapEditor = new twoDMapEditor(map, twoDCanvas);
 	    	
 	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
+
 	    	
 	    	//Nested for loops to outline the canvas based on the desired size from the user
 	    	for (int i = 1; i <= mapEditor.numRows+1; i++) {
@@ -109,8 +111,6 @@ import javafx.scene.paint.Color;
 				}
 	    	});
 	    	
-	    	
-//	    	featureComboBox.setValue("Mountain");
 	    	featureComboBox.setItems(featureList);
 	    
 	    	ToggleGroup toggleGroup = new ToggleGroup();

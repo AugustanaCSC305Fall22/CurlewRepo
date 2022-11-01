@@ -25,7 +25,46 @@ public class SizeController implements Initializable {
 	
 	@FXML
 	public static int width;
+
 	
+	
+	
+//	@FXML
+//    int widthSliderHandler (ActionEvent event) throws IOException {
+//    	int width = (int) widthSlider.getValue();
+//    	return width;
+//    }
+
+//	@FXML
+//	public static int getWidth() {
+//		int width = (int) widthSlider.getValue();
+//    	return width;
+//	}
+	
+//	@FXML
+//    int lengthSliderHandler (ActionEvent event) throws IOException {
+//		int length = (int) widthSlider.getValue();
+//    	return length;
+//    }
+	
+//	@FXML
+//    public static int getLength() {
+//		int length = (int) widthSlider.getValue();
+//    	return length;
+//    }
+	
+//	@FXML
+//	public static int onLengthSliderChanged() {
+//		length = (int) lengthSlider.getValue();
+//		return length;
+//	}
+//	
+//	@FXML
+//	public static int onWidthSliderChanged() {
+//		width = (int) widthSlider.getValue();
+//		return width;
+//	}
+
 	@FXML
 	public static int length;
 	
