@@ -1,7 +1,5 @@
 package curlew.gameboardeditor.datamodel;
 
-import java.util.Random;
-
 public class TerrainMap  {
 	/**
 	 * 

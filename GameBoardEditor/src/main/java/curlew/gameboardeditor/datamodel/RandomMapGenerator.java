@@ -12,7 +12,7 @@ public class RandomMapGenerator {
 
 	
 	TerrainMap map;
-	ArrayList<Landforms> list = new ArrayList<Landforms>();
+	ArrayList<LandformsGenerator> list = new ArrayList<LandformsGenerator>();
 	
 
 	
@@ -23,17 +23,17 @@ public class RandomMapGenerator {
 	
 	
 	private void landformListMaker() {
-		list.add(new Mountains(map, rand.nextInt(map.getRows()), rand.nextInt(map.getColumns())));
-		list.add(new Valley(map, rand.nextInt(map.getRows()), rand.nextInt(map.getColumns())));
-		list.add(new Trench(map, rand.nextInt(map.getRows()), rand.nextInt(map.getColumns())));
-		list.add(new Volcano(map, rand.nextInt(map.getRows()), rand.nextInt(map.getColumns())));
-		list.add(new GateToHell(map, rand.nextInt(map.getRows()), rand.nextInt(map.getColumns())));
+		list.add(new MountainGenerator(map));
+		list.add(new ValleyGenerator(map));
+		list.add(new TrenchGenerator(map));
+		list.add(new VolcanoGenerator(map));
+		list.add(new GateToHellGenerator(map));
 
 	}
 	
 	public void createMap() {
 		for(int i = 0 ; i <= map.getRows()*10/100 ; i++) {
-			list.get(rand.nextInt(list.size())).build(rand.nextInt(5)+1);
+			list.get(rand.nextInt(list.size())).build( rand.nextInt(map.getRows()), rand.nextInt(map.getColumns()),rand.nextInt(5)+1);
 		}
 	}
 	
