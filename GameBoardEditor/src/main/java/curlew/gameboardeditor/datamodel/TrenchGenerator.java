@@ -43,4 +43,10 @@ public class TrenchGenerator extends LandformsGenerator{
 		}
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Trench";
+	}
+
 }

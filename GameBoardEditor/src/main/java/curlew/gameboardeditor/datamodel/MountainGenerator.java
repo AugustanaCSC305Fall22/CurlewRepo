@@ -26,6 +26,12 @@ public class MountainGenerator extends LandformsGenerator {
 			}
 		}
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Mountain";
+	}
 }
 	
 	

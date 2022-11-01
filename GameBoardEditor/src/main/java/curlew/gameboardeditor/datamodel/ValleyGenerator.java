@@ -29,6 +29,13 @@ public class ValleyGenerator extends LandformsGenerator {
 		}
 		
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Valley";
+	}
+	
 	
 	
 
