@@ -102,7 +102,7 @@ import javafx.scene.paint.Color;
 				Point p = new Point((int) event.getX(), (int) event.getY());
 				int boxLength = mapEditor.boxLengthSize;
 				int boxWidth = mapEditor.boxWidthSize;
-				if (p.x >= 0 && p.y <= 400) {
+				if (p.x > 0 && p.y < 400) {
 					int numRows = Math.round(p.x/(boxLength));
 					int numCols = Math.round(p.y/(boxWidth));
 					selectBox(numRows, numCols);
