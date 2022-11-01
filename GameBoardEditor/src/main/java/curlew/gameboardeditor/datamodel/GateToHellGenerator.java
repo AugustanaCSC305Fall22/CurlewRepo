@@ -29,4 +29,10 @@ public class GateToHellGenerator extends LandformsGenerator {
 		}
 	}
 
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "Gate To Hell";
+	}
+
 }

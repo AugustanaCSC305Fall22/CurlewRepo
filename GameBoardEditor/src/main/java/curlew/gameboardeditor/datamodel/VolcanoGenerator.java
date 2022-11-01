@@ -16,6 +16,11 @@ public class VolcanoGenerator extends MountainGenerator{
 		} else {
 			map.build(row, column, 1);
 		}
-		}
+	}
+	
+	@Override
+	public String toString() {
+		return "Volcano";
+	}
 
 }
