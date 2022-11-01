@@ -78,14 +78,14 @@ import javafx.stage.Window;
 //	    private terrainMap terrain = new terrainMap(length, width);
 
 //	    
-	@FXML
-	int width = SizeController.getWidth();
-	int length = SizeController.getLength();
+//	@FXML
+//	int width = SizeController.onWidthSliderChanged();
+//	int length = SizeController.onLengthSliderChanged();
 
-	@FXML
-	private void makeMap() {
-		terrain = new TerrainMap(width, length);
-	}
+//	@FXML
+//	private void makeMap() {
+//		terrain = new TerrainMap(width, length);
+//	}
 	
 //	@FXML
 //	private void initialize() {
