@@ -7,7 +7,13 @@ import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 
+import curlew.gameboardeditor.datamodel.GateToHellGenerator;
+import curlew.gameboardeditor.datamodel.LandformsGenerator;
+import curlew.gameboardeditor.datamodel.MountainGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
+import curlew.gameboardeditor.datamodel.TrenchGenerator;
+import curlew.gameboardeditor.datamodel.ValleyGenerator;
+import curlew.gameboardeditor.datamodel.VolcanoGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,7 +31,8 @@ import javafx.scene.paint.Color;
 
 	public class ThirdController {
 		
-		ObservableList<String> featureList = FXCollections.observableArrayList("Mountain", "Valley", "Volcano", "Trench", "Gate to Hell");
+		ObservableList<LandformsGenerator> featureList;
+		private TerrainMap map;
 
 	    @FXML
 	    private MenuItem TitleLabel;
@@ -44,7 +51,7 @@ import javafx.scene.paint.Color;
 	    private Button AddBlockButton;
 
 	    @FXML
-	    private ComboBox<String> featureComboBox;
+	    private ComboBox<LandformsGenerator> featureComboBox;
 	    
 	    @FXML
 	    private Button addFeatureButton;
@@ -70,7 +77,10 @@ import javafx.scene.paint.Color;
 	    	twoDCanvas.setHeight(400);
 	    	twoDCanvas.setWidth(400);
 	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-	    	mapEditor = new twoDMapEditor(makeMap(), twoDCanvas);
+	    	map = new TerrainMap(SizeController.width, SizeController.length);
+	    	mapEditor = new twoDMapEditor(map, twoDCanvas);
+	    	
+	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
 	    	
 	    	//Nested for loops to outline the canvas based on the desired size from the user
 	    	for (int i = 1; i <= mapEditor.numRows+1; i++) {
@@ -100,7 +110,7 @@ import javafx.scene.paint.Color;
 	    	});
 	    	
 	    	
-	    	featureComboBox.setValue("Mountain");
+//	    	featureComboBox.setValue("Mountain");
 	    	featureComboBox.setItems(featureList);
 	    
 	    	ToggleGroup toggleGroup = new ToggleGroup();
@@ -112,10 +122,10 @@ import javafx.scene.paint.Color;
 	    	
 	    }
 	    
-		private TerrainMap makeMap() {
-	    	TerrainMap terrain = new TerrainMap(SizeController.width, SizeController.length);
-			return terrain;
-		}
+//		private TerrainMap makeMap() {
+//	    	TerrainMap terrain = new TerrainMap(SizeController.width, SizeController.length);
+//			return terrain;
+//		}
 		
 //	    @FXML
 //		private void canvasMouseHandler(MouseEvent mouse) {
@@ -148,7 +158,7 @@ import javafx.scene.paint.Color;
 			GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.AQUA);
 			gc.strokeRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-			//gc.fillRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+			gc.fillRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
 
 			
 			
