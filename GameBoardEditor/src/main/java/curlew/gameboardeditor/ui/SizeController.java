@@ -1,14 +1,19 @@
 package curlew.gameboardeditor.ui;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
-public class SizeController {
+public class SizeController implements Initializable {
 	@FXML
 	private static Slider widthSlider;
 	
@@ -19,10 +24,9 @@ public class SizeController {
 	private Button doneButton;
 	
 	@FXML
-	private TerrainMap terrain;
+	public static int width;
+
 	
-	public int width;
-	public int length;
 	
 	
 //	@FXML
@@ -49,21 +53,65 @@ public class SizeController {
 //    	return length;
 //    }
 	
+//	@FXML
+//	public static int onLengthSliderChanged() {
+//		length = (int) lengthSlider.getValue();
+//		return length;
+//	}
+//	
+//	@FXML
+//	public static int onWidthSliderChanged() {
+//		width = (int) widthSlider.getValue();
+//		return width;
+//	}
+
 	@FXML
-	public static int onLengthSliderChanged() {
-		int length = (int) lengthSlider.getValue();
-		return length;
+	public static int length;
+	
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		length = 10;
+		width = 10;
+		
+		// TODO Auto-generated method stub
+		widthSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				// TODO Auto-generated method stub
+				width = (int) widthSlider.getValue();
+			}
+		
+		});
+		lengthSlider.valueProperty().addListener(new ChangeListener<Number>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				// TODO Auto-generated method stub
+				length = (int) lengthSlider.getValue();
+			}
+		
+		});
+		
 	}
 	
 	@FXML
-	public static int onWidthSliderChanged() {
-		int width = (int) widthSlider.getValue();
-		return width;
+	public int getWidth() {
+		width = (int) widthSlider.getValue();
+    	return width;
 	}
+	
+	@FXML
+    public int getLength() {
+		length = (int) lengthSlider.getValue();
+    	return length;
+    }
 	
 	@FXML
 	void clickedDone() throws IOException {
 		App.setRoot("third");
 	}
+	
 }
 

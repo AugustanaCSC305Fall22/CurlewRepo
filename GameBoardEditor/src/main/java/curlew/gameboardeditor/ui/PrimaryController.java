@@ -31,7 +31,7 @@ public class PrimaryController {
 	void genRandom(ActionEvent event) throws IOException {
 		//Will do other stuff here too
 		terrain = new TerrainMap(8, 8);
-		switchToThird(event);
+		switchToSizeScreen(event);
 	}
 
 	@FXML
@@ -51,7 +51,7 @@ public class PrimaryController {
 	}
 
 	@FXML
-	void switchToSizeController(ActionEvent event) throws IOException {
+	void switchToSizeScreen(ActionEvent event) throws IOException {
 		App.setRoot("sizeScreen");
 	}
 }

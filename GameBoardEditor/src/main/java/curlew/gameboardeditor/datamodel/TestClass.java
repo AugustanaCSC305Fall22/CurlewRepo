@@ -4,11 +4,11 @@ public class TestClass {
 
 	public static void main(String[] args) {
 		TerrainMap ourMap = new TerrainMap(10,10);
-		RandomMapGenerator gMap = new RandomMapGenerator(ourMap);
-		gMap.createMap();
-		//Landforms some = new Trench(ourMap, 9, 5);
-		//Landforms we = new Mountains(ourMap,5,5);
-		//we.build(3);
+		LandformsGenerator test = new MountainGenerator(ourMap);
+		test.build(5, 5, 3);
+		test.build(0,0,1);
+//		RandomMapGenerator g = new RandomMapGenerator(ourMap);
+//		g.createMap();
 		printMap(ourMap);
 	}
 

@@ -1,19 +1,17 @@
 package curlew.gameboardeditor.datamodel;
 
-public class Trench extends Landforms{
+public class TrenchGenerator extends LandformsGenerator{
 
 	private static double TRENCH_HEIGHT =0.5;
-	public Trench(TerrainMap map, int row, int column) {
-		super(map, row, column);
+	public TrenchGenerator(TerrainMap map) {
+		super(map);
 		
 	}
 
 	@Override
-	public void build(int scale) {
+	public void build(int row, int column, int scale) {
 		// TODO Auto-generated method stub
 		TerrainMap map = super.getMapOnBuild();
-		int row = getRow();
-		int column = getColumn();
 		for(int i =row;i<row+2;i++) {
 			for (int j=column; j<column+2;j++) {
 					map.build(i, j, map.getInitialDepth());

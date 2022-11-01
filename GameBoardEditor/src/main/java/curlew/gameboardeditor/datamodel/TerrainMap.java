@@ -1,7 +1,5 @@
 package curlew.gameboardeditor.datamodel;
 
-import java.util.Random;
-
 public class TerrainMap  {
 	/**
 	 * 
@@ -11,6 +9,7 @@ public class TerrainMap  {
 	private final static double DEPTH_CHANGE = 2;
 	private final static double MAX_HEIGHT = 6*DEPTH_CHANGE;
 	private final static double MIN_HEIGHT = 0;
+	
 	
 	public TerrainMap(int length, int width) {
 		heightArray = new double[length][width];

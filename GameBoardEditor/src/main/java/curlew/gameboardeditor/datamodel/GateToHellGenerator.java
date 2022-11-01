@@ -1,25 +1,18 @@
 package curlew.gameboardeditor.datamodel;
 
-public class GateToHell extends Landforms {
+public class GateToHellGenerator extends LandformsGenerator {
 
-	private static boolean isMade = false;
 
-	public GateToHell(TerrainMap map, int row, int column) {
-		super(map, row, column);
-		// TODO Auto-generated constructor stub
-		if(isMade) {
-			throw new IllegalArgumentException("only one allowed");
-		}else {
-			isMade= true;
-		}
+
+	public GateToHellGenerator(TerrainMap map) {
+		super(map);
+		
 	}
 
 	@Override
-	public void build(int scale) {
+	public void build(int row, int column, int scale) {
 		// TODO Auto-generated method stub
 		TerrainMap map = super.getMapOnBuild();
-		int row = getRow();
-		int column = getColumn();
 		if (scale != 0) {
 			for (int i = row; i < row + 2; i++) {
 				for (int j = column; j < column + 2; j++) {

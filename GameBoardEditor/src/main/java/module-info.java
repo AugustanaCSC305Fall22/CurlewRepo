@@ -5,6 +5,7 @@ module curlew.gameboardeditor {
 	requires org.json;
 	requires com.google.gson;
 	requires javafx.base;
+	requires java.desktop;
 
     opens curlew.gameboardeditor.ui to javafx.fxml, javafx.graphics;
     opens curlew.gameboardeditor.datamodel to com.google.gson;
