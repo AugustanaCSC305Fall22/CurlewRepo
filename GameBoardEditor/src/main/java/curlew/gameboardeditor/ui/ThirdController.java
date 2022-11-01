@@ -21,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -177,8 +178,15 @@ import javafx.scene.paint.Color;
 	@FXML
 	void addFeatures(ActionEvent event) {
 		LandformsGenerator feature = featureComboBox.getValue();
-		feature.build(selectedRowIndex, selectedColIndex, getScale());
-		TestClass.printMap(map);
+		if (feature == null) {
+			Alert alert = new Alert(Alert.AlertType.WARNING);
+			alert.setTitle("WARNING");
+			alert.setContentText("You must select the feature to be added");
+			alert.show();
+		} else {
+			feature.build(selectedRowIndex, selectedColIndex, getScale());
+			TestClass.printMap(map);
+		}
 	}
 	
     @FXML
