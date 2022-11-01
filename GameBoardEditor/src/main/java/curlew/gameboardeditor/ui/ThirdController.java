@@ -11,6 +11,7 @@ import curlew.gameboardeditor.datamodel.GateToHellGenerator;
 import curlew.gameboardeditor.datamodel.LandformsGenerator;
 import curlew.gameboardeditor.datamodel.MountainGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
+import curlew.gameboardeditor.datamodel.TestClass;
 import curlew.gameboardeditor.datamodel.TrenchGenerator;
 import curlew.gameboardeditor.datamodel.ValleyGenerator;
 import curlew.gameboardeditor.datamodel.VolcanoGenerator;
@@ -24,6 +25,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -33,6 +36,8 @@ import javafx.scene.paint.Color;
 		
 		ObservableList<LandformsGenerator> featureList;
 		private TerrainMap map;
+		private int selectedRowIndex;
+		private int selectedColIndex;
 		
 	    @FXML
 	    private MenuItem TitleLabel;
@@ -70,6 +75,8 @@ import javafx.scene.paint.Color;
 	    @FXML
 	    private ToggleButton digBlockButton;
 	    
+	    @FXML
+	    private Slider scaleSlider;
 	    
 
 	    @FXML
@@ -105,9 +112,9 @@ import javafx.scene.paint.Color;
 				int boxLength = mapEditor.boxLengthSize;
 				int boxWidth = mapEditor.boxWidthSize;
 				if (p.x >= 0 && p.y <= 400) {
-					int numRows = Math.round(p.x/(boxLength));
-					int numCols = Math.round(p.y/(boxWidth));
-					selectBox(numRows, numCols);
+					selectedRowIndex = Math.round(p.x/(boxLength));
+					selectedColIndex = Math.round(p.y/(boxWidth));
+					selectBox(selectedRowIndex, selectedColIndex);
 				}
 	    	});
 	    	
@@ -121,11 +128,7 @@ import javafx.scene.paint.Color;
 	    
 	    	
 	    }
-	    
-//		private TerrainMap makeMap() {
-//	    	TerrainMap terrain = new TerrainMap(SizeController.width, SizeController.length);
-//			return terrain;
-//		}
+	  
 		
 //	    @FXML
 //		private void canvasMouseHandler(MouseEvent mouse) {
@@ -159,10 +162,6 @@ import javafx.scene.paint.Color;
 			gc.setStroke(Color.AQUA);
 			gc.strokeRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
 			gc.fillRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
-
-			
-			
-
 		}
 		
 	    public Canvas getTwoDCanvas() {
@@ -170,32 +169,18 @@ import javafx.scene.paint.Color;
 	    }
 	
 	@FXML
-	void addFeature(ActionEvent event) {
-//		Temporarily commented out need to test earlier feature
-//		int selectedRowIndex = 0; //need access method from Donny's 2d canvas
-//		int selectedColIndex = 0; //need access method from Donny's 2d canvas
-//		
-//		if (selectedRowIndex = null || selectedColIndex = null) {
-//			//Warning
-//		} else {
-//			if (featureComboBox.getId() == null) {
-//				//Warning
-//			} else {
-//				if (featureComboBox.getId() == "Mountain") {
-//					Mountains mtn = new Mountains(terrain, selectedRowIndex, selectedColIndex);
-//				} else if (featureComboBox.getId() == "Trench") {
-//					Trench trench = new Trench(terrain, selectedRowIndex, selectedColIndex);
-//				} else if (featureComboBox.getId() == "Valley") {
-//					Valley valley = new Valley(terrain, selectedRowIndex, selectedColIndex);
-//				} else if (featureComboBox.getId() == "Volcano") {
-//					Volcano volcano = new Volcano(terrain, selectedRowIndex, selectedColIndex);
-//				} else if (featureComboBox.getId() == "Gate to Hell") {
-//					GateToHell hell = new GateToHell(terrain, selectedRowIndex, selectedColIndex);
-//				}
-//			}
-//		}
+	int getScale() {
+		int scale = (int) scaleSlider.getValue();
+		return scale;
 	}
-
+	
+	@FXML
+	void addFeatures(ActionEvent event) {
+		LandformsGenerator feature = featureComboBox.getValue();
+		feature.build(selectedRowIndex, selectedColIndex, getScale());
+		TestClass.printMap(map);
+	}
+	
     @FXML
     void clickedBack(ActionEvent event) throws IOException {
     	App.setRoot("primary");

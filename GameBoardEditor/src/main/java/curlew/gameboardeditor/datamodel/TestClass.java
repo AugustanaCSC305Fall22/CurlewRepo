@@ -12,7 +12,7 @@ public class TestClass {
 		printMap(ourMap);
 	}
 
-	private static void printMap(TerrainMap ourMap) {
+	public static void printMap(TerrainMap ourMap) {
 		for (int i = 0; i < ourMap.getRows(); i++) {
 			System.out.println();
 
