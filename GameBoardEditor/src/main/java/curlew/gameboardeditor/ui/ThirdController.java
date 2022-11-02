@@ -94,18 +94,20 @@ import javafx.scene.paint.Color;
 
 	    	
 	    	//Nested for loops to outline the canvas based on the desired size from the user
-	    	for (int i = 0; i <= mapEditor.numRows+1; i++) {
-				for (int j = 0; j <= mapEditor.numCols+1; j++) {
-					//Sets the default colors for the outline of the canvas
-					gc.setStroke(Color.BLACK);
-					gc.setFill(Color.WHITE);
-					gc.fillRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
-					//strokeRect(X coord, Y coord, length, width)
-					//Will build boxes top to bottem, then left to right
-			    	gc.strokeRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-					gc.fillRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
-				}
-	    	}
+	    	fillMap();
+//	    	for (int i = 0; i <= mapEditor.numRows+1; i++) {
+//				for (int j = 0; j <= mapEditor.numCols+1; j++) {
+//					//Sets the default colors for the outline of the canvas
+//					gc.setStroke(Color.BLACK);
+////					gc.setFill(Color.WHITE);
+////					gc.fillRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+//					//strokeRect(X coord, Y coord, length, width)
+//					//Will build boxes top to bottem, then left to right
+//			    	gc.strokeRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+////					gc.fillRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+//				}
+//	    	}
+	    	drawOutLine();
 	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
 	    		//find the closest x box corrdinates, then find the closest y
@@ -166,7 +168,7 @@ import javafx.scene.paint.Color;
 		    	GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
 				gc.setStroke(Color.BLACK);
 				gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-				gc.fillRect(selectedColIndex* mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+
 	    	}
 	    }
 		
@@ -174,7 +176,7 @@ import javafx.scene.paint.Color;
 			GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.AQUA);
 			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-			gc.fillRect(selectedColIndex* mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+//			gc.fillRect(selectedColIndex* mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
 		}
 		
 	    public Canvas getTwoDCanvas() {
@@ -198,6 +200,8 @@ import javafx.scene.paint.Color;
 		} else {
 			feature.build(selectedRowIndex, selectedColIndex, getScale());
 			TestClass.printMap(map);
+			fillMap();
+			drawOutLine();
 		}
 	}
 	
@@ -218,8 +222,10 @@ import javafx.scene.paint.Color;
     	}else {
 	    	try {
 	    	map.dig(selectedRowIndex, selectedColIndex);
+	    	
 	    	}catch (IllegalArgumentException e) {
 	    		new Alert(AlertType.WARNING, "You can not go down further!").show();
+	    		updateTile();
 	    	}
     	}
     }
@@ -231,11 +237,39 @@ import javafx.scene.paint.Color;
     	}else {
 	    	try {
 	    	map.build(selectedRowIndex, selectedColIndex);
+	    	updateTile();
 	    	}catch (IllegalArgumentException e) {
-	    		new Alert(AlertType.WARNING, "You can not go build further!").show();
+	    		new Alert(AlertType.WARNING, "You can not build further!").show();
 	    	}
     	}
     }
-    
+    private void drawOutLine() {
+    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+    	for (int i = 0; i <= mapEditor.numRows+1; i++) {
+			for (int j = 0; j <= mapEditor.numCols+1; j++) {
+				//Sets the default colors for the outline of the canvas
+				gc.setStroke(Color.BLACK);
+		    	gc.strokeRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+
+			}
+    	}
+    }
+    private void fillMap() {
+    	
+    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+    	for (int i = 0; i < mapEditor.numRows; i++) {
+			for (int j = 0; j < mapEditor.numCols; j++) {
+				int height = (int) Math.round(map.getHeight(i, j));
+				gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
+				gc.fillRect((j) * mapEditor.boxLengthSize, (i) * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+			}
+    	}
+    }
+    private void updateTile() {
+    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+    	int height = (int) Math.round(map.getHeight(selectedRowIndex, selectedColIndex));
+		gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
+		gc.fillRect((selectedColIndex) * mapEditor.boxLengthSize, (selectedRowIndex) * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+    }
     
 }
