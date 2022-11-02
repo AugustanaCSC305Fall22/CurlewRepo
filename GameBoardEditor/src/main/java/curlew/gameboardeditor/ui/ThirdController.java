@@ -93,8 +93,8 @@ import javafx.scene.paint.Color;
 
 	    	
 	    	//Nested for loops to outline the canvas based on the desired size from the user
-	    	for (int i = 1; i <= mapEditor.numRows+1; i++) {
-				for (int j = 1; j <= mapEditor.numCols+1; j++) {
+	    	for (int i = 0; i <= mapEditor.numRows+1; i++) {
+				for (int j = 0; j <= mapEditor.numCols+1; j++) {
 					//Sets the default colors for the outline of the canvas
 					gc.setStroke(Color.BLACK);
 					gc.setFill(Color.WHITE);
@@ -113,9 +113,10 @@ import javafx.scene.paint.Color;
 				int boxLength = mapEditor.boxLengthSize;
 				int boxWidth = mapEditor.boxWidthSize;
 				if (p.x >= 0 && p.y <= 400) {
+					unselectPrevious();
 					selectedRowIndex = Math.round(p.x/(boxLength));
 					selectedColIndex = Math.round(p.y/(boxWidth));
-					selectBox(selectedRowIndex, selectedColIndex);
+					selectBox();
 				}
 	    	});
 	    	
@@ -130,7 +131,8 @@ import javafx.scene.paint.Color;
 	    	
 	    }
 	  
-		
+	    
+
 //	    @FXML
 //		private void canvasMouseHandler(MouseEvent mouse) {
 //			//find the closest x box corrdinates, then find the closest y
@@ -157,12 +159,19 @@ import javafx.scene.paint.Color;
 //			}
 //			
 //		}
+	    
+	    private void unselectPrevious() {
+	    	GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
+			gc.setStroke(Color.BLACK);
+			gc.strokeRect(selectedRowIndex * mapEditor.boxLengthSize, selectedColIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+			gc.fillRect(selectedRowIndex* mapEditor.boxLengthSize, selectedColIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+	    }
 		
-		private void selectBox(int numRows, int numCols) {
-			GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+		private void selectBox() {
+			GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.AQUA);
-			gc.strokeRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-			gc.fillRect(numRows * mapEditor.boxLengthSize, numCols * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+			gc.strokeRect(selectedRowIndex * mapEditor.boxLengthSize, selectedColIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+			gc.fillRect(selectedRowIndex* mapEditor.boxLengthSize, selectedColIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
 		}
 		
 	    public Canvas getTwoDCanvas() {
