@@ -17,7 +17,7 @@ public abstract class LandformsGenerator {
 
 
 	
-	public abstract void build(int row, int column, int scale);
+	public abstract void build(int row,int column, int scale);
 	
 	@Override
 	public abstract String toString();

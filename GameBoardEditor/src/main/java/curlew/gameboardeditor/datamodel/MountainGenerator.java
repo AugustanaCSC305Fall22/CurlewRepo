@@ -7,7 +7,7 @@ public class MountainGenerator extends LandformsGenerator {
 	}
 
 	@Override
-	public void build(int row, int column, int scale) {
+	public void build(int row,int column, int scale) {
 		TerrainMap ourMap = super.getMapOnBuild();
 		double maxHeight = ourMap.getInitialDepth() + ourMap.getDepthChange() *scale;
 		for(int i=row-2; i<=row+2;i++) {
@@ -32,6 +32,7 @@ public class MountainGenerator extends LandformsGenerator {
 		// TODO Auto-generated method stub
 		return "Mountain";
 	}
+
 }
 	
 	

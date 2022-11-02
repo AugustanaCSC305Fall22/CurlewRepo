@@ -22,6 +22,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -37,8 +38,8 @@ import javafx.scene.paint.Color;
 		
 		ObservableList<LandformsGenerator> featureList;
 		private TerrainMap map;
-		private int selectedRowIndex;
-		private int selectedColIndex;
+		private int selectedColIndex=-1;
+		private int selectedRowIndex=-1;
 		
 	    @FXML
 	    private MenuItem TitleLabel;
@@ -114,8 +115,8 @@ import javafx.scene.paint.Color;
 				int boxWidth = mapEditor.boxWidthSize;
 				if (p.x >= 0 && p.y <= 400) {
 					unselectPrevious();
-					selectedRowIndex = Math.round(p.x/(boxLength));
-					selectedColIndex = Math.round(p.y/(boxWidth));
+					selectedColIndex = Math.round(p.x/(boxLength));
+					selectedRowIndex = Math.round(p.y/(boxWidth));
 					selectBox();
 				}
 	    	});
@@ -161,17 +162,19 @@ import javafx.scene.paint.Color;
 //		}
 	    
 	    private void unselectPrevious() {
-	    	GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
-			gc.setStroke(Color.BLACK);
-			gc.strokeRect(selectedRowIndex * mapEditor.boxLengthSize, selectedColIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-			gc.fillRect(selectedRowIndex* mapEditor.boxLengthSize, selectedColIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+	    	if(selectedColIndex!=-1) {
+		    	GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
+				gc.setStroke(Color.BLACK);
+				gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+				gc.fillRect(selectedColIndex* mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+	    	}
 	    }
 		
 		private void selectBox() {
 			GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.AQUA);
-			gc.strokeRect(selectedRowIndex * mapEditor.boxLengthSize, selectedColIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-			gc.fillRect(selectedRowIndex* mapEditor.boxLengthSize, selectedColIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+			gc.fillRect(selectedColIndex* mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
 		}
 		
 	    public Canvas getTwoDCanvas() {
@@ -208,6 +211,31 @@ import javafx.scene.paint.Color;
     	App.fileSaver();
     }
     
+    @FXML
+    void digButtonHandler() {
+    	if(selectedColIndex==-1) {
+    		new Alert(AlertType.WARNING, "Select a box first!").show();
+    	}else {
+	    	try {
+	    	map.dig(selectedRowIndex, selectedColIndex);
+	    	}catch (IllegalArgumentException e) {
+	    		new Alert(AlertType.WARNING, "You can not go down further!").show();
+	    	}
+    	}
+    }
+    
+    @FXML
+    void buildButtonHandler() {
+    	if(selectedColIndex==-1) {
+    		new Alert(AlertType.WARNING, "Select a box first!").show();
+    	}else {
+	    	try {
+	    	map.build(selectedRowIndex, selectedColIndex);
+	    	}catch (IllegalArgumentException e) {
+	    		new Alert(AlertType.WARNING, "You can not go build further!").show();
+	    	}
+    	}
+    }
     
     
 }
