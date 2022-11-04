@@ -87,7 +87,7 @@ import javafx.scene.paint.Color;
 	    	twoDCanvas.setHeight(400);
 	    	twoDCanvas.setWidth(400);
 	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-	    	map = new TerrainMap(SizeController.width, SizeController.length);
+	    	map = App.map;
 	    	mapEditor = new twoDMapEditor(map, twoDCanvas);
 	    	
 	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));

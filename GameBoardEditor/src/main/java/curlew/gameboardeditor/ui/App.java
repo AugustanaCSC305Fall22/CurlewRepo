@@ -29,6 +29,7 @@ public class App extends Application {
     private static Stage stage;
     private static File selectedFile;
     private static Path filePath;
+    protected static TerrainMap map;
     
     
     @Override
@@ -41,6 +42,8 @@ public class App extends Application {
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
+    
+    
 
     public static void loadExistingFile() {
     	
