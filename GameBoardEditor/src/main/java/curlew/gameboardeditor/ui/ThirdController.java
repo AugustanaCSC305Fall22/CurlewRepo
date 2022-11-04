@@ -37,7 +37,6 @@ import javafx.scene.paint.Color;
 	public class ThirdController {
 		
 		ObservableList<LandformsGenerator> featureList;
-		private TerrainMap map;
 		private int selectedColIndex=-1;
 		private int selectedRowIndex=-1;
 		
@@ -87,7 +86,7 @@ import javafx.scene.paint.Color;
 	    	twoDCanvas.setHeight(400);
 	    	twoDCanvas.setWidth(400);
 	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-	    	map = App.map;
+	    	TerrainMap map = App.getMap();
 	    	mapEditor = new twoDMapEditor(map, twoDCanvas);
 	    	
 	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
@@ -199,7 +198,7 @@ import javafx.scene.paint.Color;
 			alert.show();
 		} else {
 			feature.build(selectedRowIndex, selectedColIndex, getScale());
-			TestClass.printMap(map);
+			TestClass.printMap(App.getMap());
 			fillMap();
 			drawOutLine();
 		}
@@ -212,7 +211,7 @@ import javafx.scene.paint.Color;
 
     @FXML
     void saveAsButtonHandler(ActionEvent event) throws IOException {
-    	App.fileSaver();
+    	App.saveProjectFile();
     }
     
     @FXML
@@ -221,7 +220,7 @@ import javafx.scene.paint.Color;
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}else {
 	    	try {
-	    	map.dig(selectedRowIndex, selectedColIndex);
+	    	App.getMap().dig(selectedRowIndex, selectedColIndex);
 	    	
 	    	}catch (IllegalArgumentException e) {
 	    		new Alert(AlertType.WARNING, "You can not go down further!").show();
@@ -236,7 +235,7 @@ import javafx.scene.paint.Color;
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}else {
 	    	try {
-	    	map.build(selectedRowIndex, selectedColIndex);
+	    	App.getMap().build(selectedRowIndex, selectedColIndex);
 	    	updateTile();
 	    	}catch (IllegalArgumentException e) {
 	    		new Alert(AlertType.WARNING, "You can not build further!").show();
@@ -259,7 +258,7 @@ import javafx.scene.paint.Color;
     	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
     	for (int i = 0; i < mapEditor.numRows; i++) {
 			for (int j = 0; j < mapEditor.numCols; j++) {
-				int height = (int) Math.round(map.getHeight(i, j));
+				int height = (int) Math.round(App.getMap().getHeight(i, j));
 				gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
 				gc.fillRect((j) * mapEditor.boxLengthSize, (i) * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
 			}
@@ -267,7 +266,7 @@ import javafx.scene.paint.Color;
     }
     private void updateTile() {
     	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-    	int height = (int) Math.round(map.getHeight(selectedRowIndex, selectedColIndex));
+    	int height = (int) Math.round(App.getMap().getHeight(selectedRowIndex, selectedColIndex));
 		gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
 		gc.fillRect((selectedColIndex) * mapEditor.boxLengthSize, (selectedRowIndex) * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
     }

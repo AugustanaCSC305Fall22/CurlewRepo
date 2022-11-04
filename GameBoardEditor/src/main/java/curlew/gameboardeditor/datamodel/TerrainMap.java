@@ -4,6 +4,7 @@ public class TerrainMap  {
 	/**
 	 * 
 	 */
+
 	private double[][] heightArray;
 	private final static double INITIAL_DEPTH = 2;
 	private final static double DEPTH_CHANGE = 2;
@@ -49,11 +50,6 @@ public class TerrainMap  {
 	public int getColumns() {
 		return heightArray[0].length;	
 	}
-	public double getValue(int indexRow, int indexCol) {
-		return heightArray[indexRow][indexCol];
-
-	}
-	
 	
 	public double getInitialDepth() {
 		return INITIAL_DEPTH;
@@ -63,8 +59,6 @@ public class TerrainMap  {
 		return DEPTH_CHANGE;
 	}
 	
-	public TerrainMap getMap() {
-		return this;
-	}
+
 	
 }

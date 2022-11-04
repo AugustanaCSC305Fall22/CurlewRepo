@@ -10,18 +10,17 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
-import movietracker.datamodel.MovieCollection;
 
 public class GameBoardIO {
 
-	public static String saveMap(TerrainMap map, File outputFile) throws IOException {
+	public static void saveMap(TerrainMap map, File outputFile) throws IOException {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		FileWriter writer = new FileWriter(outputFile);
 		gson.toJson(map, writer);
-		return gson.toJson(map); 
+		writer.close();
 	}
 	
-	public static TerrainMap loadMap (File inputFile) throws JsonSyntaxException, JsonIOException, IOException  {
+	public static TerrainMap loadMap(File inputFile) throws JsonSyntaxException, JsonIOException, IOException  {
 		Gson gson = new Gson();
 		FileReader reader = new FileReader(inputFile);
 		TerrainMap map = gson.fromJson(reader, TerrainMap.class);

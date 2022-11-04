@@ -9,7 +9,7 @@ module curlew.gameboardeditor {
 
     opens curlew.gameboardeditor.ui to javafx.fxml, javafx.graphics;
     opens curlew.gameboardeditor.datamodel to com.google.gson;
-    exports curlew.gameboardeditor;
+    exports curlew.gameboardeditor.ui;
 }
 //module gameboardeditor.ui {
 //    requires javafx.controls;

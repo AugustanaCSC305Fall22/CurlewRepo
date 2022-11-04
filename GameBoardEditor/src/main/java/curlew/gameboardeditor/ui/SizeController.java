@@ -111,9 +111,9 @@ public class SizeController implements Initializable {
 	
 	@FXML
 	void clickedDone() throws IOException {
-		App.map = new TerrainMap(width,length);
+		App.setMap(new TerrainMap(width,length));
 		if(PrimaryController.genRandom) {
-			RandomMapGenerator rg= new RandomMapGenerator(App.map);
+			RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
 			rg.createMap();
 		}
 		App.setRoot("third");

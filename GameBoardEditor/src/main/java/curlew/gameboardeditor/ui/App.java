@@ -18,6 +18,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
+import curlew.gameboardeditor.datamodel.GameBoardIO;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 
 
@@ -31,9 +35,9 @@ public class App extends Application {
     private static Stage stage;
     private static File selectedFile;
     private static Path filePath;
-    protected static TerrainMap map;
     
-    protected TerrainMap map;
+    private static TerrainMap map;
+    
     
     @Override
     public void start(Stage stage) throws IOException {
@@ -51,33 +55,47 @@ public class App extends Application {
     public static void loadExistingFile() {
     	
     	FileChooser fileChooser = new FileChooser();
-    	  fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Object Files", "*.obj"));
+    	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("3D TerrainMap File", "*.TMap"));
     	File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
         	selectedFile = file;
-        	//selectedFile = fileChooser.showSaveDialog(stage);
-            //filePath = (Path) file.toPath();
+        	
+        	try {
+				map = GameBoardIO.loadMap(selectedFile);
+				App.setRoot("third");
+        	} catch (IOException e) {
+				e.printStackTrace();
+				Alert alert = new Alert(Alert.AlertType.WARNING);
+				alert.setTitle("WARNING");
+				alert.setContentText("There was an error loading " + selectedFile);
+				alert.show();
+			}
+        	
         }
     }
     
-    public static void fileSaver() throws IOException {
+    public static void saveProjectFile() throws IOException {
     	
        // TerrainMap mapAddy = map; //calling terrain map object to get info about box to be saved in to a text file later
         
     	FileChooser fileChooser = new FileChooser();
-    	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Object Files", "*.obj"));
+    	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("3D TerrainMap File", "*.TMap"));
     	fileChooser.setTitle("Save As");
-    	fileChooser.setInitialFileName("DefaultFileName");
+    	fileChooser.setInitialFileName("Untitled.TMap");
     	File file = fileChooser.showSaveDialog(stage);
     	if (file != null) {
-    		JSONExporter.writeJSONFile(file, map.getMap());
+    		GameBoardIO.saveMap(map, file);
     	} 
 	
     }
     	
-
-    
-    
+	public static TerrainMap getMap() {
+		return map;
+	}
+	
+	public static void setMap(TerrainMap newMap) {
+		map = newMap;
+	} 
     
     private File getSelectedFile() {
     	return selectedFile;

@@ -39,8 +39,9 @@ public class PrimaryController {
 //	}
 
 	@FXML
-	public void loadExistingFile() {
+	public void loadExistingFile() throws IOException{
 		App.loadExistingFile();
+		
 		
 	}
 
