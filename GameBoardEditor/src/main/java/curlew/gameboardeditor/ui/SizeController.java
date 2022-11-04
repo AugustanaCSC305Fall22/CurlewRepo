@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import curlew.gameboardeditor.datamodel.RandomMapGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -110,6 +111,11 @@ public class SizeController implements Initializable {
 	
 	@FXML
 	void clickedDone() throws IOException {
+		App.map = new TerrainMap(width,length);
+		if(PrimaryController.genRandom) {
+			RandomMapGenerator rg= new RandomMapGenerator(App.map);
+			rg.createMap();
+		}
 		App.setRoot("third");
 	}
 	

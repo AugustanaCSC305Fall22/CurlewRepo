@@ -24,15 +24,19 @@ public class PrimaryController {
 	@FXML
 	private Button templateButton;
 	
-	@FXML
-	public TerrainMap terrain;
+	protected static boolean genRandom;
+	
+//	@FXML
+//	public TerrainMap terrain;
+	
+	
 
-	@FXML
-	void genRandom(ActionEvent event) throws IOException {
-		//Will do other stuff here too
-		terrain = new TerrainMap(8, 8);
-		switchToSizeScreen(event);
-	}
+//	@FXML
+//	void genRandom(ActionEvent event) throws IOException {
+//		//Will do other stuff here too
+//		terrain = new TerrainMap(8, 8);
+//		switchToSizeScreen(event);
+//	}
 
 	@FXML
 	public void loadExistingFile() {
@@ -52,6 +56,8 @@ public class PrimaryController {
 
 	@FXML
 	void switchToSizeScreen(ActionEvent event) throws IOException {
+		genRandom =event.getSource().equals(GenRandomButton);
+		
 		App.setRoot("sizeScreen");
 	}
 }
