@@ -245,8 +245,8 @@ import javafx.scene.paint.Color;
     }
     private void drawOutLine() {
     	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-    	for (int i = 0; i < mapEditor.numRows; i++) {
-			for (int j = 0; j < mapEditor.numCols; j++) {
+    	for (int i = 0; i < mapEditor.numCols; i++) {
+			for (int j = 0; j < mapEditor.numRows; j++) {
 				//Sets the default colors for the outline of the canvas
 				gc.setStroke(Color.BLACK);
 		    	gc.strokeRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
