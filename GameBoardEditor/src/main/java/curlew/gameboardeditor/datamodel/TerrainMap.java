@@ -63,4 +63,8 @@ public class TerrainMap  {
 		return DEPTH_CHANGE;
 	}
 	
+	public TerrainMap getMap() {
+		return this;
+	}
+	
 }

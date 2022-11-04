@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -24,12 +26,13 @@ import curlew.gameboardeditor.datamodel.TerrainMap;
  */
 public class App extends Application {
 	
-
+	
     private static Scene scene;
     private static Stage stage;
     private static File selectedFile;
     private static Path filePath;
     
+    protected TerrainMap map;
     
     @Override
     public void start(Stage stage) throws IOException {
@@ -45,7 +48,7 @@ public class App extends Application {
     public static void loadExistingFile() {
     	
     	FileChooser fileChooser = new FileChooser();
-    	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Object Files", "*.obj"));
+    	  fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Object Files", "*.obj"));
     	File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
         	selectedFile = file;
@@ -54,10 +57,9 @@ public class App extends Application {
         }
     }
     
-    public static void fileSaver() throws IOException{
+    public static void fileSaver() throws IOException {
     	
-        TerrainMap mapAddy = new TerrainMap(8,8); //calling terrain map object to get info about box to be saved in to a text file later
-        mapAddy.getHeight(3, 5); //test cases for now methods must be added to terrain map later to get final connection
+       // TerrainMap mapAddy = map; //calling terrain map object to get info about box to be saved in to a text file later
         
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("Object Files", "*.obj"));
@@ -65,9 +67,12 @@ public class App extends Application {
     	fileChooser.setInitialFileName("DefaultFileName");
     	File file = fileChooser.showSaveDialog(stage);
     	if (file != null) {
-    		JSONExporter.writeJSONFile(file, mapAddy);
-    	}
+    		JSONExporter.writeJSONFile(file, map.getMap());
+    	} 
+	
     }
+    	
+
     
     
     
