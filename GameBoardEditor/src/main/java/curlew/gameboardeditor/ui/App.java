@@ -30,18 +30,35 @@ import curlew.gameboardeditor.datamodel.TerrainMap;
  */
 public class App extends Application {
 	
+	private static Scene scene1;
 	
     private static Scene scene;
     private static Stage stage;
     private static File selectedFile;
     private static String filePath;
+
+    private static AboutPopUp aboutDialog;
+
     
     private static TerrainMap map;
     
     
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("mainMenu"), 640, 480);
+//    	AboutPopUp aboutDialog = new AboutPopUp();
+//    	aboutDialog.start(stage);
+//    	scene = new Scene(loadFXML("aboutPopUp"), 300, 300);
+//    	aboutDialog.setTitle("Welcome to the Curlew Terrain Map Editor!");
+//    	aboutDialog.showAndWait();
+//        scene = new Scene(loadFXML("aboutPopUp"), 640, 480);
+//        stage.setScene(scene);
+//        stage.showAndWait();
+//    	Stage popUp = new AboutPopUp();
+//    	popUp.setTitle("Welcome to the Curlew Terrain Map Editor!");
+//    	
+//    	popUp.showAndWait();
+    	
+        scene = new Scene(loadFXML("aboutPopUp"),640, 480);
         stage.setScene(scene);
         stage.show();
     }
