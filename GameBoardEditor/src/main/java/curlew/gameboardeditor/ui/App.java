@@ -50,15 +50,18 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
     	
     	scene = new Scene(loadFXML("aboutPopUp"),640, 480);
-    	Stage popUp = new Stage();
-    	popUp.setTitle("Welcome to the Terrain Map Editor");
-        popUp.setScene(scene);
-        popUp.showAndWait();
+    	
+//    	Stage popUp = new Stage();
+//    	popUp.setTitle("Welcome to the Terrain Map Editor");
+//        popUp.setScene(scene);
+//        popUp.showAndWait();
+        
 //        scene.setOnKeyPressed( e -> keyPressed(e));
         
         
-        mainScene = new Scene(loadFXML("mainMenu"), 640, 480);
-        stage.setScene(mainScene);
+//        mainScene = new Scene(loadFXML("mainMenu"), 640, 480);
+    	
+        stage.setScene(scene);		//was mainScene when uncommented.
         stage.show();
     }
     
