@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -30,36 +32,38 @@ import curlew.gameboardeditor.datamodel.TerrainMap;
  */
 public class App extends Application {
 	
-	private static Scene scene1;
-	
     private static Scene scene;
     private static Stage stage;
     private static File selectedFile;
     private static Path filePath;
-    private static AboutPopUp aboutDialog;
+    
+    private static Scene mainScene;
     
     private static TerrainMap map;
     
     
     @Override
     public void start(Stage stage) throws IOException {
-//    	AboutPopUp aboutDialog = new AboutPopUp();
-//    	aboutDialog.start(stage);
-//    	scene = new Scene(loadFXML("aboutPopUp"), 300, 300);
-//    	aboutDialog.setTitle("Welcome to the Curlew Terrain Map Editor!");
-//    	aboutDialog.showAndWait();
-//        scene = new Scene(loadFXML("aboutPopUp"), 640, 480);
-//        stage.setScene(scene);
-//        stage.showAndWait();
-//    	Stage popUp = new AboutPopUp();
-//    	popUp.setTitle("Welcome to the Curlew Terrain Map Editor!");
-//    	
-//    	popUp.showAndWait();
     	
-        scene = new Scene(loadFXML("aboutPopUp"),640, 480);
-        stage.setScene(scene);
+    	scene = new Scene(loadFXML("aboutPopUp"),640, 480);
+    	Stage popUp = new Stage();
+    	popUp.setTitle("Welcome to the Terrain Map Editor");
+        popUp.setScene(scene);
+        popUp.showAndWait();
+//        scene.setOnKeyPressed( e -> keyPressed(e));
+        
+        
+        mainScene = new Scene(loadFXML("mainMenu"), 640, 480);
+        stage.setScene(mainScene);
         stage.show();
     }
+    
+//    private void keyPressed(KeyEvent e) throws IOException {
+//    	KeyCode key = e.getCode();
+//    	if (key == KeyCode.ALL_CANDIDATES) {
+//    		App.setRoot("mainMenu");
+//    	}
+//    }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
