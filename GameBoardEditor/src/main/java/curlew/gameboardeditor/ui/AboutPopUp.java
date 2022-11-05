@@ -15,13 +15,13 @@ import javafx.stage.Stage;
 public class AboutPopUp {
 
 	
-//	@FXML
-//	private Button okayButton;
-//	
-//	@FXML
-//	void clickedOkayButton(ActionEvent event) throws IOException {
-//		App.setRoot("mainMenu");
-//	}
+	@FXML
+	private Button okayButton;
+	
+	@FXML
+	void clickedOkayButton(ActionEvent event) throws IOException {
+		App.setRoot("mainMenu");
+	}
 	
 //	void keyPressed(KeyEvent event) throws IOException {
 //		KeyCode key = event.getCode();
