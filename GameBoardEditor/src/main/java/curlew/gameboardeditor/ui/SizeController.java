@@ -30,42 +30,6 @@ public class SizeController implements Initializable {
 
 	
 	
-	
-//	@FXML
-//    int widthSliderHandler (ActionEvent event) throws IOException {
-//    	int width = (int) widthSlider.getValue();
-//    	return width;
-//    }
-
-//	@FXML
-//	public static int getWidth() {
-//		int width = (int) widthSlider.getValue();
-//    	return width;
-//	}
-	
-//	@FXML
-//    int lengthSliderHandler (ActionEvent event) throws IOException {
-//		int length = (int) widthSlider.getValue();
-//    	return length;
-//    }
-	
-//	@FXML
-//    public static int getLength() {
-//		int length = (int) widthSlider.getValue();
-//    	return length;
-//    }
-	
-//	@FXML
-//	public static int onLengthSliderChanged() {
-//		length = (int) lengthSlider.getValue();
-//		return length;
-//	}
-//	
-//	@FXML
-//	public static int onWidthSliderChanged() {
-//		width = (int) widthSlider.getValue();
-//		return width;
-//	}
 
 	@FXML
 	public static int length;
@@ -113,14 +77,14 @@ public class SizeController implements Initializable {
 	@FXML
 	void clickedDone() throws IOException {
 		App.setMap(new TerrainMap(width,length));
-		if(PrimaryController.genRandom) {
+		if(MainMenuController.genRandom) {
 			RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
 			rg.createMap();
-		}else if(PrimaryController.genMaze) {
+		}else if(MainMenuController.genMaze) {
 			MazeGenerator mg = new MazeGenerator(App.getMap());
 			mg.genrateMaze();
 		}
-		App.setRoot("third");
+		App.setRoot("mapEditor");
 	}
 	
 }

@@ -10,7 +10,7 @@ import javafx.scene.control.Button;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class PrimaryController {
+public class MainMenuController {
 
 	@FXML
 	private Button GenRandomButton;
@@ -30,17 +30,7 @@ public class PrimaryController {
 	protected static boolean genRandom;
 	protected static boolean genMaze;
 	
-//	@FXML
-//	public TerrainMap terrain;
-	
-	
 
-//	@FXML
-//	void genRandom(ActionEvent event) throws IOException {
-//		//Will do other stuff here too
-//		terrain = new TerrainMap(8, 8);
-//		switchToSizeScreen(event);
-//	}
 
 	@FXML
 	public void loadExistingFile() throws IOException{
@@ -51,12 +41,12 @@ public class PrimaryController {
 
 	@FXML
 	private void switchToSecondary() throws IOException {
-		App.setRoot("secondary");
+		App.setRoot("previewMap");
 	}
 
 	@FXML
 	void switchToThird(ActionEvent event) throws IOException {
-		App.setRoot("third");
+		App.setRoot("previewMap");
 	}
 
 	@FXML

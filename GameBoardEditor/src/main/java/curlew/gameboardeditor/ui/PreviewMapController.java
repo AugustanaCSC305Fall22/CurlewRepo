@@ -12,7 +12,7 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.image.ImageView;
 
 
-public class SecondaryController {
+public class PreviewMapController {
 
     
 
@@ -36,12 +36,12 @@ public class SecondaryController {
 
     @FXML
     void clickNext(ActionEvent event) throws IOException {
-    	App.setRoot("third");
+    	App.setRoot("mapEditor");
     }
 
     @FXML
     void clickedBack(ActionEvent event) throws IOException {
-    	App.setRoot("primary");
+    	App.setRoot("mainMenu");
     }
 
 }

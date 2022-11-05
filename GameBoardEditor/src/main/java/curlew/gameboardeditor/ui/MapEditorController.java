@@ -34,7 +34,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
-	public class ThirdController {
+	public class MapEditorController {
 		
 		ObservableList<LandformsGenerator> featureList;
 		private int selectedColIndex=-1;
@@ -94,18 +94,6 @@ import javafx.scene.paint.Color;
 	    	
 	    	//Nested for loops to outline the canvas based on the desired size from the user
 	    	fillMap();
-//	    	for (int i = 0; i <= mapEditor.numRows+1; i++) {
-//				for (int j = 0; j <= mapEditor.numCols+1; j++) {
-//					//Sets the default colors for the outline of the canvas
-//					gc.setStroke(Color.BLACK);
-////					gc.setFill(Color.WHITE);
-////					gc.fillRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
-//					//strokeRect(X coord, Y coord, length, width)
-//					//Will build boxes top to bottem, then left to right
-//			    	gc.strokeRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-////					gc.fillRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
-//				}
-//	    	}
 	    	drawOutLine();
 	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
@@ -136,32 +124,7 @@ import javafx.scene.paint.Color;
 	  
 	    
 
-//	    @FXML
-//		private void canvasMouseHandler(MouseEvent mouse) {
-//			//find the closest x box corrdinates, then find the closest y
-//			int numRows;
-//			int numCols;
-//			Point p = new Point(mouse.getX(), mouse.getY());
-//			int boxLength = mapEditor.boxLengthSize;
-//			int boxWidth = mapEditor.boxWidthSize;
-//			if (p.x >= 0 && p.y <= 400) {
-//				int rowsToSub = Math.round(p.x/(boxLength));
-//				if ((p.x / boxLength) - rowsToSub >= .5) {
-//					numRows = rowsToSub + 1;
-//				} else {
-//					numRows = rowsToSub - 1;
-//				}
-//				int colsToSub = Math.round(p.y/(boxWidth));
-//				if ((p.x / boxWidth) - colsToSub >= .5) {
-//					numCols = colsToSub + 1;
-//				} else {
-//					numCols = colsToSub - 1;
-//				}
-//				selectBox(numRows, numCols);
-//				
-//			}
-//			
-//		}
+
 	    
 	    private void unselectPrevious() {
 	    	if(selectedColIndex!=-1) {
@@ -176,7 +139,6 @@ import javafx.scene.paint.Color;
 			GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.AQUA);
 			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-//			gc.fillRect(selectedColIndex* mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
 		}
 		
 	    public Canvas getTwoDCanvas() {
@@ -210,7 +172,7 @@ import javafx.scene.paint.Color;
 	
     @FXML
     void clickedBack(ActionEvent event) throws IOException {
-    	App.setRoot("primary");
+    	App.setRoot("mainMenu");
     }
 
     @FXML

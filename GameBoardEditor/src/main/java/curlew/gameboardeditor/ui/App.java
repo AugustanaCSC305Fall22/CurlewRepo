@@ -41,7 +41,7 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("mainMenu"), 640, 480);
         stage.setScene(scene);
         stage.show();
     }
@@ -62,7 +62,7 @@ public class App extends Application {
         	
         	try {
 				map = GameBoardIO.loadMap(selectedFile);
-				App.setRoot("third");
+				App.setRoot("previewMap");
         	} catch (IOException e) {
 				e.printStackTrace();
 				Alert alert = new Alert(Alert.AlertType.WARNING);
