@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import curlew.gameboardeditor.datamodel.MazeGenerator;
 import curlew.gameboardeditor.datamodel.RandomMapGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import javafx.beans.value.ChangeListener;
@@ -115,6 +116,9 @@ public class SizeController implements Initializable {
 		if(PrimaryController.genRandom) {
 			RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
 			rg.createMap();
+		}else if(PrimaryController.genMaze) {
+			MazeGenerator mg = new MazeGenerator(App.getMap());
+			mg.genrateMaze();
 		}
 		App.setRoot("third");
 	}

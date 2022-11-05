@@ -58,6 +58,12 @@ public class TerrainMap  {
 	public double getDepthChange() {
 		return DEPTH_CHANGE;
 	}
+
+	public void setHeightArray(double[][] array) {
+		// TODO Auto-generated method stub
+		
+		heightArray = array;
+	}
 	
 
 	

@@ -15,6 +15,7 @@
             <Button fx:id="scratchButton" mnemonicParsing="false" onAction="#switchToSizeScreen" text="Start From Scratch" />
             <Button fx:id="loadFileButton" mnemonicParsing="false" onAction="#loadExistingFile" text="Load Existing File" />
             <Button fx:id="GenRandomButton" onAction="#switchToSizeScreen" text="Generate Random" />
+            <Button fx:id="mazeButton" mnemonicParsing="false" onAction="#switchToSizeScreen" text="Maze Idea" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

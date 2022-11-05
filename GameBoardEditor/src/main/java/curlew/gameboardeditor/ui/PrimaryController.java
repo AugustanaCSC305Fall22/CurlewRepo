@@ -24,7 +24,11 @@ public class PrimaryController {
 	@FXML
 	private Button templateButton;
 	
+	@FXML
+	private Button mazeButton;
+	
 	protected static boolean genRandom;
+	protected static boolean genMaze;
 	
 //	@FXML
 //	public TerrainMap terrain;
@@ -58,7 +62,7 @@ public class PrimaryController {
 	@FXML
 	void switchToSizeScreen(ActionEvent event) throws IOException {
 		genRandom =event.getSource().equals(GenRandomButton);
-		
+		genMaze= event.getSource().equals(mazeButton);
 		App.setRoot("sizeScreen");
 	}
 }
