@@ -23,6 +23,7 @@ public class GameBoardIO {
 	public static TerrainMap loadMap(File inputFile) throws JsonSyntaxException, JsonIOException, IOException  {
 		Gson gson = new Gson();
 		FileReader reader = new FileReader(inputFile);
+		System.out.println(inputFile);
 		TerrainMap map = gson.fromJson(reader, TerrainMap.class);
 		reader.close();
 		return map;		
