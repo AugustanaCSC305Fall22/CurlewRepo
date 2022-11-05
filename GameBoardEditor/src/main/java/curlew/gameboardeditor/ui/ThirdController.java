@@ -110,14 +110,15 @@ import javafx.scene.paint.Color;
 	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
 	    		//find the closest x box corrdinates, then find the closest y
-				
-				Point p = new Point((int) event.getX(), (int) event.getY());
-				int boxLength = mapEditor.boxLengthSize;
+	    		int boxLength = mapEditor.boxLengthSize;
 				int boxWidth = mapEditor.boxWidthSize;
-				if (p.x >= 0 && p.y <= 400) {
+				Point p = new Point(Math.round((int)event.getX()/(boxLength)), Math.round((int)event.getY()/(boxWidth)));
+				
+				if (p.x >= 0 && p.x<App.getMap().getColumns() && p.y>=0 && p.y < App.getMap().getRows()) {
+				
 					unselectPrevious();
-					selectedColIndex = Math.round(p.x/(boxLength));
-					selectedRowIndex = Math.round(p.y/(boxWidth));
+					selectedColIndex = p.x;
+					selectedRowIndex = p.y;
 					selectBox();
 				}
 	    	});
@@ -191,7 +192,10 @@ import javafx.scene.paint.Color;
 	@FXML
 	void addFeatures(ActionEvent event) {
 		LandformsGenerator feature = featureComboBox.getValue();
-		if (feature == null) {
+		if(selectedColIndex==-1) {
+    		new Alert(AlertType.WARNING, "Select a box first!").show();
+    	}
+		else if (feature == null) {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
 			alert.setTitle("WARNING");
 			alert.setContentText("You must select the feature to be added");

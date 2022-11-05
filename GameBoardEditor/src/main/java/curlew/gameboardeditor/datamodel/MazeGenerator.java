@@ -13,6 +13,7 @@ public class MazeGenerator {
 
 	public void genrateMaze() {
 		Random rand = new Random();
+		
 		for(int i=0; i<map.getRows()*3; i++) {
 			map.build(rand.nextInt(map.getRows()), rand.nextInt(map.getColumns()), ALIVE);
 		}
@@ -58,6 +59,9 @@ public class MazeGenerator {
 					}
 				}catch (IndexOutOfBoundsException e) {}
 			}
+		}
+		if(map.getHeight(row, column)==ALIVE) {
+			count--;
 		}
 		return count;
 	}
