@@ -35,9 +35,13 @@ public class App extends Application {
     private static Scene scene;
     private static Stage stage;
     private static File selectedFile;
-    private static Path filePath;
+
     
     private static Scene mainScene;
+
+    private static String filePath;
+
+
     
     private static TerrainMap map;
     
@@ -103,6 +107,8 @@ public class App extends Application {
     	fileChooser.setInitialFileName("Untitled.TMap");
     	File file = fileChooser.showSaveDialog(stage);
     	if (file != null) {
+    		selectedFile = file;
+    		filePath = file.getPath();
     		GameBoardIO.saveMap(map, file);
     	} 
 	
@@ -120,7 +126,7 @@ public class App extends Application {
     	return selectedFile;
     }
     
-    private Path getFilePath() {
+    private String getFilePath() {
     	return filePath;
     }
     private static Parent loadFXML(String fxml) throws IOException {
