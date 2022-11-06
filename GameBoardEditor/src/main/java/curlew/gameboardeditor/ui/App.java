@@ -88,7 +88,7 @@ public class App extends Application {
         	
         	try {
 				map = GameBoardIO.loadMap(selectedFile);
-				App.setRoot("previewMap");
+				App.setRoot("mapEditor");
         	} catch (IOException e) {
 				e.printStackTrace();
 				Alert alert = new Alert(Alert.AlertType.WARNING);
