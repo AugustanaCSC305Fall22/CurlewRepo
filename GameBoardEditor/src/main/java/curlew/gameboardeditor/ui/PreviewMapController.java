@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollBar;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -42,6 +43,7 @@ public class PreviewMapController {
     
     @FXML
     private Canvas templateCanvas;
+    
     
     private final int numTemplates = 8;
 
@@ -81,6 +83,7 @@ public class PreviewMapController {
     private void onMouseClicked(MouseEvent event) {
     	int y = (int) event.getY();
     	selectedAreaIndex = y/(boxLength+2);
+    //	previewImageView.setImage(new Image(fileArray[selectedAreaIndex] + ".png"));
     	//System.out.println(selectedAreaIndex);
     	
     }
