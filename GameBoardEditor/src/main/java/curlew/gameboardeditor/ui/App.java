@@ -49,7 +49,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
     	
-    	scene = new Scene(loadFXML("aboutPopUp"),640, 480);
+    	scene = new Scene(loadFXML("aboutPopUp"),640, 550);
     	
 //    	Stage popUp = new Stage();
 //    	popUp.setTitle("Welcome to the Terrain Map Editor");
