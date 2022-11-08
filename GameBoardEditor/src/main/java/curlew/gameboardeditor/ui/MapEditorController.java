@@ -39,8 +39,6 @@ import javafx.scene.paint.Color;
 	public class MapEditorController {
 		
 		ObservableList<LandformsGenerator> featureList;
-		private int selectedColIndex=-1;
-		private int selectedRowIndex=-1;
 		private HashSet<Point> pointSet= new HashSet<>();
 	    @FXML
 	    private MenuItem TitleLabel;
