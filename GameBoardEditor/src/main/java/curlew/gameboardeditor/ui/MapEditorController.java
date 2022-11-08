@@ -39,8 +39,6 @@ import javafx.scene.paint.Color;
 	public class MapEditorController {
 		
 		ObservableList<LandformsGenerator> featureList;
-		private int selectedColIndex=-1;
-		private int selectedRowIndex=-1;
 		private HashSet<Point> pointSet= new HashSet<>();
 	    @FXML
 	    private MenuItem TitleLabel;
@@ -81,6 +79,7 @@ import javafx.scene.paint.Color;
 	    @FXML
 	    private Slider scaleSlider;
 	    
+	    
 
 	    @FXML
 	    private void initialize() {
@@ -107,10 +106,13 @@ import javafx.scene.paint.Color;
 				if (p.x >= 0 && p.x<App.getMap().getColumns() && p.y>=0 && p.y < App.getMap().getRows()) {
 				
 					if(pointSet.contains(p)) {
-						unselectPoint(p);	
+						unselectPoint(p);
+						pointSet.remove(p);
+						neighbourCheck(p);
 					}
 					else {
 						selectBox(p);
+						pointSet.add(p);
 					}
 				}
 	    	});
@@ -123,16 +125,18 @@ import javafx.scene.paint.Color;
 	    }
     
 	    private void unselectPoint(Point point) {
-	    	pointSet.remove(point);
+//	    	pointSet.remove(point);
 	    	int selectedColIndex = point.x;
 			int selectedRowIndex = point.y;
 		    GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.BLACK);
-			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+//			neighbourCheck(point);
+	    	
 	    }
 		
 		private void selectBox(Point point) {
-			pointSet.add(point);
+//			pointSet.add(point);
 			int selectedColIndex = point.x;
 			int selectedRowIndex = point.y;
 			GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
@@ -229,8 +233,25 @@ import javafx.scene.paint.Color;
     	}
     }
     
+    @FXML
+    void unselectAll() {
+    	Iterator<Point> it = pointSet.iterator();
+		while (it.hasNext()){
+			Point p=it.next();
+			unselectPoint(p);
+		}
+		pointSet.clear();
+    }
+    
 	
-
+    private void neighbourCheck(Point p) {
+    	Point[] nArray= {new Point(p.x,p.y+1),new Point(p.x,p.y-1),new Point(p.x+1,p.y),new Point(p.x-1,p.y)};
+    	for(Point point:nArray) {
+    		if(pointSet.contains(point)) {
+    			selectBox(point);
+    		}
+    	}
+    }
 
 
 
