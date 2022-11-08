@@ -6,6 +6,8 @@ package curlew.gameboardeditor.ui;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import curlew.gameboardeditor.datamodel.GateToHellGenerator;
 import curlew.gameboardeditor.datamodel.LandformsGenerator;
@@ -39,7 +41,7 @@ import javafx.scene.paint.Color;
 		ObservableList<LandformsGenerator> featureList;
 		private int selectedColIndex=-1;
 		private int selectedRowIndex=-1;
-		
+		private HashSet<Point> pointSet= new HashSet<>();
 	    @FXML
 	    private MenuItem TitleLabel;
 
@@ -104,10 +106,14 @@ import javafx.scene.paint.Color;
 				
 				if (p.x >= 0 && p.x<App.getMap().getColumns() && p.y>=0 && p.y < App.getMap().getRows()) {
 				
-					unselectPrevious();
-					selectedColIndex = p.x;
-					selectedRowIndex = p.y;
-					selectBox();
+					if(pointSet.contains(p)) {
+						unselectPoint(p);	
+					}
+//					selectedColIndex = p.x;
+//					selectedRowIndex = p.y;
+					else {
+						selectBox(p);
+					}
 				}
 	    	});
 	    	
@@ -126,16 +132,21 @@ import javafx.scene.paint.Color;
 
 
 	    
-	    private void unselectPrevious() {
-	    	if(selectedColIndex!=-1) {
-		    	GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
-				gc.setStroke(Color.BLACK);
-				gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+	    private void unselectPoint(Point point) {
+	    	pointSet.remove(point);
+	    	int selectedColIndex = point.x;
+			int selectedRowIndex = point.y;
+		    GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
+			gc.setStroke(Color.BLACK);
+			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
 
-	    	}
+	    	
 	    }
 		
-		private void selectBox() {
+		private void selectBox(Point point) {
+			pointSet.add(point);
+			int selectedColIndex = point.x;
+			int selectedRowIndex = point.y;
 			GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.AQUA);
 			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
@@ -154,8 +165,10 @@ import javafx.scene.paint.Color;
 	@FXML
 	void addFeatures(ActionEvent event) {
 		LandformsGenerator feature = featureComboBox.getValue();
-		if(selectedColIndex==-1) {
+		if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
+    	}else if(pointSet.size()!=1) {
+    		new Alert(AlertType.WARNING, "Select only one box!").show();
     	}
 		else if (feature == null) {
 			Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -163,10 +176,15 @@ import javafx.scene.paint.Color;
 			alert.setContentText("You must select the feature to be added");
 			alert.show();
 		} else {
+			Iterator<Point> it = pointSet.iterator();
+			Point p= it.next();
+			int selectedColIndex = p.x;
+			int selectedRowIndex = p.y;
 			feature.build(selectedRowIndex, selectedColIndex, getScale());
 			TestClass.printMap(App.getMap());
 			fillMap();
 			drawOutLine();
+			pointSet.remove(p);
 		}
 	}
 	
@@ -182,33 +200,54 @@ import javafx.scene.paint.Color;
     
     @FXML
     void digButtonHandler() {
-    	if(selectedColIndex==-1) {
+    	if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}else {
-	    	try {
-	    	App.getMap().dig(selectedRowIndex, selectedColIndex);
-	    	
-	    	}catch (IllegalArgumentException e) {
-	    		new Alert(AlertType.WARNING, "You can not go down further!").show();
-	    		updateTile();
-	    	}
+    		Iterator<Point> it = pointSet.iterator();
+    		while (it.hasNext()) {
+    			Point p=it.next();
+    			int selectedColIndex = p.x;
+    			int selectedRowIndex = p.y;
+		    	try {
+			    	App.getMap().dig(selectedRowIndex, selectedColIndex);
+			    	updateTile(p);
+		    	}catch (IllegalArgumentException e) {
+		    		new Alert(AlertType.WARNING, "You can not go down further!").show();
+		    		break;
+		    	}
+    		}
     	}
     }
     
     @FXML
     void buildButtonHandler() {
-    	if(selectedColIndex==-1) {
+    	if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
-    	}else {
-	    	try {
-	    	App.getMap().build(selectedRowIndex, selectedColIndex);
-	    	updateTile();
-	    	}catch (IllegalArgumentException e) {
-	    		new Alert(AlertType.WARNING, "You can not build further!").show();
-	    	}
+    	}
+    	else {
+    		Iterator<Point> it = pointSet.iterator();
+    		while (it.hasNext()) {
+    			Point p=it.next();
+    			int selectedColIndex = p.x;
+    			int selectedRowIndex = p.y;
+		    	try {
+			    	App.getMap().build(selectedRowIndex, selectedColIndex);
+			    	updateTile(p);
+		    	}catch (IllegalArgumentException e) {
+		    		new Alert(AlertType.WARNING, "You can not build further!").show();
+		    		break;
+		    	}
+    		}
     	}
     }
-    private void drawOutLine() {
+    
+	
+
+
+
+
+
+	private void drawOutLine() {
     	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
     	for (int i = 0; i < mapEditor.numCols; i++) {
 			for (int j = 0; j < mapEditor.numRows; j++) {
@@ -230,7 +269,9 @@ import javafx.scene.paint.Color;
 			}
     	}
     }
-    private void updateTile() {
+    private void updateTile(Point p) {
+    	int selectedColIndex = p.x;
+		int selectedRowIndex = p.y;
     	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
     	int height = (int) Math.round(App.getMap().getHeight(selectedRowIndex, selectedColIndex));
 		gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
