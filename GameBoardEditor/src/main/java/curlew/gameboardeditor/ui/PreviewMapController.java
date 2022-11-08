@@ -2,8 +2,11 @@
 
 package curlew.gameboardeditor.ui;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import curlew.gameboardeditor.datamodel.GameBoardIO;
 import javafx.event.ActionEvent;
@@ -83,9 +86,8 @@ public class PreviewMapController {
     private void onMouseClicked(MouseEvent event) {
     	int y = (int) event.getY();
     	selectedAreaIndex = y/(boxLength+2);
-    //	previewImageView.setImage(new Image(fileArray[selectedAreaIndex] + ".png"));
-    	//System.out.println(selectedAreaIndex);
-    	
+    	File file = new File(fileArray[selectedAreaIndex] + ".png");
+    	previewImageView.setImage(new Image(file.toURI().toString()));
     }
 
     @FXML
