@@ -26,7 +26,7 @@ public class RandomMapGenerator {
 	}
 	
 	public void createMap() {
-		for(int i = 0 ; i <= map.getRows()*10/100 ; i++) {
+		for(int i = 0 ; i <= map.getRows()*20/100 ; i++) {
 			list.get(rand.nextInt(list.size())).build( rand.nextInt(map.getRows()), rand.nextInt(map.getColumns()),rand.nextInt(5)+1);
 		}
 	}
