@@ -5,24 +5,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.scene.shape.*;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
-
 import curlew.gameboardeditor.datamodel.GameBoardIO;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 
@@ -35,49 +22,20 @@ public class App extends Application {
     private static Scene scene;
     private static Stage stage;
     private static File selectedFile;
-
-    
-    private static Scene mainScene;
-
-    private static String filePath;
-
-
-    
     private static TerrainMap map;
-    
     
     @Override
     public void start(Stage stage) throws IOException {
     	
-    	scene = new Scene(loadFXML("aboutPopUp"),640, 550);
-    	
-//    	Stage popUp = new Stage();
-//    	popUp.setTitle("Welcome to the Terrain Map Editor");
-//        popUp.setScene(scene);
-//        popUp.showAndWait();
-        
-//        scene.setOnKeyPressed( e -> keyPressed(e));
-        
-        
-//        mainScene = new Scene(loadFXML("mainMenu"), 640, 480);
-    	
-        stage.setScene(scene);		//was mainScene when uncommented.
+    	scene = new Scene(loadFXML("aboutPopUp"),640, 550);    	
+        stage.setScene(scene);		
         stage.show();
     }
-    
-//    private void keyPressed(KeyEvent e) throws IOException {
-//    	KeyCode key = e.getCode();
-//    	if (key == KeyCode.ALL_CANDIDATES) {
-//    		App.setRoot("mainMenu");
-//    	}
-//    }
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
     
-    
-
     public static void loadExistingFile() {
     	
     	FileChooser fileChooser = new FileChooser();
@@ -111,7 +69,6 @@ public class App extends Application {
     	File file = fileChooser.showSaveDialog(stage);
     	if (file != null) {
     		selectedFile = file;
-    		filePath = file.getPath();
     		GameBoardIO.saveMap(map, file);
     	} 
 	
@@ -125,13 +82,7 @@ public class App extends Application {
 		map = newMap;
 	} 
     
-    private File getSelectedFile() {
-    	return selectedFile;
-    }
     
-    private String getFilePath() {
-    	return filePath;
-    }
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();

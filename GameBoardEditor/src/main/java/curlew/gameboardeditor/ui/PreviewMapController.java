@@ -2,11 +2,8 @@
 
 package curlew.gameboardeditor.ui;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import curlew.gameboardeditor.datamodel.GameBoardIO;
 import javafx.event.ActionEvent;
@@ -22,9 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 
-public class PreviewMapController {
-
-    
+public class PreviewMapController {    
 
     @FXML
     private Button backButton;
@@ -46,7 +41,6 @@ public class PreviewMapController {
     
     @FXML
     private Canvas templateCanvas;
-    
     
     private final int numTemplates = 8;
 
@@ -77,7 +71,6 @@ public class PreviewMapController {
     }
     @FXML
     void clickNext(ActionEvent event) throws IOException {
-    	//App.setMap(GameBoardIO.loadMap(new File("cliff.TMap")));
     	App.setMap(GameBoardIO.loadMap(new File(fileArray[selectedAreaIndex] + ".TMap")));
     	App.setRoot("mapEditor");
     }

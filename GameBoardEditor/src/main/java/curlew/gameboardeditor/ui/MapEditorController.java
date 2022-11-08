@@ -109,8 +109,6 @@ import javafx.scene.paint.Color;
 					if(pointSet.contains(p)) {
 						unselectPoint(p);	
 					}
-//					selectedColIndex = p.x;
-//					selectedRowIndex = p.y;
 					else {
 						selectBox(p);
 					}
@@ -121,26 +119,16 @@ import javafx.scene.paint.Color;
 	    
 	    	ToggleGroup toggleGroup = new ToggleGroup();
 	    	addBlockButton.setToggleGroup(toggleGroup);
-	    	digBlockButton.setToggleGroup(toggleGroup);
-
-
-	    
-	    	
+	    	digBlockButton.setToggleGroup(toggleGroup);	    	
 	    }
-	  
-	    
-
-
-	    
+    
 	    private void unselectPoint(Point point) {
 	    	pointSet.remove(point);
 	    	int selectedColIndex = point.x;
 			int selectedRowIndex = point.y;
 		    GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.BLACK);
-			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
-
-	    	
+			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
 	    }
 		
 		private void selectBox(Point point) {
