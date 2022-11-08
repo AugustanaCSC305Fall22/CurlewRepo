@@ -2,11 +2,8 @@ package curlew.gameboardeditor.datamodel;
 
 public class GateToHellGenerator extends LandformsGenerator {
 
-
-
 	public GateToHellGenerator(TerrainMap map) {
-		super(map);
-		
+		super(map);		
 	}
 
 	@Override

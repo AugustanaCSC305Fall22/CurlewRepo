@@ -1,14 +1,10 @@
 package curlew.gameboardeditor.ui;
 
-import java.io.File;
 import java.io.IOException;
 
-import curlew.gameboardeditor.datamodel.TerrainMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 public class MainMenuController {
 
@@ -29,14 +25,11 @@ public class MainMenuController {
 	
 	protected static boolean genRandom;
 	protected static boolean genMaze;
-	
 
 
 	@FXML
 	public void loadExistingFile() throws IOException{
 		App.loadExistingFile();
-		
-		
 	}
 
 	@FXML

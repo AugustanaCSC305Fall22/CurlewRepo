@@ -25,21 +25,14 @@ public class SizeController implements Initializable {
 	@FXML
 	private Button doneButton;
 	
-	@FXML
 	public static int width;
 
-	
-	
-
-	@FXML
 	public static int length;
-	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		length = 10;
 		width = 10;
-		
 		// TODO Auto-generated method stub
 		widthSlider.valueProperty().addListener(new ChangeListener<Number>() {
 
@@ -57,9 +50,7 @@ public class SizeController implements Initializable {
 				// TODO Auto-generated method stub
 				length = (int) lengthSlider.getValue();
 			}
-		
 		});
-		
 	}
 	
 	@FXML
@@ -86,6 +77,5 @@ public class SizeController implements Initializable {
 		}
 		App.setRoot("mapEditor");
 	}
-	
 }
 

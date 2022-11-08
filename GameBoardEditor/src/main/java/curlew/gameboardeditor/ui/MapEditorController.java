@@ -4,7 +4,6 @@ package curlew.gameboardeditor.ui;
 
 
 import java.awt.Point;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -27,13 +26,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 	public class MapEditorController {

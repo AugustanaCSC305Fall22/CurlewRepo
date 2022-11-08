@@ -7,20 +7,14 @@ import java.util.Random;
 
 public class RandomMapGenerator {
 	
-	
 	private Random rand = new Random();
-
-	
 	TerrainMap map;
 	ArrayList<LandformsGenerator> list = new ArrayList<LandformsGenerator>();
-	
-
 	
 	public RandomMapGenerator(TerrainMap map) {
 		this.map=map;
 		landformListMaker();
 	}
-	
 	
 	private void landformListMaker() {
 		list.add(new MountainGenerator(map));

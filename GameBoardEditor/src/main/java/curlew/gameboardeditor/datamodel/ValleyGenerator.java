@@ -3,7 +3,6 @@ package curlew.gameboardeditor.datamodel;
 public class ValleyGenerator extends LandformsGenerator {
 	
 	MountainGenerator mountain;
-;
 	
 	public ValleyGenerator(TerrainMap map) {
 		super(map);
@@ -27,7 +26,6 @@ public class ValleyGenerator extends LandformsGenerator {
 				map.build(i, column, map.getInitialDepth()/2);
 			}
 		}
-		
 	}
 
 	@Override
@@ -35,8 +33,4 @@ public class ValleyGenerator extends LandformsGenerator {
 		// TODO Auto-generated method stub
 		return "Valley";
 	}
-	
-	
-	
-
 }

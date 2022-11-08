@@ -5,7 +5,6 @@ public class TrenchGenerator extends LandformsGenerator{
 	private static double TRENCH_HEIGHT =0.5;
 	public TrenchGenerator(TerrainMap map) {
 		super(map);
-		
 	}
 
 	@Override
