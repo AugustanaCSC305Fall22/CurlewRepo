@@ -52,9 +52,6 @@ public class twoDMapEditor {
 		return canvasWidth;
 	}
 
-
-
-
 	public int getNumRows() {
 		return numRows;
 	}

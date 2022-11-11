@@ -6,7 +6,6 @@ public class VolcanoGenerator extends MountainGenerator{
 		super(map);
 	}
 	
-	
 	public void build(int row, int column, int scale) {
 		super.build(row, column, scale);
 		TerrainMap map = super.getMapOnBuild();
@@ -22,5 +21,4 @@ public class VolcanoGenerator extends MountainGenerator{
 	public String toString() {
 		return "Volcano";
 	}
-
 }

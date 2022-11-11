@@ -6,21 +6,14 @@ public abstract class LandformsGenerator {
 	
 	public LandformsGenerator(TerrainMap map) {
 		mapOnBuild = map;
-//		build(row, column, defaultScale);
 	}
-	
-	
 
 	public TerrainMap getMapOnBuild() {
 		return mapOnBuild;
 	}
 
-
-	
 	public abstract void build(int row,int column, int scale);
 	
 	@Override
 	public abstract String toString();
-	
-
 }

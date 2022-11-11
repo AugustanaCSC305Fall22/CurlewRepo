@@ -80,6 +80,7 @@ public class PreviewMapController {
     	int y = (int) event.getY();
     	selectedAreaIndex = y/(boxLength+2);
     	File file = new File(fileArray[selectedAreaIndex] + ".png");
+    	mapNameLabel.setText(fileArray[selectedAreaIndex]);
     	previewImageView.setImage(new Image(file.toURI().toString()));
     }
 
