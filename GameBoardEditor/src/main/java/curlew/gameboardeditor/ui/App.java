@@ -35,7 +35,10 @@ public class App extends Application {
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));
     }
-    
+    /**
+     * loadExistingFile
+     * Loads an existing .TMap file created by the user earlier and opens it for editing. Thefile itslef will be edited
+     */
     public static void loadExistingFile() {
     	
     	FileChooser fileChooser = new FileChooser();
@@ -57,7 +60,11 @@ public class App extends Application {
         	
         }
     }
-    
+    /**
+     * void saveProjectFile
+     * @throws IOException
+     * Stores the current map as a TMap file and stores it in the users desired folder on the computer as well as the data field selected file.
+     */
     public static void saveProjectFile() throws IOException {
     	
        // TerrainMap mapAddy = map; //calling terrain map object to get info about box to be saved in to a text file later
@@ -73,16 +80,29 @@ public class App extends Application {
     	} 
 	
     }
-    	
+    /**
+   	 * getMap()
+   	 * @return the current map
+   	 */
 	public static TerrainMap getMap() {
 		return map;
 	}
-	
+	/**
+	 * setMap()
+	 * @param newMap
+	 * sets the map data field to the new incoming map
+	 */
 	public static void setMap(TerrainMap newMap) {
 		map = newMap;
 	} 
     
-    
+    /**
+     * Auto generated from Javafx
+     * @param fxml
+     * @return Parent
+     * @throws IOException
+     * loadeds the fxml file initially, and gets called in the setRoot() method to change the scene
+     */
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
         return fxmlLoader.load();

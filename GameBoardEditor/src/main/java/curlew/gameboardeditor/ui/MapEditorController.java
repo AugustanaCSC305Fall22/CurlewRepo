@@ -34,8 +34,6 @@ import javafx.scene.paint.Color;
 
 	public class MapEditorController {
 		
-		ObservableList<LandformsGenerator> featureList;
-		private HashSet<Point> pointSet= new HashSet<>();
 	    @FXML
 	    private MenuItem TitleLabel;
 
@@ -45,7 +43,6 @@ import javafx.scene.paint.Color;
 	    @FXML
 	    private MenuItem DigFeatureButton;
 
-	    
 	    @FXML
 	    private Button backButton;
 	    
@@ -64,8 +61,6 @@ import javafx.scene.paint.Color;
 	    @FXML
 	    private Canvas twoDCanvas;
 	    
-	    private twoDMapEditor mapEditor;
-	    
 	    @FXML
 	    private ToggleButton addBlockButton;
 
@@ -75,11 +70,18 @@ import javafx.scene.paint.Color;
 	    @FXML
 	    private Slider scaleSlider;
 	    
+	    ObservableList<LandformsGenerator> featureList;
 	    
+		private HashSet<Point> pointSet= new HashSet<>();
+		
+		private twoDMapEditor mapEditor;
 
+		/**
+		 * Initializes the canvas, builds the map and makes the 2DEditor. 
+		 * It also has listeners to call the select and unselect methods for the canvas
+		 */
 	    @FXML
 	    private void initialize() {
-	    	//Initializes the canvas, builds the map and makes the 2DEditor
 	    	twoDCanvas.setHeight(400);
 	    	twoDCanvas.setWidth(400);
 	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
@@ -120,11 +122,16 @@ import javafx.scene.paint.Color;
 	    	digBlockButton.setToggleGroup(toggleGroup);	    	
 	    }
     
+	    /**
+	     * 
+	     * @param point
+	     * takes the point from the mouse and unselects the box if the box is selected
+	     */
 	    private void unselectPoint(Point point) {
 //	    	pointSet.remove(point);
 	    	int selectedColIndex = point.x;
 			int selectedRowIndex = point.y;
-		    GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
+		    GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.BLACK);
 			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
 //			neighbourCheck(point);
@@ -140,18 +147,23 @@ import javafx.scene.paint.Color;
 			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
 		}
 		
-	    public Canvas getTwoDCanvas() {
-	    	return twoDCanvas;
-	    }
-	
+	/**
+	 * gets the scale size for the features being added
+	 * @return Int the scale of the feature being added to the map
+	 */
 	@FXML
 	int getScale() {
 		int scale = (int) scaleSlider.getValue();
 		return scale;
 	}
-	
+	/**
+	 * 
+	 * @param event, ActionEvent of addFeatureButton clicked
+	 * This method first makes sure there is a tile selected and there is only one box selected at a time
+	 * Then it will added the selected feature to the tile
+	 */
 	@FXML
-	void addFeatures(ActionEvent event) {
+	private void addFeatures(ActionEvent event) {
 		LandformsGenerator feature = featureComboBox.getValue();
 		if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
@@ -177,17 +189,19 @@ import javafx.scene.paint.Color;
 	}
 	
     @FXML
-    void clickedBack(ActionEvent event) throws IOException {
+    private void clickedBack(ActionEvent event) throws IOException {
     	App.setRoot("mainMenu");
     }
 
     @FXML
-    void saveAsButtonHandler(ActionEvent event) throws IOException {
+    private void saveAsButtonHandler(ActionEvent event) throws IOException {
     	App.saveProjectFile();
     }
-    
+    /** 
+     * This method handles the dig button, for all selected tiles will lower its elevation if possible
+     */
     @FXML
-    void digButtonHandler() {
+    private void digButtonHandler() {
     	if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}else {
@@ -206,9 +220,11 @@ import javafx.scene.paint.Color;
     		}
     	}
     }
-    
+    /**
+     * this handles the buildButton and elevates the slected tiles if possible
+     */
     @FXML
-    void buildButtonHandler() {
+    private void buildButtonHandler() {
     	if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}
@@ -229,6 +245,9 @@ import javafx.scene.paint.Color;
     	}
     }
     
+    /**
+     * This meathod will iterate through the selected tiles set and unselect them all
+     */
     @FXML
     void unselectAll() {
     	Iterator<Point> it = pointSet.iterator();
@@ -239,7 +258,10 @@ import javafx.scene.paint.Color;
 		pointSet.clear();
     }
     
-	
+	/**
+	 * 
+	 * @param p, Point is passed in and checks the neighboring tiles of the tiles the point is in
+	 */
     private void neighbourCheck(Point p) {
     	Point[] nArray= {new Point(p.x,p.y+1),new Point(p.x,p.y-1),new Point(p.x+1,p.y),new Point(p.x-1,p.y)};
     	for(Point point:nArray) {
