@@ -79,7 +79,11 @@ import javafx.scene.paint.Color;
 	    @FXML
 	    private Slider scaleSlider;
 	    
+	    @FXML
+	    private MenuItem scaleHelp;
 	    
+	    @FXML 
+	    private MenuItem featureHelp;
 
 	    @FXML
 	    private void initialize() {
@@ -186,7 +190,7 @@ import javafx.scene.paint.Color;
     }
 
     @FXML
-    void saveAsButtonHandler(ActionEvent event) throws IOException {
+    void saveAsHandler(ActionEvent event) throws IOException {
     	App.saveProjectFile();
     }
     
@@ -285,6 +289,30 @@ import javafx.scene.paint.Color;
     	int height = (int) Math.round(App.getMap().getHeight(selectedRowIndex, selectedColIndex));
 		gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
 		gc.fillRect((selectedColIndex) * mapEditor.boxLengthSize, (selectedRowIndex) * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+    }
+    
+    @FXML
+    private void featureHelpClicked() {
+    	Alert featureInfo = new Alert(AlertType.INFORMATION, "Multiple features are provided in our program.\n\n" + 
+    			"Mountain is 5 by 5 feature and the selected box will be the middle of the mountain.\n\n"
+    			+ "Volcano is 5 by 5 feature and the selected box will be the middle of the volcano.\n\n"
+    			+ "Gate To Hell is a 2 by 2 feature and the selected box will be the top-left of the Gate.\n\n"
+    			+ "Trench is a diagnal feature that goes bottom right. Selected box will be the top left of the trench.\n\n"
+    			+ "Valley is 5-box vertical line with 2 moutains on left and right. Selected box will be the middle of the valley.");
+    	featureInfo.setTitle("Feature Information");
+    	featureInfo.setHeaderText("Information:");
+    	featureInfo.show();
+    }
+    
+    @FXML
+    private void scaleHelpClicked() {
+    	Alert scaleInfo = new Alert(AlertType.INFORMATION, "Scale slider is provided in our program\n\n" +
+    			"Scale slider determines the scale of the feature from 1 to 5.\n\n" +
+    			"For mountains, scale 5 gives the highest mountain with center of mountain being maximum height\n\n" +
+    			"");
+    	scaleInfo.setTitle("Scale Information");
+    	scaleInfo.setHeaderText("Information:");
+    	scaleInfo.show();
     }
     
 }

@@ -12,6 +12,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
@@ -78,14 +80,37 @@ public class SizeController implements Initializable {
 	void clickedDone() throws IOException {
 		App.setMap(new TerrainMap(width,length));
 		if(MainMenuController.genRandom) {
-			RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
-			rg.createMap();
+			if (getLength() >= 20 || getWidth() >= 20) {
+				RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
+				rg.createMap();
+				App.setRoot("mapEditor");
+			} else {
+				new Alert(AlertType.WARNING, "Width and Length must be equal to or greater than 20.").showAndWait();
+				App.setRoot("sizeScreen");
+			}
 		}else if(MainMenuController.genMaze) {
-			MazeGenerator mg = new MazeGenerator(App.getMap());
-			mg.genrateMaze();
+			if (getLength() >= 20 || getWidth() >= 20) {
+				MazeGenerator mg = new MazeGenerator(App.getMap());
+				mg.genrateMaze();
+				App.setRoot("mapEditor");
+			} else {
+				new Alert(AlertType.WARNING, "Width and Length must be equal to or greater than 20.").showAndWait();
+				App.setRoot("sizeScreen");
+			}
 		}
-		App.setRoot("mapEditor");
+//		App.setRoot("mapEditor");
 	}
+	
+//	void sizeCapMazeRandom() throws IOException {
+//		if (!MainMenuController.genMaze || !MainMenuController.genRandom) {
+//			if (getLength() < 20 || getWidth() < 20) {
+//				new Alert(AlertType.WARNING, "Width and Length must be equal to or greater than 20.").showAndWait();
+//				App.setRoot("sizeScreen");
+//			} else {
+//				App.setRoot("mapEditor");
+//			}
+//		}
+//	}
 	
 }
 
