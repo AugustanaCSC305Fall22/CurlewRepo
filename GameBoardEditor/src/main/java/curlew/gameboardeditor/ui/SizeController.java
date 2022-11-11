@@ -89,7 +89,7 @@ public class SizeController implements Initializable {
 				App.setRoot("sizeScreen");
 			}
 		}
-//		App.setRoot("mapEditor");
+		App.setRoot("mapEditor");
 	}
 
 	

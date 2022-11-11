@@ -56,16 +56,16 @@ import javafx.scene.paint.Color;
 	    private Button addFeatureButton;
 
 	    @FXML
-	    private Button DigButton;
-
+	    private Canvas tileElevationLegendCanvas;
+	    
 	    @FXML
 	    private Canvas twoDCanvas;
 	    
 	    @FXML
-	    private ToggleButton addBlockButton;
+	    private ToggleButton raiseTileButton;
 
 	    @FXML
-	    private ToggleButton digBlockButton;
+	    private ToggleButton lowerTileButton;
 	    
 	    @FXML
 	    private Slider scaleSlider;
@@ -81,6 +81,10 @@ import javafx.scene.paint.Color;
 		private HashSet<Point> pointSet= new HashSet<>();
 		
 		private twoDMapEditor mapEditor;
+		
+		private int legendSelectedHeight;
+		
+		
 
 
 		/**
@@ -97,16 +101,42 @@ import javafx.scene.paint.Color;
 	    	
 	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
 
+	    	GraphicsContext gcLegend = tileElevationLegendCanvas.getGraphicsContext2D();
 	    	
+	    	drawLegendOnCanvas(gcLegend);
 	    	//Nested for loops to outline the canvas based on the desired size from the user
 	    	fillMap();
 	    	drawOutLine();
 	    	
+	    	tileElevationLegendCanvas.setOnMouseClicked(event -> {
+	    		Point p = new Point(Math.round((int) event.getX()), Math.round((int) event.getY()));
+	    		if (p.x >= 0 && p.x < 100 && p.y >= 0 && p.y <= 400) {
+	    			if(pointSet.isEmpty()) {
+	    	    		new Alert(AlertType.WARNING, "Select a box first!").show();
+	    	    	} else {
+	    	    		Iterator<Point> it = pointSet.iterator();
+	    	    		setLegendSelectedHeight(p.y);
+	    	    		System.out.println(legendSelectedHeight);
+	    	    		while (it.hasNext()) {
+	    	    			Point point = it.next();
+	    					int selectedColIndex = point.x;
+	    					int selectedRowIndex = point.y;
+	    					map.build(selectedRowIndex, selectedColIndex, legendSelectedHeight);
+	    					fillMap();
+	    	    		}
+	    	    		unselectAll();
+	    	    		drawOutLine();
+	    	    		
+	    	    	}
+	    		}
+	    		
+	    	});
+	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
 	    		//find the closest x box corrdinates, then find the closest y
-	    		int boxLength = mapEditor.boxLengthSize;
-				int boxWidth = mapEditor.boxWidthSize;
-				Point p = new Point(Math.round((int)event.getX()/(boxLength)), Math.round((int)event.getY()/(boxWidth)));
+	    		int tileLength = mapEditor.tileLengthSize;
+				int tileWidth = mapEditor.tileWidthSize;
+				Point p = new Point(Math.round((int)event.getX()/(tileLength)), Math.round((int)event.getY()/(tileWidth)));
 				
 				if (p.x >= 0 && p.x<App.getMap().getColumns() && p.y>=0 && p.y < App.getMap().getRows()) {
 				
@@ -116,7 +146,7 @@ import javafx.scene.paint.Color;
 						neighbourCheck(p);
 					}
 					else {
-						selectBox(p);
+						selectTile(p);
 						pointSet.add(p);
 					}
 				}
@@ -125,12 +155,45 @@ import javafx.scene.paint.Color;
 	    	featureComboBox.setItems(featureList);
 	    
 	    	ToggleGroup toggleGroup = new ToggleGroup();
-	    	addBlockButton.setToggleGroup(toggleGroup);
-	    	digBlockButton.setToggleGroup(toggleGroup);	    	
+	    	raiseTileButton.setToggleGroup(toggleGroup);
+	    	lowerTileButton.setToggleGroup(toggleGroup);	    	
 	    }
-    
+	    private void drawLegendOnCanvas(GraphicsContext gcLegend) {
+	    	gcLegend.setStroke(Color.BLACK);
+	    	for (int i = 0; i < 7; i++) {
+	    		gcLegend.strokeRect(50 , (i * 50) + (i * 6) + 1 , 50, 50);
+	    		System.out.println((i * 50) + (i * 6) + 1);
+	    		gcLegend.setFill(Color.rgb(250-(40*i), 250-(40*i) ,250-(40*i)));
+	    		gcLegend.fillRect(50 , (i * 50) + (i * 6) + 1, 50, 50);
+	    		
+	    		gcLegend.strokeRect(0 , (i * 50) + (i * 6) + 1 , 50, 50);
+	    		if (i == 0) {
+	    			gcLegend.strokeText("Level" + 0, 10, 28);
+	    		} else {
+	    			gcLegend.strokeText("Level" + i, 10, 28 + (i*56));
+	    		}
+	    		
+	    	}
+	    }
+	    
+	    private void setLegendSelectedHeight(int y){
+	    	if (y > 1 && y <= 57) {
+	    		legendSelectedHeight = 0;
+	    	} else if (y > 64 && y < 113) {
+	    		legendSelectedHeight = 2;
+	    	} else if (y > 113 && y < 169) {
+	    		legendSelectedHeight = 4;
+	    	} else if (y > 169 && y < 225) {
+	    		legendSelectedHeight = 6;
+	    	} else if (y > 225 && y < 281) {
+	    		legendSelectedHeight = 8;
+	    	} else if (y > 281 && y < 337) {
+	    		legendSelectedHeight = 10;
+	    	} else if (y > 337 && y < 400){
+	    		legendSelectedHeight = 12;
+	    	}
+	    }
 	    /**
-	     * 
 	     * @param point
 	     * takes the point from the mouse and unselects the box if the box is selected
 	     */
@@ -140,18 +203,21 @@ import javafx.scene.paint.Color;
 			int selectedRowIndex = point.y;
 		    GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.BLACK);
-			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+			gc.strokeRect(selectedColIndex * mapEditor.tileLengthSize, selectedRowIndex * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);	
 //			neighbourCheck(point);
 	    	
 	    }
-		
-		private void selectBox(Point point) {
+	    /**
+	     * @param point
+	     * takes the point from the mouse and selects the box if the box is unselected
+	     */
+		private void selectTile(Point point) {
 //			pointSet.add(point);
 			int selectedColIndex = point.x;
 			int selectedRowIndex = point.y;
 			GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
 			gc.setStroke(Color.AQUA);
-			gc.strokeRect(selectedColIndex * mapEditor.boxLengthSize, selectedRowIndex * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+			gc.strokeRect(selectedColIndex * mapEditor.tileLengthSize, selectedRowIndex * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);	
 		}
 		
 	/**
@@ -200,17 +266,20 @@ import javafx.scene.paint.Color;
     	App.setRoot("mainMenu");
     }
 
+    /**
+     * When clicked, will save the file by calling the App saveAs function
+     * @param event
+     * @throws IOException
+     */
     @FXML
-
-    private void saveAsButtonHandler(ActionEvent event) throws IOException {
-
+    void saveAsHandler(ActionEvent event) throws IOException {
     	App.saveProjectFile();
     }
     /** 
      * This method handles the dig button, for all selected tiles will lower its elevation if possible
      */
     @FXML
-    private void digButtonHandler() {
+    private void lowerTileButtonHandler() {
     	if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}else {
@@ -220,7 +289,7 @@ import javafx.scene.paint.Color;
     			int selectedColIndex = p.x;
     			int selectedRowIndex = p.y;
 		    	try {
-			    	App.getMap().dig(selectedRowIndex, selectedColIndex);
+			    	App.getMap().lowerTile(selectedRowIndex, selectedColIndex);
 			    	updateTile(p);
 		    	}catch (IllegalArgumentException e) {
 		    		new Alert(AlertType.WARNING, "You can not go down further!").show();
@@ -233,7 +302,7 @@ import javafx.scene.paint.Color;
      * this handles the buildButton and elevates the selected tiles if possible
      */
     @FXML
-    private void buildButtonHandler() {
+    private void raiseTileButtonHandler() {
     	if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}
@@ -275,7 +344,7 @@ import javafx.scene.paint.Color;
     	Point[] nArray= {new Point(p.x,p.y+1),new Point(p.x,p.y-1),new Point(p.x+1,p.y),new Point(p.x-1,p.y)};
     	for(Point point:nArray) {
     		if(pointSet.contains(point)) {
-    			selectBox(point);
+    			selectTile(point);
     		}
     	}
     }
@@ -289,7 +358,7 @@ import javafx.scene.paint.Color;
 			for (int j = 0; j < mapEditor.numRows; j++) {
 				//Sets the default colors for the outline of the canvas
 				gc.setStroke(Color.BLACK);
-		    	gc.strokeRect(i * mapEditor.boxLengthSize, j * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);	
+		    	gc.strokeRect(i * mapEditor.tileLengthSize, j * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);	
 
 			}
     	}
@@ -301,7 +370,7 @@ import javafx.scene.paint.Color;
 			for (int j = 0; j < mapEditor.numCols; j++) {
 				int height = (int) Math.round(App.getMap().getHeight(i, j));
 				gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
-				gc.fillRect((j) * mapEditor.boxLengthSize, (i) * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+				gc.fillRect((j) * mapEditor.tileLengthSize, (i) * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);
 			}
     	}
     }
@@ -311,7 +380,7 @@ import javafx.scene.paint.Color;
     	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
     	int height = (int) Math.round(App.getMap().getHeight(selectedRowIndex, selectedColIndex));
 		gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
-		gc.fillRect((selectedColIndex) * mapEditor.boxLengthSize, (selectedRowIndex) * mapEditor.boxWidthSize, mapEditor.boxLengthSize, mapEditor.boxWidthSize);
+		gc.fillRect((selectedColIndex) * mapEditor.tileLengthSize, (selectedRowIndex) * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);
     }
     
     @FXML
