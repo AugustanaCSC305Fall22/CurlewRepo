@@ -102,7 +102,7 @@ public class SizeController implements Initializable {
 		} else {
 			App.setRoot("mapEditor");
 		}
-		App.setRoot("mapEditor");
+//		App.setRoot("mapEditor");
 	}
 	
 	@FXML
