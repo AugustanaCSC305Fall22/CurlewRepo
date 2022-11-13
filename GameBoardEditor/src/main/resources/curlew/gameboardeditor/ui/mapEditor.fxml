@@ -16,6 +16,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="550.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.MapEditorController">
    <top>
@@ -71,17 +73,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ToggleButton fx:id="digBlockButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#digButtonHandler" text="Dig" GridPane.columnIndex="1">
+                  <ToggleButton fx:id="lowerTileButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#lowerTileButtonHandler" text="Lower Tile" GridPane.columnIndex="1">
                      <GridPane.margin>
                         <Insets left="30.0" />
                      </GridPane.margin>
                   </ToggleButton>
-                  <ToggleButton fx:id="addBlockButton" mnemonicParsing="false" onAction="#buildButtonHandler" text="Add Block">
+                  <ToggleButton fx:id="raiseTileButton" mnemonicParsing="false" onAction="#raiseTileButtonHandler" text="Raise Tile">
                      <GridPane.margin>
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </ToggleButton>
-                  <Button mnemonicParsing="false" onAction="#unselectAll" prefHeight="26.0" prefWidth="102.0" text="Unselet Boxes" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#unselectAll" prefHeight="26.0" prefWidth="102.0" text="Unselet Tiles" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
             <GridPane>
@@ -114,4 +116,16 @@
    <center>
       <Canvas fx:id="twoDCanvas" height="400.0" width="400.0" BorderPane.alignment="CENTER" />
    </center>
+   <left>
+      <VBox fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="35.0" prefWidth="100.0" text="Tile Elevation Legend">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
+            <Canvas fx:id="tileElevationLegendCanvas" height="400.0" width="100.0" />
+         </children>
+      </VBox>
+   </left>
 </BorderPane>
