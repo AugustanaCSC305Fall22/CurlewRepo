@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="487.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.PreviewMapController">
+<BorderPane prefHeight="487.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.PreviewMapController">
    <top>
       <HBox alignment="TOP_CENTER" BorderPane.alignment="TOP_RIGHT">
          <children>
@@ -17,13 +17,6 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
-               <graphic>
-                  <Button fx:id="backButton" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#clickedBack" prefHeight="38.0" prefWidth="135.0" text="Back">
-                     <font>
-                        <Font size="17.0" />
-                     </font>
-                  </Button>
-               </graphic>
             </Label>
          </children>
       </HBox>
@@ -36,13 +29,6 @@
          </children>
       </VBox>
    </center>
-   <bottom>
-      <Button fx:id="nextButton" mnemonicParsing="false" onAction="#clickNext" text="Next " BorderPane.alignment="BOTTOM_RIGHT">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Button>
-   </bottom>
    <left>
       <VBox prefHeight="325.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
@@ -50,4 +36,12 @@
          </children>
       </VBox>
    </left>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="backButton" mnemonicParsing="false" onAction="#clickedBack" text="Back" />
+            <Button fx:id="nextButton" mnemonicParsing="false" onAction="#clickNext" text="Next" />
+         </children>
+      </HBox>
+   </bottom>
 </BorderPane>

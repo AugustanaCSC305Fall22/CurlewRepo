@@ -304,7 +304,7 @@ import javafx.scene.paint.Color;
     private void scaleHelpClicked() {
     	Alert scaleInfo = new Alert(AlertType.INFORMATION, "Scale slider is provided in our program\n\n" +
     			"Scale slider determines the scale of the feature from 1 to 5.\n\n" +
-    			"For mountains, scale 5 gives the highest mountain with center of mountain being maximum height\n\n" +
+    			"For mountains, scale 5 gives the highest mountain with center of mountain being maximum height: 10\n\n" +
     			"");
     	scaleInfo.setTitle("Scale Information");
     	scaleInfo.setHeaderText("Information:");

@@ -27,6 +27,9 @@ public class SizeController implements Initializable {
 	@FXML
 	private Button doneButton;
 	
+	@FXML
+	private Button backButton;
+	
 	public static int width;
 
 	public static int length;
@@ -71,38 +74,53 @@ public class SizeController implements Initializable {
 	void clickedDone() throws IOException {
 		App.setMap(new TerrainMap(width,length));
 		if(MainMenuController.genRandom) {
-			if (getLength() >= 20 || getWidth() >= 20) {
-				RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
-				rg.createMap();
-				App.setRoot("mapEditor");
+			if (getLength() >= 20 && getWidth() >= 20) {
+				genRandom();
+//				RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
+//				rg.createMap();
+//				App.setRoot("mapEditor");
 			} else {
-				new Alert(AlertType.WARNING, "Width and Length must be equal to or greater than 20.").showAndWait();
+				new Alert(AlertType.WARNING, "A random map must be greater than or equal to 20 by 20.").showAndWait();
 				App.setRoot("sizeScreen");
 			}
-		}else if(MainMenuController.genMaze) {
-			if (getLength() >= 20 || getWidth() >= 20) {
-				MazeGenerator mg = new MazeGenerator(App.getMap());
-				mg.genrateMaze();
-				App.setRoot("mapEditor");
+//			sizeCapMazeRan();
+//			RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
+//			rg.createMap();
+		} else if(MainMenuController.genMaze) {
+			if (getLength() >= 20 && getWidth() >= 20) {
+				genMaze();
+//				MazeGenerator mg = new MazeGenerator(App.getMap());
+//				mg.genrateMaze();
+//				App.setRoot("mapEditor");
 			} else {
-				new Alert(AlertType.WARNING, "Width and Length must be equal to or greater than 20.").showAndWait();
+				new Alert(AlertType.WARNING, "A maze map must be greater than or equal to 20 by 20.").showAndWait();
 				App.setRoot("sizeScreen");
 			}
+//			sizeCapMazeRan();
+//			MazeGenerator mg = new MazeGenerator(App.getMap());
+//			mg.genrateMaze();
+		} else {
+			App.setRoot("mapEditor");
 		}
 //		App.setRoot("mapEditor");
 	}
-
 	
-//	void sizeCapMazeRandom() throws IOException {
-//		if (!MainMenuController.genMaze || !MainMenuController.genRandom) {
-//			if (getLength() < 20 || getWidth() < 20) {
-//				new Alert(AlertType.WARNING, "Width and Length must be equal to or greater than 20.").showAndWait();
-//				App.setRoot("sizeScreen");
-//			} else {
-//				App.setRoot("mapEditor");
-//			}
-//		}
-//	}
+	@FXML
+	void clickedBack() throws IOException {
+		App.setRoot("mainMenu");
+	}
+	
+	void genRandom() throws IOException {
+		RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
+		rg.createMap();
+		App.setRoot("mapEditor");
+	}
+	
+	void genMaze() throws IOException {
+		MazeGenerator mg = new MazeGenerator(App.getMap());
+		mg.genrateMaze();
+		App.setRoot("mapEditor");
+	}
 	
 }
 
