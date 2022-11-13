@@ -400,11 +400,29 @@ import javafx.scene.paint.Color;
     private void scaleHelpClicked() {
     	Alert scaleInfo = new Alert(AlertType.INFORMATION, "Scale slider is provided in our program\n\n" +
     			"Scale slider determines the scale of the feature from 1 to 5.\n\n" +
-    			"For mountains, scale 5 gives the highest mountain with center of mountain being maximum height: 10\n\n" +
-    			"");
+    			"Higher the scale is, higher the mountains and volcanoes are.\n\n" +
+    			"Higher the scale is, longer the trenches are.\n\n" + 
+    			"Higher the scale is, higher the mountains are next to the valley.\n\n" +
+    			"Scale won't affect the Gate To Hell. It will remain as 2 by 2 pit.");
     	scaleInfo.setTitle("Scale Information");
     	scaleInfo.setHeaderText("Information:");
     	scaleInfo.show();
     }
     
+    @FXML
+    private void infoHelpClicked() {
+    	Alert pageInfo = new Alert(AlertType.INFORMATION, "Welcome to the Terrain Editor.\n\n" 
+    			+ "You can select multiple boxes at the same time and edit.\n" 
+    			+ "With Tile Elevation Legend, you can modify the height of the selected tile immediately.\n" 
+    			+ "Click Unselect Tiles to unselect all the selected tiles.\n" 
+    			+ "Click features to see different features that can be added on the map\n" 
+    			+ "You can only select one tile to add the feature.\n"
+    			+ "Use the scale slider to modify the size/elevation of selected features\n"
+    			+ "Click on feature info under help menu to find out more about features\n"
+    			+ "Click Add/Delete Row/Column item under Edit menu to add/delete row/column on the selected tile.\n"
+    			+ "3D view will let you view your project in 3D model.\n");
+    	pageInfo.setTitle("Map Editor Information");
+    	pageInfo.setHeaderText("Information:");
+    	pageInfo.show();
+    }
 }

@@ -37,11 +37,11 @@
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" text="3D View" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Menu">
+                <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="3D View" />
                         <MenuItem mnemonicParsing="false" text="Undo" />
                     <MenuItem mnemonicParsing="false" text="Add Row" />
                         <MenuItem mnemonicParsing="false" text="Delete Row" />
@@ -51,8 +51,9 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" onAction="#scaleHelpClicked" text="Scale" />
-                        <MenuItem mnemonicParsing="false" onAction="#featureHelpClicked" text="Features" />
+                        <MenuItem mnemonicParsing="false" onAction="#infoHelpClicked" text="Info" />
+                    <MenuItem mnemonicParsing="false" onAction="#scaleHelpClicked" text="Scale info" />
+                        <MenuItem mnemonicParsing="false" onAction="#featureHelpClicked" text="Features info" />
                   </items>
                 </Menu>
               </menus>
@@ -73,9 +74,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ToggleButton fx:id="lowerTileButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#lowerTileButtonHandler" text="Lower Tile" GridPane.columnIndex="1">
+                  <ToggleButton fx:id="lowerTileButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#lowerTileButtonHandler" text="Lower Tile" GridPane.rowIndex="1">
                      <GridPane.margin>
-                        <Insets left="30.0" />
+                        <Insets left="10.0" right="10.0" />
                      </GridPane.margin>
                   </ToggleButton>
                   <ToggleButton fx:id="raiseTileButton" mnemonicParsing="false" onAction="#raiseTileButtonHandler" text="Raise Tile">
@@ -83,7 +84,7 @@
                         <Insets left="10.0" />
                      </GridPane.margin>
                   </ToggleButton>
-                  <Button mnemonicParsing="false" onAction="#unselectAll" prefHeight="26.0" prefWidth="102.0" text="Unselet Tiles" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button mnemonicParsing="false" onAction="#unselectAll" prefHeight="26.0" prefWidth="102.0" text="Unselect Tiles" GridPane.columnIndex="1" />
                </children>
             </GridPane>
             <GridPane>

@@ -25,7 +25,7 @@ public class SizeController implements Initializable {
 	private Slider lengthSlider;
 	
 	@FXML
-	private Button doneButton;
+	private Button nextButton;
 	
 	@FXML
 	private Button backButton;
@@ -71,7 +71,7 @@ public class SizeController implements Initializable {
     }
 	
 	@FXML
-	void clickedDone() throws IOException {
+	void clickedNext() throws IOException {
 		App.setMap(new TerrainMap(width,length));
 		if(MainMenuController.genRandom) {
 			if (getLength() >= 20 && getWidth() >= 20) {
