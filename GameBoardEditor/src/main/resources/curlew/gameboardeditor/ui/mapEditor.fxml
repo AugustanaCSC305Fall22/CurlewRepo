@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="550.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.MapEditorController">
+<BorderPane prefHeight="550.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.MapEditorController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -37,7 +37,7 @@
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" text="3D View" />
+                        <MenuItem mnemonicParsing="false" text="Export" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
@@ -49,6 +49,11 @@
                         <MenuItem mnemonicParsing="false" text="Delete Column" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="3D  View">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#threeDView" text="Preview" />
+                    </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                         <MenuItem mnemonicParsing="false" onAction="#infoHelpClicked" text="Info" />

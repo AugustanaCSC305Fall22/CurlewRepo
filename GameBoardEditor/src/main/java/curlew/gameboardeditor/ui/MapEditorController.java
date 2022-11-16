@@ -31,6 +31,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 	public class MapEditorController {
 		
@@ -84,7 +85,7 @@ import javafx.scene.paint.Color;
 		
 		private int legendSelectedHeight;
 		
-		
+		private Stage stage;
 
 
 		/**
@@ -424,5 +425,13 @@ import javafx.scene.paint.Color;
     	pageInfo.setTitle("Map Editor Information");
     	pageInfo.setHeaderText("Information:");
     	pageInfo.show();
+    }
+    
+    @FXML
+    private void threeDView() throws Exception {
+    	ThreeDController threeDController = new ThreeDController();
+		Stage stage = new Stage();
+    	threeDController.start(stage);
+    	
     }
 }
