@@ -94,6 +94,89 @@ public class TerrainMap  {
 		heightArray = array;
 	}
 	
+	public void addRow(int row) {
+		if(row<0||row>=getRows()) {
+			throw new IllegalArgumentException();
+		}
+		double[][] newArray = new double[getRows()+1][getColumns()];
+		
+		for(int i=0;i<=row;i++) {
+			for(int j=0;j<getColumns();j++) {
+				newArray[i][j]=heightArray[i][j];
+			}
+		}
+		
+		for(int i=row+1;i<getRows();i++) {
+			for(int j=0;j<getColumns();j++) {
+				newArray[i+1][j]=heightArray[i][j];
+			}
+		}
+		heightArray = newArray;
+	}
+	
+	public void deleteRow(int row) {
+		if(row<0||row>=getRows()) {
+			throw new IllegalArgumentException();
+		}
+		
+		double[][] newArray = new double[getRows()-1][getColumns()];
+			
+		for(int i=0;i<row;i++) {
+			for(int j=0;j<getColumns();j++) {
+				newArray[i][j]=heightArray[i][j];
+			}
+		}
+			
+		for(int i=row+1;i<getRows();i++) {
+			for(int j=0;j<getColumns();j++) {
+				newArray[i-1][j]=heightArray[i][j];
+			}
+		}
+		heightArray = newArray;
+	}
+	
+	
+	public void addColumn(int column) {
+		if(column<0||column>=getColumns()) {
+			throw new IllegalArgumentException();
+		}
+		double[][] newArray = new double[getRows()][getColumns()+1];
+		
+		for(int i=0;i<getRows();i++) {
+			for(int j=0;j<=column;j++) {
+				newArray[i][j]=heightArray[i][j];
+			}
+			for(int j=column+1;j<getColumns();j++) {
+				newArray[i][j+1]=heightArray[i][j];
+			}
+		}
+		
+		
+		heightArray = newArray;
+	}
+	
+	
+	
+	public void deleteColumn(int column) {
+		
+		if(column<0||column>=getColumns()) {
+			throw new IllegalArgumentException();
+		}
+		double[][] newArray = new double[getRows()][getColumns()-1];
+		
+		for(int i=0;i<getRows();i++) {
+			for(int j=0;j<column;j++) {
+				newArray[i][j]=heightArray[i][j];
+			}
+			for(int j=column+1;j<getColumns();j++) {
+				newArray[i][j-1]=heightArray[i][j];
+			}
+		}
+		
+		
+		heightArray = newArray;
+		
+	}
 
 	
 }
