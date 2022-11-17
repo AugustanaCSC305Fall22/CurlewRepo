@@ -177,6 +177,12 @@ public class TerrainMap  {
 		heightArray = newArray;
 		
 	}
+	
+	public TerrainMap clone() {
+		TerrainMap clone = new TerrainMap(getRows(),getColumns());
+		clone.setHeightArray(heightArray);
+		return clone;
+	}
 
 	
 }

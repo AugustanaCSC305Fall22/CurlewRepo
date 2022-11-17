@@ -123,10 +123,8 @@ import javafx.stage.Stage;
 	    					int selectedColIndex = point.x;
 	    					int selectedRowIndex = point.y;
 	    					map.build(selectedRowIndex, selectedColIndex, legendSelectedHeight);
-	    					fillMap();
+	    					updateTile(point);
 	    	    		}
-	    	    		unselectAll();
-	    	    		drawOutLine();
 	    	    		
 	    	    	}
 	    		}
@@ -282,7 +280,7 @@ import javafx.stage.Stage;
     @FXML
     private void lowerTileButtonHandler() {
     	if(pointSet.isEmpty()) {
-    		new Alert(AlertType.WARNING, "Select a box first!").show();
+    		new Alert(AlertType.WARNING, "Select a tile first!").show();
     	}else {
     		Iterator<Point> it = pointSet.iterator();
     		while (it.hasNext()) {
