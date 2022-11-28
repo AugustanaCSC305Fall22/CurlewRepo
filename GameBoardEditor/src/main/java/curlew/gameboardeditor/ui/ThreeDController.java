@@ -10,20 +10,25 @@ import curlew.gameboardeditor.datamodel.GameBoardIO;
 import curlew.gameboardeditor.datamodel.RandomMapGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.AmbientLight;
 import javafx.scene.Camera;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.Sphere;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 public class ThreeDController extends Application {
@@ -45,6 +50,7 @@ public class ThreeDController extends Application {
 			for(int j=0;j<map.getColumns();j++) {
 				boxArray[i][j] = new Box(BOX_WIDTH,BOX_HEIGHT,BOX_DEPTH*map.getHeight(i, j));
 				group.getChildren().add(boxArray[i][j]);
+//				group.getChildren().addAll(prepareLightSource());
 				boxArray[i][j].translateXProperty().set((BOX_WIDTH/2)+j*(BOX_WIDTH));
 				boxArray[i][j].translateYProperty().set((BOX_HEIGHT/2)+i*(BOX_HEIGHT));
 				boxArray[i][j].translateZProperty().set(-map.getHeight(i, j)*BOX_DEPTH/2);
@@ -52,6 +58,7 @@ public class ThreeDController extends Application {
 //				boxArray[i][j].getTransforms().add(transform);
 			}
 		}
+		group.getChildren().addAll(prepareLightSource());
 //		AmbientLight light = new AmbientLight();
 	    //Set light color
 //	    light.setColor(Color.DEEPSKYBLUE);
@@ -84,16 +91,16 @@ public class ThreeDController extends Application {
               case S:
                 group.translateZProperty().set(group.getTranslateZ() - 100);
                 break;
-              case Q:
+              case DOWN:
                 group.rotateByX(10);
                 break;
-              case E:
+              case UP:
                 group.rotateByX(-10);
                 break;
-              case A:
+              case LEFT:
                 group.rotateByY(10);
                 break;
-              case Z:
+              case RIGHT:
                 group.rotateByY(-10);
                 break;
             }
@@ -102,9 +109,36 @@ public class ThreeDController extends Application {
  //       primaryStage.setTitle("Genuine Coder");
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        AnimationTimer timer = new AnimationTimer() {
+
+			@Override
+			public void handle(long now) {
+				// TODO Auto-generated method stub
+				lightSource.setRotate(lightSource.getRotate() + 1);
+			}
+        	
+        };
+        timer.start();
     }
- 
- 
+    
+    private final PointLight lightSource = new PointLight();
+    
+    private Node[] prepareLightSource() {
+    	lightSource.setColor(Color.RED);
+    	lightSource.getTransforms().add(new Translate(150, -150, 100));
+    	lightSource.setRotationAxis(Rotate.X_AXIS);
+    	
+    	Sphere lightSphere = new Sphere(5);
+    	lightSphere.getTransforms().setAll(lightSource.getTransforms());
+    	lightSphere.rotateProperty().bind(lightSource.rotateProperty());
+    	lightSphere.rotationAxisProperty().bind(lightSource.rotationAxisProperty());
+    	
+//    	Node[] lightNode = new Node[] {lightSource, lightSphere};
+    	
+    	return new Node[] {lightSource, lightSphere};
+    }
+    
     public static void main(String[] args) {
         launch(args);
     }
