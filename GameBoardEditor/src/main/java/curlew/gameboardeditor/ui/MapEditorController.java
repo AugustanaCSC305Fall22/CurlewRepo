@@ -300,4 +300,9 @@ import javafx.stage.Stage;
     private void deleteColumn() {
     	mapEditor.deleteColumn();
     }
+    
+    @FXML
+    private void selectTilesOfSameHeight() {
+    	mapEditor.selectSameHeight();
+    }
 }

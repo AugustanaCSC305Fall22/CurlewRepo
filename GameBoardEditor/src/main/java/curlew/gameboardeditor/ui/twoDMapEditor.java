@@ -200,6 +200,26 @@ public class twoDMapEditor {
 			draw();
 		}
 	}
+	
+	public void selectSameHeight() {
+		if(pointSet.size()!=1) {
+			pointSet.clear();
+    		draw();
+    		new Alert(AlertType.WARNING, "Select only one box!").show();
+		}else {
+			Iterator<Point> it = pointSet.iterator();
+			Point p= it.next();
+			double height = map.getHeight(p.y, p.x);
+			for(int i=0;i<map.getRows();i++) {
+				for(int j=0;j<map.getColumns();j++) {
+					if(map.getHeight(i, j)==height) {
+						pointSet.add(new Point(j,i));
+					}
+				}
+			}
+			draw();
+		}
+	}
 }
 
 

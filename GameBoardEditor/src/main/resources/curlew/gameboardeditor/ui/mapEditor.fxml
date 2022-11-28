@@ -47,6 +47,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#deleteRow" text="Delete Row" />
                         <MenuItem mnemonicParsing="false" onAction="#addColumn" text="Add Column" />
                         <MenuItem mnemonicParsing="false" onAction="#deleteColumn" text="Delete Column" />
+                        <MenuItem mnemonicParsing="false" onAction="#selectTilesOfSameHeight" text="Select Tiles of Same Height" />
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="3D  View">
