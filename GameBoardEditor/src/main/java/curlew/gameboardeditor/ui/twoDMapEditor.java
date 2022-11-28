@@ -53,7 +53,7 @@ public class twoDMapEditor {
 				//Sets the default colors for the outline of the canvas
 				gc.setStroke(Color.BLACK);
 		    	gc.strokeRect(j * length, i * length,length, length);
-		    	int height = (int) Math.round(App.getMap().getHeight(i, j));
+		    	int height = (int) Math.round(map.getHeight(i, j));
 				gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
 				gc.fillRect(j * length, i * length,length, length);
 

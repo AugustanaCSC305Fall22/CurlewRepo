@@ -99,7 +99,6 @@ import javafx.stage.Stage;
 	    	
 	    	TerrainMap map = App.getMap();
 	    	mapEditor = new twoDMapEditor(map, twoDCanvas);
-	    	mapEditor.draw();
 	    	
 	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
 

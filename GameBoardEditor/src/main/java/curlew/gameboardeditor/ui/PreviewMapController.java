@@ -5,7 +5,11 @@ package curlew.gameboardeditor.ui;
 import java.io.File;
 import java.io.IOException;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
+
 import curlew.gameboardeditor.datamodel.GameBoardIO;
+import curlew.gameboardeditor.datamodel.TerrainMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -34,7 +38,7 @@ public class PreviewMapController {
     private Button nextButton;
 
     @FXML
-    private ImageView previewImageView;
+    private Canvas previewCanvas;
 
     @FXML
     private Label titleLabel;
@@ -66,7 +70,14 @@ public class PreviewMapController {
     		gc.strokeText(fileArray[i], (boxWidth/2) -40 , ((boxLength + 2) * i) + boxLength/2);
     		
     	}
-    	templateCanvas.setOnMouseClicked(evt -> onMouseClicked(evt));
+    	templateCanvas.setOnMouseClicked(evt -> {
+			try {
+				onMouseClicked(evt);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
     	
     }
     @FXML
@@ -76,12 +87,12 @@ public class PreviewMapController {
     }
     
     @FXML
-    private void onMouseClicked(MouseEvent event) {
+    private void onMouseClicked(MouseEvent event) throws IOException {
     	int y = (int) event.getY();
     	selectedAreaIndex = y/(boxLength+2);
-    	File file = new File(fileArray[selectedAreaIndex] + ".png");
     	mapNameLabel.setText(fileArray[selectedAreaIndex]);
-    	previewImageView.setImage(new Image(file.toURI().toString()));
+    	TerrainMap map = GameBoardIO.loadMap(new File(fileArray[selectedAreaIndex] + ".TMap"));
+    	twoDMapEditor mapPreview = new twoDMapEditor(map,previewCanvas);
     }
 
     @FXML
