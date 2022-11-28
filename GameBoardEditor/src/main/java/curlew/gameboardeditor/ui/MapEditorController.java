@@ -79,13 +79,13 @@ import javafx.stage.Stage;
 	    
 	    ObservableList<LandformsGenerator> featureList;
 	    
-		private HashSet<Point> pointSet= new HashSet<>();
+		
 		
 		private twoDMapEditor mapEditor;
 		
 		private int legendSelectedHeight;
 		
-		private Stage stage;
+		
 
 
 		/**
@@ -96,9 +96,10 @@ import javafx.stage.Stage;
 	    private void initialize() {
 	    	twoDCanvas.setHeight(400);
 	    	twoDCanvas.setWidth(400);
-	    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
+	    	
 	    	TerrainMap map = App.getMap();
 	    	mapEditor = new twoDMapEditor(map, twoDCanvas);
+	    	mapEditor.draw();
 	    	
 	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
 
@@ -106,49 +107,22 @@ import javafx.stage.Stage;
 	    	
 	    	drawLegendOnCanvas(gcLegend);
 	    	//Nested for loops to outline the canvas based on the desired size from the user
-	    	fillMap();
-	    	drawOutLine();
+
 	    	
 	    	tileElevationLegendCanvas.setOnMouseClicked(event -> {
 	    		Point p = new Point(Math.round((int) event.getX()), Math.round((int) event.getY()));
+	    		setLegendSelectedHeight(p.y);
 	    		if (p.x >= 0 && p.x < 100 && p.y >= 0 && p.y <= 400) {
-	    			if(pointSet.isEmpty()) {
-	    	    		new Alert(AlertType.WARNING, "Select a box first!").show();
-	    	    	} else {
-	    	    		Iterator<Point> it = pointSet.iterator();
-	    	    		setLegendSelectedHeight(p.y);
-	    	    		System.out.println(legendSelectedHeight);
-	    	    		while (it.hasNext()) {
-	    	    			Point point = it.next();
-	    					int selectedColIndex = point.x;
-	    					int selectedRowIndex = point.y;
-	    					map.build(selectedRowIndex, selectedColIndex, legendSelectedHeight);
-	    					updateTile(point);
-	    	    		}
-	    	    		
-	    	    	}
+	    			mapEditor.raiseTile(legendSelectedHeight);
 	    		}
 	    		
 	    	});
 	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
 	    		//find the closest x box corrdinates, then find the closest y
-	    		int tileLength = mapEditor.tileLengthSize;
-				int tileWidth = mapEditor.tileWidthSize;
-				Point p = new Point(Math.round((int)event.getX()/(tileLength)), Math.round((int)event.getY()/(tileWidth)));
-				
-				if (p.x >= 0 && p.x<App.getMap().getColumns() && p.y>=0 && p.y < App.getMap().getRows()) {
-				
-					if(pointSet.contains(p)) {
-						unselectPoint(p);
-						pointSet.remove(p);
-						neighbourCheck(p);
-					}
-					else {
-						selectTile(p);
-						pointSet.add(p);
-					}
-				}
+	    		double tileLength = mapEditor.getLength();
+				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
+				mapEditor.canvasClicked(p);
 	    	});
 	    	
 	    	featureComboBox.setItems(featureList);
@@ -192,32 +166,8 @@ import javafx.stage.Stage;
 	    		legendSelectedHeight = 12;
 	    	}
 	    }
-	    /**
-	     * @param point
-	     * takes the point from the mouse and unselects the box if the box is selected
-	     */
-	    private void unselectPoint(Point point) {
-//	    	pointSet.remove(point);
-	    	int selectedColIndex = point.x;
-			int selectedRowIndex = point.y;
-		    GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-			gc.setStroke(Color.BLACK);
-			gc.strokeRect(selectedColIndex * mapEditor.tileLengthSize, selectedRowIndex * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);	
-//			neighbourCheck(point);
-	    	
-	    }
-	    /**
-	     * @param point
-	     * takes the point from the mouse and selects the box if the box is unselected
-	     */
-		private void selectTile(Point point) {
-//			pointSet.add(point);
-			int selectedColIndex = point.x;
-			int selectedRowIndex = point.y;
-			GraphicsContext  gc = twoDCanvas.getGraphicsContext2D();
-			gc.setStroke(Color.AQUA);
-			gc.strokeRect(selectedColIndex * mapEditor.tileLengthSize, selectedRowIndex * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);	
-		}
+	    
+	   
 		
 	/**
 	 * gets the scale size for the features being added
@@ -237,27 +187,7 @@ import javafx.stage.Stage;
 	@FXML
 	private void addFeatures(ActionEvent event) {
 		LandformsGenerator feature = featureComboBox.getValue();
-		if(pointSet.isEmpty()) {
-    		new Alert(AlertType.WARNING, "Select a box first!").show();
-    	}else if(pointSet.size()!=1) {
-    		new Alert(AlertType.WARNING, "Select only one box!").show();
-    	}
-		else if (feature == null) {
-			Alert alert = new Alert(Alert.AlertType.WARNING);
-			alert.setTitle("WARNING");
-			alert.setContentText("You must select the feature to be added");
-			alert.show();
-		} else {
-			Iterator<Point> it = pointSet.iterator();
-			Point p= it.next();
-			int selectedColIndex = p.x;
-			int selectedRowIndex = p.y;
-			feature.build(selectedRowIndex, selectedColIndex, getScale());
-			TestClass.printMap(App.getMap());
-			fillMap();
-			drawOutLine();
-			pointSet.remove(p);
-		}
+		mapEditor.drawLandforms(feature, getScale());
 	}
 	
     @FXML
@@ -279,47 +209,14 @@ import javafx.stage.Stage;
      */
     @FXML
     private void lowerTileButtonHandler() {
-    	if(pointSet.isEmpty()) {
-    		new Alert(AlertType.WARNING, "Select a tile first!").show();
-    	}else {
-    		Iterator<Point> it = pointSet.iterator();
-    		while (it.hasNext()) {
-    			Point p=it.next();
-    			int selectedColIndex = p.x;
-    			int selectedRowIndex = p.y;
-		    	try {
-			    	App.getMap().lowerTile(selectedRowIndex, selectedColIndex);
-			    	updateTile(p);
-		    	}catch (IllegalArgumentException e) {
-		    		new Alert(AlertType.WARNING, "You can not go down further!").show();
-		    		break;
-		    	}
-    		}
-    	}
+    	mapEditor.lowerTile();
     }
     /**
      * this handles the buildButton and elevates the selected tiles if possible
      */
     @FXML
     private void raiseTileButtonHandler() {
-    	if(pointSet.isEmpty()) {
-    		new Alert(AlertType.WARNING, "Select a box first!").show();
-    	}
-    	else {
-    		Iterator<Point> it = pointSet.iterator();
-    		while (it.hasNext()) {
-    			Point p=it.next();
-    			int selectedColIndex = p.x;
-    			int selectedRowIndex = p.y;
-		    	try {
-			    	App.getMap().build(selectedRowIndex, selectedColIndex);
-			    	updateTile(p);
-		    	}catch (IllegalArgumentException e) {
-		    		new Alert(AlertType.WARNING, "You can not build further!").show();
-		    		break;
-		    	}
-    		}
-    	}
+    	mapEditor.raiseTile();
     }
     
     /**
@@ -327,60 +224,11 @@ import javafx.stage.Stage;
      */
     @FXML
     void unselectAll() {
-    	Iterator<Point> it = pointSet.iterator();
-		while (it.hasNext()){
-			Point p=it.next();
-			unselectPoint(p);
-		}
-		pointSet.clear();
+    	mapEditor.unSelectAllPoints();
     }
     
-	/**
-	 * 
-	 * @param p, Point is passed in and checks the neighboring tiles of the tiles the point is in
-	 */
-    private void neighbourCheck(Point p) {
-    	Point[] nArray= {new Point(p.x,p.y+1),new Point(p.x,p.y-1),new Point(p.x+1,p.y),new Point(p.x-1,p.y)};
-    	for(Point point:nArray) {
-    		if(pointSet.contains(point)) {
-    			selectTile(point);
-    		}
-    	}
-    }
+	
 
-
-
-
-	private void drawOutLine() {
-    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-    	for (int i = 0; i < mapEditor.numCols; i++) {
-			for (int j = 0; j < mapEditor.numRows; j++) {
-				//Sets the default colors for the outline of the canvas
-				gc.setStroke(Color.BLACK);
-		    	gc.strokeRect(i * mapEditor.tileLengthSize, j * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);	
-
-			}
-    	}
-    }
-    private void fillMap() {
-    	
-    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-    	for (int i = 0; i < mapEditor.numRows; i++) {
-			for (int j = 0; j < mapEditor.numCols; j++) {
-				int height = (int) Math.round(App.getMap().getHeight(i, j));
-				gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
-				gc.fillRect((j) * mapEditor.tileLengthSize, (i) * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);
-			}
-    	}
-    }
-    private void updateTile(Point p) {
-    	int selectedColIndex = p.x;
-		int selectedRowIndex = p.y;
-    	GraphicsContext gc = twoDCanvas.getGraphicsContext2D();
-    	int height = (int) Math.round(App.getMap().getHeight(selectedRowIndex, selectedColIndex));
-		gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
-		gc.fillRect((selectedColIndex) * mapEditor.tileLengthSize, (selectedRowIndex) * mapEditor.tileWidthSize, mapEditor.tileLengthSize, mapEditor.tileWidthSize);
-    }
     
     @FXML
     private void featureHelpClicked() {
@@ -431,5 +279,25 @@ import javafx.stage.Stage;
 		Stage stage = new Stage();
     	threeDController.start(stage);
     	
+    }
+    
+    @FXML
+    private void addRow() {
+    	mapEditor.addRow();
+    }
+    
+    @FXML
+    private void deleteRow() {
+    	mapEditor.deleteRow();
+    }
+    
+    @FXML
+    private void addColumn() {
+    	mapEditor.addColumn();
+    }
+    
+    @FXML
+    private void deleteColumn() {
+    	mapEditor.deleteColumn();
     }
 }
