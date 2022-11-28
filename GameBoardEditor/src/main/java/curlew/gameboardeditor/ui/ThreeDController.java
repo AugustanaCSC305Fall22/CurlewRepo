@@ -12,6 +12,8 @@ import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.AmbientLight;
@@ -23,6 +25,7 @@ import javafx.scene.PointLight;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Sphere;
@@ -39,6 +42,12 @@ public class ThreeDController extends Application {
 	private static double BOX_DEPTH =5;
  
 	private Button backButton;
+	
+	private final DoubleProperty angleX = new SimpleDoubleProperty(0);
+	private final DoubleProperty angleY = new SimpleDoubleProperty(0);
+	private double anchorX, anchorY;
+	private double anchorAngleX = 0;
+	private double anchorAngleY = 0;
 	
     public void start(Stage primaryStage) throws Exception {
     	TerrainMap map = App.getMap();
@@ -107,6 +116,9 @@ public class ThreeDController extends Application {
           });
  
  //       primaryStage.setTitle("Genuine Coder");
+        
+        initMouseControl(group, scene, primaryStage);
+        
         primaryStage.setScene(scene);
         primaryStage.show();
         
@@ -137,6 +149,31 @@ public class ThreeDController extends Application {
 //    	Node[] lightNode = new Node[] {lightSource, lightSphere};
     	
     	return new Node[] {lightSource, lightSphere};
+    }
+    
+    private void initMouseControl(SmartGroup group, Scene scene, Stage stage) {
+    	Rotate rotateX;
+    	Rotate rotateY;
+    	group.getTransforms().addAll(rotateX = new Rotate(0, Rotate.X_AXIS), rotateY = new Rotate(0, Rotate.Y_AXIS));
+    	rotateX.angleProperty().bind(angleX);
+        rotateY.angleProperty().bind(angleY);
+        
+        scene.setOnMousePressed(event -> {
+            anchorX = event.getSceneX();
+            anchorY = event.getSceneY();
+            anchorAngleX = angleX.get();
+            anchorAngleY = angleY.get();
+          });
+
+          scene.setOnMouseDragged(event -> {
+            angleX.set(anchorAngleX - (anchorY - event.getSceneY()));
+            angleY.set(anchorAngleY + anchorX - event.getSceneX());
+          });
+
+          stage.addEventHandler(ScrollEvent.SCROLL, event -> {
+            double delta = event.getDeltaY();
+            group.translateZProperty().set(group.getTranslateZ() + delta);
+          });
     }
     
     public static void main(String[] args) {
