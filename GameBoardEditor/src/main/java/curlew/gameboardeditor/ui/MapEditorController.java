@@ -119,8 +119,25 @@ import javafx.stage.Stage;
 	    		
 	    	});
 	    	
+	    	twoDCanvas.setOnMousePressed(event -> {
+	    		//find the closest x box corrdinates, then find the closest y
+	    		double tileLength = mapEditor.getLength();
+				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
+				mapEditor.setOrigin(p);
+	    	});
+	    	
+	    	twoDCanvas.setOnMouseDragged(event -> {
+	    		//find the closest x box corrdinates, then find the closest y
+	    		double tileLength = mapEditor.getLength();
+	    		
+				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
+				mapEditor.setEnd(p);
+	    	});
+	    	
+	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
 	    		//find the closest x box corrdinates, then find the closest y
+
 	    		if (event.getButton() == MouseButton.SECONDARY) {
 	    			ContextMenu context = new ContextMenu();
 	    	    	MenuItem item1 = new MenuItem("Undo");
@@ -143,6 +160,8 @@ import javafx.stage.Stage;
 //	    		double tileLength = mapEditor.getLength();
 //				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
 //				mapEditor.canvasClicked(p);
+
+
 	    	});
 	    	
 	    	
