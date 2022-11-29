@@ -74,6 +74,8 @@ import javafx.stage.Stage;
 	    @FXML 
 	    private MenuItem featureHelp;
 	    
+	
+	    
 	    ObservableList<LandformGenerator> featureList;
 	    
 		private TwoDMapEditor mapEditor;
@@ -334,7 +336,13 @@ import javafx.stage.Stage;
     	MenuItem delColItem = new MenuItem("Delete Column");
     	MenuItem sameHeightSelectItem = new MenuItem("Select Same Height");
     	context.getItems().addAll(undoItem, redoItem, addRowItem, delRowItem, addColItem, delColItem, sameHeightSelectItem);
-    	addRowItem.setOnAction(eve->{addRow();});
+    	
+    	addRowItem.setOnAction(eve->{mapEditor.addRow(event);});
+    	delRowItem.setOnAction(eve ->{mapEditor.deleteRow(event);});
+    	addColItem.setOnAction(eve->{mapEditor.addColumn(event);});
+    	delColItem.setOnAction(eve->{mapEditor.deleteColumn(event);});
+    	sameHeightSelectItem.setOnAction(eve->{mapEditor.selectSameHeight(event);});
+    	
     	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
     }
 }
