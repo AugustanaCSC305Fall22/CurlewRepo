@@ -63,18 +63,10 @@ public class ThreeDController extends Application {
 				boxArray[i][j].translateXProperty().set((BOX_WIDTH/2)+j*(BOX_WIDTH));
 				boxArray[i][j].translateYProperty().set((BOX_HEIGHT/2)+i*(BOX_HEIGHT));
 				boxArray[i][j].translateZProperty().set(-map.getHeight(i, j)*BOX_DEPTH/2);
-//				Transform transform = new Rotate(60,Rotate.X_AXIS);
-//				boxArray[i][j].getTransforms().add(transform);
 			}
 		}
 		group.getChildren().addAll(prepareLightSource());
-//		AmbientLight light = new AmbientLight();
-	    //Set light color
-//	    light.setColor(Color.DEEPSKYBLUE);
-//
-//		group.getChildren().add(light);
-		
-//		group.getChildren().add(new Box(2,10,2));
+
         //Create new Camera
         Camera camera = new PerspectiveCamera(true);
         Scene scene = new Scene(group, WIDTH, HEIGHT,true);
@@ -134,6 +126,7 @@ public class ThreeDController extends Application {
         timer.start();
     }
     
+    //Got information from Genuine Coder.
     private final PointLight lightSource = new PointLight();
     
     private Node[] prepareLightSource() {

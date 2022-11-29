@@ -4,6 +4,7 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -19,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="550.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.MapEditorController">
+<BorderPane prefHeight="550.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.MapEditorController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -43,6 +44,7 @@
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
                         <MenuItem mnemonicParsing="false" text="Undo" />
+                        <MenuItem mnemonicParsing="false" text="Redo" />
                     <MenuItem mnemonicParsing="false" onAction="#addRow" text="Add Row" />
                         <MenuItem mnemonicParsing="false" onAction="#deleteRow" text="Delete Row" />
                         <MenuItem mnemonicParsing="false" onAction="#addColumn" text="Add Column" />
@@ -109,7 +111,14 @@
                         <Insets />
                      </GridPane.margin></Label>
                   <ComboBox fx:id="featureComboBox" prefWidth="150.0" GridPane.columnIndex="1" />
-                  <Button fx:id="addFeatureButton" mnemonicParsing="false" onAction="#addFeatures" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Button fx:id="addFeatureButton" mnemonicParsing="false" onAction="#addFeatures" text="Add" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" text="Unspecified Action" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu></Button>
                   <Slider fx:id="scaleSlider" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" snapToTicks="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Scale: " GridPane.rowIndex="1" />
                </children>
