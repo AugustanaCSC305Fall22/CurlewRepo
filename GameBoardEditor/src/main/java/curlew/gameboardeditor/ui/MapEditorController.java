@@ -117,10 +117,27 @@ import javafx.stage.Stage;
 	    		
 	    	});
 	    	
+//	    	twoDCanvas.setOnMouseDragEntered(event -> {
+//	    		//find the closest x box corrdinates, then find the closest y
+//	    		double tileLength = mapEditor.getLength();
+//				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
+//				mapEditor.setOrigin(p);
+//	    	});
+	    	
+	    	twoDCanvas.setOnMouseDragged(event -> {
+	    		//find the closest x box corrdinates, then find the closest y
+	    		double tileLength = mapEditor.getLength();
+	    		
+				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
+				mapEditor.setEnd(p);
+	    	});
+	    	
+	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
 	    		//find the closest x box corrdinates, then find the closest y
 	    		double tileLength = mapEditor.getLength();
 				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
+				mapEditor.setOrigin(p);
 				mapEditor.canvasClicked(p);
 	    	});
 	    	

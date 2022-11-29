@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -24,6 +25,8 @@ public class twoDMapEditor {
 	private Canvas canvas;
 	private HashSet<Point> pointSet;
 	private double length;
+	private Point origin;
+	private Point end;
 	
 
 	/**
@@ -64,6 +67,7 @@ public class twoDMapEditor {
 			gc.setStroke(Color.AQUA);
 			gc.strokeRect(point.x * length, point.y*length, length, length);
 		}
+		
 	}
 	
 	public void canvasClicked(Point point) {
@@ -219,6 +223,30 @@ public class twoDMapEditor {
 			}
 			draw();
 		}
+	}
+
+	public void setOrigin(Point p) {
+		
+		origin =p;
+	}
+
+	public void drawSelectionRect() {
+		// TODO Auto-generated method stub
+		draw();
+		double x = Math.min(end.getX(), origin.getX());
+		double y = Math.min(end.getY(), origin.getY());
+		double width = Math.abs(end.getX()-origin.getX());
+		double height = Math.abs(end.getY() - origin.getY());
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setStroke(Color.BLUE);
+		gc.strokeRect(x*length, y*length, width*length, height*length);
+		
+	}
+
+	public void setEnd(Point p) {
+		// TODO Auto-generated method stub
+		end =p;
+		drawSelectionRect();
 	}
 }
 
