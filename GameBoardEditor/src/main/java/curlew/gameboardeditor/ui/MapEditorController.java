@@ -24,8 +24,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseButton;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
@@ -120,12 +122,52 @@ import javafx.stage.Stage;
 	    		
 	    	});
 	    	
-	    	twoDCanvas.setOnMouseClicked(event -> {
+	    	twoDCanvas.setOnMousePressed(event -> {
 	    		//find the closest x box corrdinates, then find the closest y
 	    		double tileLength = mapEditor.getLength();
 				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
-				mapEditor.canvasClicked(p);
+				mapEditor.setOrigin(p);
 	    	});
+	    	
+	    	twoDCanvas.setOnMouseDragged(event -> {
+	    		//find the closest x box corrdinates, then find the closest y
+	    		double tileLength = mapEditor.getLength();
+	    		
+				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
+				mapEditor.setEnd(p);
+	    	});
+	    	
+	    	
+	    	twoDCanvas.setOnMouseClicked(event -> {
+	    		//find the closest x box corrdinates, then find the closest y
+
+	    		if (event.getButton() == MouseButton.SECONDARY) {
+	    			ContextMenu context = new ContextMenu();
+	    	    	MenuItem item1 = new MenuItem("Undo");
+	    	    	MenuItem item2 = new MenuItem("Redo");
+	    	    	MenuItem item3 = new MenuItem("Add Row");
+	    	    	MenuItem item4 = new MenuItem("DeleteRow");
+	    	    	MenuItem item5 = new MenuItem("Add Column");
+	    	    	MenuItem item6 = new MenuItem("Delete Column");
+	    	    	MenuItem item7 = new MenuItem("Select Same Height");
+//	    	    	item3.setOnAction(event -> );
+	    	    	context.getItems().addAll(item1, item2, item3, item4, item5, item6, item7);
+	    	    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
+	    		} else {
+	    			double tileLength = mapEditor.getLength();
+					Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
+					mapEditor.canvasClicked(p);
+	    		}
+	    		
+	    		
+//	    		double tileLength = mapEditor.getLength();
+//				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
+//				mapEditor.canvasClicked(p);
+
+
+	    	});
+	    	
+	    	
 	    	
 	    	featureComboBox.setItems(featureList);
 	    
@@ -133,6 +175,8 @@ import javafx.stage.Stage;
 	    	raiseTileButton.setToggleGroup(toggleGroup);
 	    	lowerTileButton.setToggleGroup(toggleGroup);	    	
 	    }
+	    
+	    
 	    private void drawLegendOnCanvas(GraphicsContext gcLegend) {
 	    	gcLegend.setStroke(Color.BLACK);
 	    	for (int i = 0; i < 7; i++) {
