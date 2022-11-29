@@ -73,6 +73,7 @@ public class SizeController implements Initializable {
 	@FXML
 	void clickedNext() throws IOException {
 		App.setMap(new TerrainMap(width,length));
+//		randomMazeChosen();
 		if(MainMenuController.genRandom) {
 			if (getLength() >= 20 && getWidth() >= 20) {
 				genRandom();
@@ -122,5 +123,18 @@ public class SizeController implements Initializable {
 		App.setRoot("mapEditor");
 	}
 	
+//	@FXML
+//	void randomMazeChosen() {
+//		Alert popUp = new Alert(AlertType.WARNING, "It has to be at least 20 by 20 ");
+//		if (MainMenuController.genRandom) {
+//			popUp.setTitle("Claimer");
+//			popUp.setHeaderText("For Random Map Size:");
+//			popUp.showAndWait();
+//		} else if (MainMenuController.genMaze) {
+//			popUp.setTitle("Claimer");
+//			popUp.setHeaderText("For Maze Map Size:");
+//			popUp.showAndWait();
+//		}
+//	}
 }
 

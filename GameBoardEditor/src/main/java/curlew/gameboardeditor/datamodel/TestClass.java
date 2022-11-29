@@ -6,17 +6,17 @@ import java.io.IOException;
 public class TestClass {
 
 	public static void main(String[] args) throws IOException {
-		TerrainMap ourMap = new TerrainMap(2,3);
-		ourMap = GameBoardIO.loadMap(new File("ACE.TMap"));
-		
+		TerrainMap ourMap = new TerrainMap(6,5);
+//		ourMap = GameBoardIO.loadMap(new File("ACE.TMap"));
+//		ourMap.deleteColumn(3);
 //		ourMap.build(0, 0);
 //		LandformsGenerator test = new GateToHellGenerator(ourMap);
 //		test.build(1, 5, 3);
 //		test.build(0,0,1);
 //		RandomMapGenerator g = new RandomMapGenerator(ourMap);
 //		g.createMap();
-		ObjExporter map = new ObjExporter(ourMap);
-		map.export(new File("test.obj"));
+//		ObjExporter map = new ObjExporter(ourMap);
+//		map.export(new File("test.obj"));
 		printMap(ourMap);
 		
 	}

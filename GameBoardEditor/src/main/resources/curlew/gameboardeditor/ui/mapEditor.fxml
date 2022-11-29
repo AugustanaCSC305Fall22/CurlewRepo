@@ -37,18 +37,24 @@
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" text="3D View" />
+                        <MenuItem mnemonicParsing="false" text="Export" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
                         <MenuItem mnemonicParsing="false" text="Undo" />
-                    <MenuItem mnemonicParsing="false" text="Add Row" />
-                        <MenuItem mnemonicParsing="false" text="Delete Row" />
-                        <MenuItem mnemonicParsing="false" text="Add Column" />
-                        <MenuItem mnemonicParsing="false" text="Delete Column" />
+                    <MenuItem mnemonicParsing="false" onAction="#addRow" text="Add Row" />
+                        <MenuItem mnemonicParsing="false" onAction="#deleteRow" text="Delete Row" />
+                        <MenuItem mnemonicParsing="false" onAction="#addColumn" text="Add Column" />
+                        <MenuItem mnemonicParsing="false" onAction="#deleteColumn" text="Delete Column" />
+                        <MenuItem mnemonicParsing="false" onAction="#selectTilesOfSameHeight" text="Select Tiles of Same Height" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="3D  View">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#threeDView" text="Preview" />
+                    </items>
+                  </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                         <MenuItem mnemonicParsing="false" onAction="#infoHelpClicked" text="Info" />
