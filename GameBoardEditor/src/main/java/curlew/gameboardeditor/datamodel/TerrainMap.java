@@ -9,51 +9,51 @@ public class TerrainMap  {
 	private final static double MIN_HEIGHT = 0;
 	
 	/**
-	 * Constuctor for the TerrainMap object, this makes an array to keep track of the height and iterates through each tile in
+	 * this makes an array to keep track of the height and iterates through each tile in
 	 * the 2d array and sets the height to INITIAL_DEPTH
-	 * @param length
-	 * @param width
 	 */
-	public TerrainMap(int length, int width) {
-		heightArray = new double[length][width];
-		for(int i=0; i<length;i++) {
-			for(int j=0;j<width;j++) {
-			heightArray[i][j]= INITIAL_DEPTH;
+	public TerrainMap(int numRows, int numColumns) {
+		heightArray = new double[numRows][numColumns];
+		for(int row=0; row<numRows;row++) {
+			for(int col=0;col<numColumns;col++) {
+			heightArray[row][col]= INITIAL_DEPTH;
 			}
 		}
 	}
+
+	/**
+	 * sets elevation of the tile at the specified row and column
+	 * @param row
+	 * @param column
+	 * @param newHeight 
+	 */
+	public void setHeightAt(int row, int column, double newHeight) {
+		if(newHeight>MAX_HEIGHT||newHeight<MIN_HEIGHT) {
+			throw new IllegalArgumentException("You have reached the maximium height");
+		}
+		try {
+		heightArray[row][column]= newHeight; 
+		} catch (IndexOutOfBoundsException e){}
+	}
+	
+	/**
+	 * raises the elevation of the specified tile by DEPTH_CHANGE
+	 * @param row
+	 * @param column
+	 */
+	public void increaseHeightAt(int row, int column) {
+		setHeightAt(row,column, heightArray[row][column] +DEPTH_CHANGE);
+	}
+	
 	/**
 	 * lowers the elevation of the tile at the selected row and column
 	 * @param row
 	 * @param column
 	 */
-	public void lowerTile(int row, int column) {
-		build(row,column,heightArray[row][column]- DEPTH_CHANGE);
+	public void decreaseHeightAt(int row, int column) {
+		setHeightAt(row,column,heightArray[row][column]- DEPTH_CHANGE);
 	}
-	/**
-	 * raises the elevation of the tile at the selected row and column to the newDepth
-	 * @param row
-	 * @param column
-	 * @param newDepth 
-	 */
-	public void build(int row, int column, double newDepth) {
-		if(newDepth>MAX_HEIGHT||newDepth<MIN_HEIGHT) {
-			throw new IllegalArgumentException("You have reached the maximium height");
-		}
-		try {
-		heightArray[row][column]= newDepth; 
-		} catch (IndexOutOfBoundsException e){}
-	}
-	
-	/**
-	 * raises the elevation of the tile at the selected row and column by DEPTH_CHANGE
-	 * @param row
-	 * @param column
-	 */
-	public void build(int row, int column) {
-		build(row,column, heightArray[row][column] +DEPTH_CHANGE);
-	}
-	
+
 	/**
 	 * @param row
 	 * @param column

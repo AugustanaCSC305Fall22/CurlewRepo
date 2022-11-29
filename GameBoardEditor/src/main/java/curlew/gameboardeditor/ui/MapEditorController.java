@@ -8,14 +8,14 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import curlew.gameboardeditor.datamodel.GateToHellGenerator;
-import curlew.gameboardeditor.datamodel.LandformsGenerator;
-import curlew.gameboardeditor.datamodel.MountainGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
-import curlew.gameboardeditor.datamodel.TrenchGenerator;
-import curlew.gameboardeditor.datamodel.ValleyGenerator;
-import curlew.gameboardeditor.datamodel.VolcanoGenerator;
+import curlew.gameboardeditor.generators.GateToHellLandformGenerator;
+import curlew.gameboardeditor.generators.LandformGenerator;
+import curlew.gameboardeditor.generators.MountainLandformGenerator;
+import curlew.gameboardeditor.generators.TrenchLandformGenerator;
+import curlew.gameboardeditor.generators.ValleyLandformGenerator;
+import curlew.gameboardeditor.generators.VolcanoLandformGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,25 +38,16 @@ import javafx.stage.Stage;
 	public class MapEditorController {
 		
 	    @FXML
-	    private MenuItem TitleLabel;
-	    
-	    @FXML
 	    private MenuItem saveAsButton;
 
 	    @FXML
 	    private MenuItem saveButton;
 	    
 	    @FXML
-	    private MenuItem DigFeatureButton;
-
-	    @FXML
 	    private Button backButton;
 	    
 	    @FXML
-	    private Button AddBlockButton;
-
-	    @FXML
-	    private ComboBox<LandformsGenerator> featureComboBox;
+	    private ComboBox<LandformGenerator> featureComboBox;
 	    
 	    @FXML
 	    private Button addFeatureButton;
@@ -82,15 +73,11 @@ import javafx.stage.Stage;
 	    @FXML 
 	    private MenuItem featureHelp;
 	    
-	    ObservableList<LandformsGenerator> featureList;
+	    ObservableList<LandformGenerator> featureList;
 	    
-		
-		
-		private twoDMapEditor mapEditor;
+		private TwoDMapEditor mapEditor;
 		
 		private int legendSelectedHeight;
-		
-		
 
 
 		/**
@@ -103,9 +90,9 @@ import javafx.stage.Stage;
 	    	twoDCanvas.setWidth(400);
 	    	
 	    	TerrainMap map = App.getMap();
-	    	mapEditor = new twoDMapEditor(map, twoDCanvas);
+	    	mapEditor = new TwoDMapEditor(map, twoDCanvas);
 	    	
-	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
+	    	featureList = FXCollections.observableArrayList(new MountainLandformGenerator(), new VolcanoLandformGenerator(), new ValleyLandformGenerator(), new TrenchLandformGenerator(), new GateToHellLandformGenerator());
 
 	    	GraphicsContext gcLegend = tileElevationLegendCanvas.getGraphicsContext2D();
 	    	
@@ -232,7 +219,7 @@ import javafx.stage.Stage;
 	 */
 	@FXML
 	private void addFeatures(ActionEvent event) {
-		LandformsGenerator feature = featureComboBox.getValue();
+		LandformGenerator feature = featureComboBox.getValue();
 		mapEditor.drawLandforms(feature, getScale());
 	}
 	

@@ -13,13 +13,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import curlew.gameboardeditor.datamodel.LandformsGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
+import curlew.gameboardeditor.generators.LandformGenerator;
 
-public class twoDMapEditor {
-	
-	
+public class TwoDMapEditor {
 	
 	private TerrainMap map;
 	private Canvas canvas;
@@ -28,14 +26,13 @@ public class twoDMapEditor {
 	private Point origin;
 	private Point end;
 	
-
 	/**
-	 * Constructs twoDMapEditor by combining the terrainMap and the twoDMapEditor
+	 * Constructs TwoDMapEditor by combining the terrainMap and the twoDMapEditor
 	 * Then it sets the data fields from both objects to this object to be used in the MapEditorController
 	 * @param map
 	 * @param twoDCanvas
 	 */
-	public twoDMapEditor(TerrainMap map, Canvas twoDCanvas) {
+	public TwoDMapEditor(TerrainMap map, Canvas twoDCanvas) {
 		this.map = map;
 		canvas = twoDCanvas;
 		pointSet= new HashSet<>();
@@ -84,7 +81,7 @@ public class twoDMapEditor {
 		}
 	}
 	
-	public void drawLandforms(LandformsGenerator landform, int scale) {
+	public void drawLandforms(LandformGenerator landform, int scale) {
 		if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}else if(pointSet.size()!=1) {
@@ -100,7 +97,7 @@ public class twoDMapEditor {
 		} else {
 			Iterator<Point> it = pointSet.iterator();
 			Point p= it.next();
-			landform.build(p.y, p.x, scale);
+			landform.build(map, p.y, p.x, scale);
 			pointSet.clear();
 			draw();
 		}
@@ -109,7 +106,7 @@ public class twoDMapEditor {
 	public void raiseTile() {
 		for(Point point:pointSet) {
 			try {
-				map.build(point.y, point.x);
+				map.increaseHeightAt(point.y, point.x);
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
@@ -118,7 +115,7 @@ public class twoDMapEditor {
 	public void raiseTile(int allivation) {
 		for(Point point:pointSet) {
 			try {
-				map.build(point.y, point.x,allivation);
+				map.setHeightAt(point.y, point.x,allivation);
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
@@ -126,7 +123,7 @@ public class twoDMapEditor {
 	public void lowerTile() {
 		for(Point point:pointSet) {
 			try {
-				map.lowerTile(point.y, point.x);
+				map.decreaseHeightAt(point.y, point.x);
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();

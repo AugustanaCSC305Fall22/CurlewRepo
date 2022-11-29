@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import curlew.gameboardeditor.datamodel.MazeGenerator;
-import curlew.gameboardeditor.datamodel.RandomMapGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
+import curlew.gameboardeditor.generators.MazeMapGenerator;
+import curlew.gameboardeditor.generators.RandomMapGenerator;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -118,7 +118,7 @@ public class SizeController implements Initializable {
 	}
 	
 	void genMaze() throws IOException {
-		MazeGenerator mg = new MazeGenerator(App.getMap());
+		MazeMapGenerator mg = new MazeMapGenerator(App.getMap());
 		mg.genrateMaze();
 		App.setRoot("mapEditor");
 	}

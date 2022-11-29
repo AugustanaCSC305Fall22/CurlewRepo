@@ -92,7 +92,7 @@ public class PreviewMapController {
     	selectedAreaIndex = y/(boxLength+2);
     	mapNameLabel.setText(fileArray[selectedAreaIndex]);
     	TerrainMap map = GameBoardIO.loadMap(new File(fileArray[selectedAreaIndex] + ".TMap"));
-    	twoDMapEditor mapPreview = new twoDMapEditor(map,previewCanvas);
+    	TwoDMapEditor mapPreview = new TwoDMapEditor(map,previewCanvas);
     }
 
     @FXML
