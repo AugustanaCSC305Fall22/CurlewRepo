@@ -25,6 +25,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -110,48 +111,22 @@ import javafx.stage.Stage;
 	    	});
 	    	
 	    	twoDCanvas.setOnMousePressed(event -> {
-	    		//find the closest x box corrdinates, then find the closest y
-	    		double tileLength = mapEditor.getLength();
-				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
-				mapEditor.setOrigin(p);
+				mapEditor.setOrigin(event);
 	    	});
 	    	
 	    	twoDCanvas.setOnMouseDragged(event -> {
-	    		//find the closest x box corrdinates, then find the closest y
-	    		double tileLength = mapEditor.getLength();
-	    		
-				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
-				mapEditor.setEnd(p);
+				mapEditor.drawSelectionRect(event);
 	    	});
 	    	
 	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
-	    		//find the closest x box corrdinates, then find the closest y
 
 	    		if (event.getButton() == MouseButton.SECONDARY) {
-	    			ContextMenu context = new ContextMenu();
-	    	    	MenuItem item1 = new MenuItem("Undo");
-	    	    	MenuItem item2 = new MenuItem("Redo");
-	    	    	MenuItem item3 = new MenuItem("Add Row");
-	    	    	MenuItem item4 = new MenuItem("DeleteRow");
-	    	    	MenuItem item5 = new MenuItem("Add Column");
-	    	    	MenuItem item6 = new MenuItem("Delete Column");
-	    	    	MenuItem item7 = new MenuItem("Select Same Height");
-//	    	    	item3.setOnAction(event -> );
-	    	    	context.getItems().addAll(item1, item2, item3, item4, item5, item6, item7);
-	    	    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
+	    			createRightClickMenu(event);
 	    		} else {
-	    			double tileLength = mapEditor.getLength();
-					Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
-					mapEditor.canvasClicked(p);
+					mapEditor.canvasClicked(event);
 	    		}
 	    		
-	    		
-//	    		double tileLength = mapEditor.getLength();
-//				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
-//				mapEditor.canvasClicked(p);
-
-
 	    	});
 	    	
 	    	
@@ -347,5 +322,19 @@ import javafx.stage.Stage;
     @FXML
     private void selectTilesOfSameHeight() {
     	mapEditor.selectSameHeight();
+    }
+    
+    private void createRightClickMenu(MouseEvent event) {
+    	ContextMenu context = new ContextMenu();
+    	MenuItem undoItem = new MenuItem("Undo");
+    	MenuItem redoItem = new MenuItem("Redo");
+    	MenuItem addRowItem = new MenuItem("Add Row");
+    	MenuItem delRowItem = new MenuItem("Delete Row");
+    	MenuItem addColItem = new MenuItem("Add Column");
+    	MenuItem delColItem = new MenuItem("Delete Column");
+    	MenuItem sameHeightSelectItem = new MenuItem("Select Same Height");
+    	context.getItems().addAll(undoItem, redoItem, addRowItem, delRowItem, addColItem, delColItem, sameHeightSelectItem);
+    	addRowItem.setOnAction(eve->{addRow();});
+    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
     }
 }

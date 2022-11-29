@@ -5,6 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -24,7 +25,7 @@ public class TwoDMapEditor {
 	private HashSet<Point> pointSet;
 	private double length;
 	private Point origin;
-	private Point end;
+
 	
 	/**
 	 * Constructs TwoDMapEditor by combining the terrainMap and the twoDMapEditor
@@ -67,8 +68,9 @@ public class TwoDMapEditor {
 		
 	}
 	
-	public void canvasClicked(Point point) {
+	public void canvasClicked(MouseEvent event) {
 		
+		Point point =convertEventToPoint(event);
 		if (point.x >= 0 && point.x<map.getColumns() && point.y>=0 && point.y < map.getRows()) {
 		
 			if(pointSet.contains(point)) {
@@ -85,8 +87,7 @@ public class TwoDMapEditor {
 		if(pointSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}else if(pointSet.size()!=1) {
-    		pointSet.clear();
-    		draw();
+    		unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
     	}
 		else if (landform == null) {
@@ -136,7 +137,6 @@ public class TwoDMapEditor {
 	}
 
 	public void unSelectAllPoints() {
-		// TODO Auto-generated method stub
 		pointSet.clear();
 		draw();
 		
@@ -144,91 +144,126 @@ public class TwoDMapEditor {
 	
 	public void addRow() {
 		if(pointSet.size()!=1) {
-			pointSet.clear();
-    		draw();
+			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Point> it = pointSet.iterator();
 			Point p= it.next();
-			map.addRow(p.y);
-			pointSet.clear();
-			setTileLength();
-			draw();
+			addRow(p);
 		}
+	}
+	
+	public void addRow(MouseEvent event) {
+		Point p= convertEventToPoint(event);
+		addRow(p);
+	}
+	
+	private void addRow(Point p) {
+		map.addRow(p.y);
+		pointSet.clear();
+		setTileLength();
+		draw();
 	}
 	
 	public void deleteRow() {
 		if(pointSet.size()!=1) {
-			pointSet.clear();
-    		draw();
+			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Point> it = pointSet.iterator();
 			Point p= it.next();
-			map.deleteRow(p.y);
-			pointSet.clear();
-			setTileLength();
-			draw();
+			deleteRow(p);
 		}
+	}
+	
+	public void deleteRow(MouseEvent event) {
+		deleteRow(convertEventToPoint(event));
+	}
+	
+	private void deleteRow(Point p) {
+		map.deleteRow(p.y);
+		pointSet.clear();
+		setTileLength();
+		draw();
 	}
 	
 	public void addColumn() {
 		if(pointSet.size()!=1) {
-			pointSet.clear();
-    		draw();
+			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Point> it = pointSet.iterator();
 			Point p= it.next();
-			map.addColumn(p.x);
-			pointSet.clear();
-			setTileLength();
-			draw();
+			addColumn(p);
 		}
+	}
+	
+	public void addColumn(MouseEvent event) {
+		addColumn(convertEventToPoint(event));
+	}
+	
+	private void addColumn(Point p) {
+		map.addColumn(p.x);
+		pointSet.clear();
+		setTileLength();
+		draw();
 	}
 	
 	public void deleteColumn() {
 		if(pointSet.size()!=1) {
-			pointSet.clear();
-    		draw();
+			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Point> it = pointSet.iterator();
 			Point p= it.next();
-			map.deleteColumn(p.x);
-			pointSet.clear();
-			setTileLength();
-			draw();
+			deleteColumn(p);
 		}
 	}
 	
+	public void deleteColumn(MouseEvent event) {
+		deleteColumn(convertEventToPoint(event));
+	}
+	
+	private void deleteColumn(Point p) {
+		map.deleteColumn(p.x);
+		pointSet.clear();
+		setTileLength();
+		draw();
+	}
+	
+	
 	public void selectSameHeight() {
 		if(pointSet.size()!=1) {
-			pointSet.clear();
-    		draw();
+			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Point> it = pointSet.iterator();
 			Point p= it.next();
-			double height = map.getHeight(p.y, p.x);
-			for(int i=0;i<map.getRows();i++) {
-				for(int j=0;j<map.getColumns();j++) {
-					if(map.getHeight(i, j)==height) {
-						pointSet.add(new Point(j,i));
-					}
-				}
-			}
-			draw();
+			selectSameHeight(p);
 		}
 	}
-
-	public void setOrigin(Point p) {
-		
-		origin =p;
+	
+	public void selectSameHeight(MouseEvent event) {
+		selectSameHeight(convertEventToPoint(event));
+	}
+	
+	private void selectSameHeight(Point p) {
+		double height = map.getHeight(p.y, p.x);
+		for(int i=0;i<map.getRows();i++) {
+			for(int j=0;j<map.getColumns();j++) {
+				if(map.getHeight(i, j)==height) {
+					pointSet.add(new Point(j,i));
+				}
+			}
+		}
+		draw();
 	}
 
-	public void drawSelectionRect() {
-		// TODO Auto-generated method stub
+	public void setOrigin(MouseEvent event) {
+		origin =convertEventToPoint(event);
+	}
+
+	private void drawSelectionRect(Point end) {
 		draw();
 		double x = Math.min(end.getX(), origin.getX());
 		double y = Math.min(end.getY(), origin.getY());
@@ -240,10 +275,13 @@ public class TwoDMapEditor {
 		
 	}
 
-	public void setEnd(Point p) {
-		// TODO Auto-generated method stub
-		end =p;
-		drawSelectionRect();
+	public void drawSelectionRect(MouseEvent event) {
+		Point end =convertEventToPoint(event);
+		drawSelectionRect(end);
+	}
+	
+	private Point convertEventToPoint(MouseEvent event) {
+		return new Point((int) (event.getX()/length),(int)(event.getY()/length));
 	}
 }
 
