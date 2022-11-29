@@ -37,9 +37,12 @@ import javafx.stage.Stage;
 		
 	    @FXML
 	    private MenuItem TitleLabel;
+	    
+	    @FXML
+	    private MenuItem saveAsButton;
 
 	    @FXML
-	    private Button saveAsButton;
+	    private MenuItem saveButton;
 	    
 	    @FXML
 	    private MenuItem DigFeatureButton;
@@ -201,6 +204,16 @@ import javafx.stage.Stage;
      */
     @FXML
     void saveAsHandler(ActionEvent event) throws IOException {
+    	App.saveAsProjectFile();
+    }
+    
+    /**
+     * When clicked, will save the work and update the existing file and
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    void saveHandler(ActionEvent event) throws IOException {
     	App.saveProjectFile();
     }
     /** 

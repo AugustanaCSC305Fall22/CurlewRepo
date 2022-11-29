@@ -28,16 +28,17 @@
               <menus>
                 <Menu mnemonicParsing="false" text="File">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Save">
+                        <MenuItem fx:id="saveButton" mnemonicParsing="false" onAction="#saveHandler" text="Save">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator>
                         </MenuItem>
-                    <MenuItem mnemonicParsing="false" onAction="#saveAsHandler" text="Save As">
+                    <MenuItem fx:id="saveAsButton" mnemonicParsing="false" onAction="#saveAsHandler" text="Save As">
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator></MenuItem>
                         <MenuItem mnemonicParsing="false" text="Export" />
+                        <MenuItem mnemonicParsing="false" text="Save As Template" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
