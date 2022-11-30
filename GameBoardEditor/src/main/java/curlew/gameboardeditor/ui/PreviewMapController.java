@@ -3,7 +3,10 @@
 package curlew.gameboardeditor.ui;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -51,12 +54,19 @@ public class PreviewMapController {
     private int boxLength;
     
     private int selectedAreaIndex;
+    File[] templateFiles;
     
-    private final String[] fileArray =  {"cliff", "ACE", "statue in a pit", "colussium", "moutains", "volcano hell", "elevated corner", "many walls"};
+    //create new file that represents the templates folder 
+    File templatesFolder = new File("templates/");
+    
     
     @FXML
     private void initialize() {
     	//Initializes the canvas, builds the map and makes the 2DEditor
+    	
+    	
+    	
+    	templateFiles = templatesFolder.listFiles();
     	
     	GraphicsContext gc = templateCanvas.getGraphicsContext2D();
     	
@@ -67,7 +77,7 @@ public class PreviewMapController {
     	gc.setStroke(Color.BLACK);
     	for (int i = 0; i < numTemplates; i++) {
     		gc.strokeRect(2, i * (boxLength+2), boxWidth, boxLength);
-    		gc.strokeText(fileArray[i], (boxWidth/2) -40 , ((boxLength + 2) * i) + boxLength/2);
+    		gc.strokeText(templateFiles[i].getName().replaceAll(".TMap", ""), (boxWidth/2) -40 , ((boxLength + 2) * i) + boxLength/2);
     		
     	}
     	templateCanvas.setOnMouseClicked(evt -> {
@@ -82,7 +92,7 @@ public class PreviewMapController {
     }
     @FXML
     void clickNext(ActionEvent event) throws IOException {
-    	App.setMap(GameBoardIO.loadMap(new File(fileArray[selectedAreaIndex] + ".TMap")));
+    	App.setMap(GameBoardIO.loadMap(templateFiles[selectedAreaIndex]));
     	App.setRoot("mapEditor");
     }
     
@@ -90,9 +100,9 @@ public class PreviewMapController {
     private void onMouseClicked(MouseEvent event) throws IOException {
     	int y = (int) event.getY();
     	selectedAreaIndex = y/(boxLength+2);
-    	mapNameLabel.setText(fileArray[selectedAreaIndex]);
-    	TerrainMap map = GameBoardIO.loadMap(new File(fileArray[selectedAreaIndex] + ".TMap"));
-    	TwoDMapEditor mapPreview = new TwoDMapEditor(map,previewCanvas);
+    	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
+    	TerrainMap map = GameBoardIO.loadMap(templateFiles[selectedAreaIndex]);
+    	TwoDMapEditor mapPreview = new TwoDMapEditor(map, previewCanvas);
     }
 
     @FXML

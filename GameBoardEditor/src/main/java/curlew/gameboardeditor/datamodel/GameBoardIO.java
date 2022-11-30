@@ -34,9 +34,10 @@ public class GameBoardIO {
 		objMap.export(file);
 	}
 
-	public static void saveMapAsTemplate(TerrainMap map) {
-		
-	}		
+//	public static void saveMapAsTemplate(TerrainMap map) {
+//		File file = new File("templates:\\map\\map. TMap");
+//		
+//	}		
 	
 
 }

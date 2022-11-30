@@ -103,15 +103,15 @@ public class App extends Application {
 	
 	}
 	
-	public static void saveAsTemplate() {
+	public static void saveAsTemplate() throws IOException {
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("3D TerrainMap File", "*.TMap"));
     	fileChooser.setTitle("Save As Template");
     	fileChooser.setInitialFileName("Untitled.TMap");
+    	fileChooser.setInitialDirectory(new File("templates"));
     	File file = fileChooser.showSaveDialog(stage);
     	if (file != null) {
-    		selectedFile = file;
-    		GameBoardIO.saveMapAsTemplate(map);
+    		GameBoardIO.saveMap(map, file);
     	} 
 	}
 	

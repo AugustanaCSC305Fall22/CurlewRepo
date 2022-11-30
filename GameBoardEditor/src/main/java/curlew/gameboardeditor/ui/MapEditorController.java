@@ -252,7 +252,7 @@ import javafx.stage.Stage;
     
     
     @FXML
-    void saveAsTemplateHandler(ActionEvent event) {
+    void saveAsTemplateHandler(ActionEvent event) throws IOException {
     	App.saveAsTemplate();
     }
     
