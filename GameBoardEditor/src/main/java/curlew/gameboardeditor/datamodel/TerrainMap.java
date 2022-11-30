@@ -1,6 +1,6 @@
 package curlew.gameboardeditor.datamodel;
 
-public class TerrainMap  {
+public class TerrainMap  implements Cloneable {
 
 	private double[][] heightArray;
 	private final static double INITIAL_DEPTH = 2;

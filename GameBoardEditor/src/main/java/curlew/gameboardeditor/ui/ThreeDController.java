@@ -143,7 +143,7 @@ public class ThreeDController extends Application {
     	
     	return new Node[] {lightSource, lightSphere};
     }
-    
+    //Got information from Genuine Coder
     private void initMouseControl(SmartGroup group, Scene scene, Stage stage) {
     	Rotate rotateX;
     	Rotate rotateY;
