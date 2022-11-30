@@ -25,7 +25,8 @@ public class TwoDMapEditor {
 	private HashSet<Point> pointSet;
 	private double length;
 	private Point origin;
-
+	private Point end;
+	private double[][] copyArray;
 	
 	/**
 	 * Constructs TwoDMapEditor by combining the terrainMap and the twoDMapEditor
@@ -263,7 +264,7 @@ public class TwoDMapEditor {
 		origin =convertEventToPoint(event);
 	}
 
-	private void drawSelectionRect(Point end) {
+	private void drawSelectionRect() {
 		draw();
 		double x = Math.min(end.getX(), origin.getX());
 		double y = Math.min(end.getY(), origin.getY());
@@ -276,12 +277,92 @@ public class TwoDMapEditor {
 	}
 
 	public void drawSelectionRect(MouseEvent event) {
-		Point end =convertEventToPoint(event);
-		drawSelectionRect(end);
+		end=convertEventToPoint(event);
+		drawSelectionRect();
 	}
 	
 	private Point convertEventToPoint(MouseEvent event) {
 		return new Point((int) (event.getX()/length),(int)(event.getY()/length));
+	}
+
+	public boolean isValid(MouseEvent event) {
+		Point point = convertEventToPoint(event);
+		return (point.x >= 0 && point.x<=map.getColumns() && point.y>=0 && point.y <= map.getRows());
+	}
+
+	public void squareSelect() {
+		
+		int startX = (int) Math.min(end.getX(), origin.getX());
+		int startY = (int) Math.min(end.getY(), origin.getY());
+		int endX = (int) Math.max(end.getX(),origin.getX());
+		int endY = (int) Math.max(end.getY(), origin.getY());
+		for(int x = startX; x<endX; x++) {
+			for(int y= startY; y<endY; y++) {
+				pointSet.add(new Point(x,y));
+			}
+		}
+		draw();
+	}
+
+	public void squareCopy() {
+		int startX = (int) Math.min(end.getX(), origin.getX());
+		int startY = (int) Math.min(end.getY(), origin.getY());
+		int endX = (int) Math.max(end.getX(),origin.getX());
+		int endY = (int) Math.max(end.getY(), origin.getY());
+		copyArray =new double[endY-startY][endX-startX];
+		for(int x = startX; x<endX; x++) {
+			for(int y= startY; y<endY; y++) {
+				copyArray[y-startY][x-startX]= map.getHeight(y, x);
+			}
+		}
+		draw();
+	}
+	
+	public boolean copied() {
+		return copyArray!=null;
+	}
+
+	public void paste(MouseEvent event) {
+		Point point = convertEventToPoint(event);
+		for(int i=0;i<copyArray.length;i++) {
+			for(int j=0; j<copyArray[0].length;j++) {
+				try {
+					map.setHeightAt(point.y+i, point.x+j, copyArray[i][j]);
+				}catch(IndexOutOfBoundsException e) {};
+			}
+		}
+		draw();
+		
+	}
+
+	public void squareClear() {
+		int startX = (int) Math.min(end.getX(), origin.getX());
+		int startY = (int) Math.min(end.getY(), origin.getY());
+		int endX = (int) Math.max(end.getX(),origin.getX());
+		int endY = (int) Math.max(end.getY(), origin.getY());
+		for(int x = startX; x<endX; x++) {
+			for(int y= startY; y<endY; y++) {
+				map.setHeightAt(y, x, map.getInitialDepth());
+			}
+		}
+		draw();
+		
+	}
+
+	public void squareMove(MouseEvent event) {
+		double[][] temp=new double[0][0];
+		if(copied()) {
+			temp = copyArray.clone();
+		}
+		squareCopy();
+		squareClear();
+		paste(event);
+		
+		if(temp.length!=0) {
+			copyArray =temp;
+		}
+		
+		
 	}
 }
 

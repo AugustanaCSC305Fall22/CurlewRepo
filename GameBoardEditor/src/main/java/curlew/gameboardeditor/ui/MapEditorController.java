@@ -74,13 +74,15 @@ import javafx.stage.Stage;
 	    @FXML 
 	    private MenuItem featureHelp;
 	    
-	
+	    private boolean dragging;
 	    
-	    ObservableList<LandformGenerator> featureList;
+	    private ObservableList<LandformGenerator> featureList;
 	    
 		private TwoDMapEditor mapEditor;
 		
 		private int legendSelectedHeight;
+
+		private boolean moveClicked;
 
 
 		/**
@@ -113,20 +115,34 @@ import javafx.stage.Stage;
 	    	});
 	    	
 	    	twoDCanvas.setOnMousePressed(event -> {
-				mapEditor.setOrigin(event);
+				if(!dragging&&!moveClicked) {
+					mapEditor.setOrigin(event);
+				}
 	    	});
 	    	
 	    	twoDCanvas.setOnMouseDragged(event -> {
-				mapEditor.drawSelectionRect(event);
+	    		dragging=true;
+	    		if(mapEditor.isValid(event)) {
+	    			mapEditor.drawSelectionRect(event);
+	    		}
 	    	});
 	    	
 	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
 
-	    		if (event.getButton() == MouseButton.SECONDARY) {
+	    		if (event.getButton() == MouseButton.SECONDARY && mapEditor.isValid(event)) {
 	    			createRightClickMenu(event);
+	    			
 	    		} else {
-					mapEditor.canvasClicked(event);
+	    			if(dragging) {
+	    				createSquareSelectionMenu(event);
+	    			}else if(moveClicked) {
+	    				mapEditor.squareMove(event);
+	    				moveClicked = false;
+	    			}
+	    			else {
+	    				mapEditor.canvasClicked(event);
+	    			}
 	    		}
 	    		
 	    	});
@@ -141,7 +157,10 @@ import javafx.stage.Stage;
 	    }
 	    
 	    
-	    private void drawLegendOnCanvas(GraphicsContext gcLegend) {
+	   
+
+
+		private void drawLegendOnCanvas(GraphicsContext gcLegend) {
 	    	gcLegend.setStroke(Color.BLACK);
 	    	for (int i = 0; i < 7; i++) {
 	    		gcLegend.strokeRect(50 , (i * 50) + (i * 6) + 1 , 50, 50);
@@ -328,21 +347,52 @@ import javafx.stage.Stage;
     
     private void createRightClickMenu(MouseEvent event) {
     	ContextMenu context = new ContextMenu();
-    	MenuItem undoItem = new MenuItem("Undo");
-    	MenuItem redoItem = new MenuItem("Redo");
+
     	MenuItem addRowItem = new MenuItem("Add Row");
     	MenuItem delRowItem = new MenuItem("Delete Row");
     	MenuItem addColItem = new MenuItem("Add Column");
     	MenuItem delColItem = new MenuItem("Delete Column");
     	MenuItem sameHeightSelectItem = new MenuItem("Select Same Height");
-    	context.getItems().addAll(undoItem, redoItem, addRowItem, delRowItem, addColItem, delColItem, sameHeightSelectItem);
+    	MenuItem closeItem = new MenuItem("Close");
+    	MenuItem pasteItem = new MenuItem("Paste");
+    	
+    	context.getItems().addAll(pasteItem, addRowItem, delRowItem, addColItem, delColItem, sameHeightSelectItem, closeItem);
+    	
+    	if(!mapEditor.copied()) {
+    		pasteItem.setDisable(true);
+    	}
     	
     	addRowItem.setOnAction(eve->{mapEditor.addRow(event);});
     	delRowItem.setOnAction(eve ->{mapEditor.deleteRow(event);});
     	addColItem.setOnAction(eve->{mapEditor.addColumn(event);});
     	delColItem.setOnAction(eve->{mapEditor.deleteColumn(event);});
+    	closeItem.setOnAction(eve->{context.hide();});
     	sameHeightSelectItem.setOnAction(eve->{mapEditor.selectSameHeight(event);});
+    	pasteItem.setOnAction(eve->{mapEditor.paste(event);});
     	
     	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
     }
+    
+    private void createSquareSelectionMenu(MouseEvent event) {
+    	dragging = false;
+    	ContextMenu context = new ContextMenu();
+
+    	MenuItem selectAllItem = new MenuItem("Select All");
+    	MenuItem copyItem = new MenuItem("Copy");
+    	MenuItem moveItem = new MenuItem("Move");
+    	MenuItem clearItem = new MenuItem("Clear");
+    	MenuItem closeItem = new MenuItem("Close");
+    	context.getItems().addAll(selectAllItem, copyItem, moveItem, clearItem,closeItem);
+    	
+    	closeItem.setOnAction(eve->{context.hide(); mapEditor.draw();});
+    	selectAllItem.setOnAction(eve->{mapEditor.squareSelect();});
+    	copyItem.setOnAction(eve->{mapEditor.squareCopy();});
+    	clearItem.setOnAction(eve->{mapEditor.squareClear();});
+    	moveItem.setOnAction(eve->{moveClicked =true;});
+    	
+    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
+    	
+    	
+		
+	}
 }
