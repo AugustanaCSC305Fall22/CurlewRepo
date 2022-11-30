@@ -19,7 +19,7 @@
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Length">
+            <Label text="Rows">
                <padding>
                   <Insets bottom="-5.0" />
                </padding>
@@ -28,7 +28,7 @@
                </font>
             </Label>
 
-            <Slider fx:id="lengthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="30.0" min="10.0" minorTickCount="0" prefHeight="45.0" prefWidth="409.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0">
+            <Slider fx:id="rowSlider" blockIncrement="2.0" majorTickUnit="2.0" max="30.0" min="10.0" minorTickCount="0" prefHeight="45.0" prefWidth="409.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0">
                <padding>
                   <Insets left="20.0" right="20.0" />
                </padding>
@@ -36,7 +36,7 @@
                   <Insets bottom="30.0" top="30.0" />
                </VBox.margin>
             </Slider>
-            <Label text="Width">
+            <Label text="Column">
                <padding>
                   <Insets bottom="-5.0" />
                </padding>
@@ -44,7 +44,7 @@
                   <Font size="20.0" />
                </font>
             </Label>
-            <Slider fx:id="widthSlider" blockIncrement="2.0" majorTickUnit="2.0" max="30.0" min="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0">
+            <Slider fx:id="columnSlider" blockIncrement="2.0" majorTickUnit="2.0" max="30.0" min="10.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="10.0">
                <padding>
                   <Insets left="20.0" right="20.0" />
                </padding>
