@@ -85,7 +85,8 @@ public class App extends Application {
 	public static void saveProjectFile() throws IOException {
     	if (selectedFile != null) {
     		GameBoardIO.saveMap(map, selectedFile);
-
+    	}else {
+    		saveAsProjectFile();
     	}
 	}
 	
