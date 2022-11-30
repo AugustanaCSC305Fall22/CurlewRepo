@@ -27,6 +27,15 @@ public class GameBoardIO {
 		TerrainMap map = gson.fromJson(reader, TerrainMap.class);
 		reader.close();
 		return map;		
+	}
+
+	public static void exportMap(TerrainMap map, File file) throws IOException {
+		ObjExporter objMap = new ObjExporter(map);
+		objMap.export(file);
+	}
+
+	public static void saveMapAsTemplate(TerrainMap map) {
+		
 	}		
 	
 

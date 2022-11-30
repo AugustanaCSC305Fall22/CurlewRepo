@@ -243,6 +243,19 @@ import javafx.stage.Stage;
     void saveHandler(ActionEvent event) throws IOException {
     	App.saveProjectFile();
     }
+    
+
+    @FXML
+    void exportHandler(ActionEvent event) throws IOException {
+    	App.exportFile();
+    }
+    
+    
+    @FXML
+    void saveAsTemplateHandler(ActionEvent event) {
+    	App.saveAsTemplate();
+    }
+    
     /** 
      * This method handles the dig button, for all selected tiles will lower its elevation if possible
      */

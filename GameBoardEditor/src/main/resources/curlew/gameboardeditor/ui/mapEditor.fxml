@@ -38,8 +38,8 @@
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" text="Export" />
-                        <MenuItem mnemonicParsing="false" text="Save As Template" />
+                        <MenuItem mnemonicParsing="false" onAction="#exportHandler" text="Export" />
+                        <MenuItem mnemonicParsing="false" onAction="#saveAsTemplateHandler" text="Save As Template" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">

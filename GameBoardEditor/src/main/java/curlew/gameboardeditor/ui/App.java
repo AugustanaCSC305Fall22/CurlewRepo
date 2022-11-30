@@ -90,6 +90,31 @@ public class App extends Application {
     	}
 	}
 	
+	public static void exportFile() throws IOException {
+		FileChooser fileChooser = new FileChooser();
+    	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("3D Object File", "*.Obj"));
+    	fileChooser.setTitle("Export");
+    	fileChooser.setInitialFileName("Untitled.Obj");
+    	File file = fileChooser.showSaveDialog(stage);
+    	if (file != null) {
+    		GameBoardIO.exportMap(map, file);
+    		
+    	} 
+	
+	}
+	
+	public static void saveAsTemplate() {
+    	FileChooser fileChooser = new FileChooser();
+    	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("3D TerrainMap File", "*.TMap"));
+    	fileChooser.setTitle("Save As Template");
+    	fileChooser.setInitialFileName("Untitled.TMap");
+    	File file = fileChooser.showSaveDialog(stage);
+    	if (file != null) {
+    		selectedFile = file;
+    		GameBoardIO.saveMapAsTemplate(map);
+    	} 
+	}
+	
     /**
    	 * getMap()
    	 * @return the current map
@@ -97,6 +122,7 @@ public class App extends Application {
 	public static TerrainMap getMap() {
 		return map;
 	}
+	
 	/**
 	 * setMap()
 	 * @param newMap
@@ -127,7 +153,8 @@ public class App extends Application {
     }
 
 
-    
- 
+
+
+
 
 }
