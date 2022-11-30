@@ -1,13 +1,15 @@
-package curlew.gameboardeditor.datamodel;
+package curlew.gameboardeditor.generators;
 
 import java.util.Random;
 
-public class MazeGenerator {
+import curlew.gameboardeditor.datamodel.TerrainMap;
+
+public class MazeMapGenerator {
 	private static double ALIVE = 8;
 	private static double DEAD = 2;
 	private TerrainMap map;
 	
-	public MazeGenerator(TerrainMap map) {
+	public MazeMapGenerator(TerrainMap map) {
 		this.map = map;
 	}
 
@@ -15,7 +17,7 @@ public class MazeGenerator {
 		Random rand = new Random();
 		
 		for(int i=0; i<map.getRows()*3; i++) {
-			map.build(rand.nextInt(map.getRows()), rand.nextInt(map.getColumns()), ALIVE);
+			map.setHeightAt(rand.nextInt(map.getRows()), rand.nextInt(map.getColumns()), ALIVE);
 		}
 		for(int i=0;i<10000;i++) {
 			nexGeneration();

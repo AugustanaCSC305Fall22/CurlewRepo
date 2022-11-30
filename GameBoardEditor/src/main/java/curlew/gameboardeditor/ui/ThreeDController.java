@@ -7,9 +7,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import curlew.gameboardeditor.datamodel.GameBoardIO;
-import curlew.gameboardeditor.datamodel.RandomMapGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
+import curlew.gameboardeditor.generators.RandomMapGenerator;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;

@@ -8,14 +8,14 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import curlew.gameboardeditor.datamodel.GateToHellGenerator;
-import curlew.gameboardeditor.datamodel.LandformsGenerator;
-import curlew.gameboardeditor.datamodel.MountainGenerator;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
-import curlew.gameboardeditor.datamodel.TrenchGenerator;
-import curlew.gameboardeditor.datamodel.ValleyGenerator;
-import curlew.gameboardeditor.datamodel.VolcanoGenerator;
+import curlew.gameboardeditor.generators.GateToHellLandformGenerator;
+import curlew.gameboardeditor.generators.LandformGenerator;
+import curlew.gameboardeditor.generators.MountainLandformGenerator;
+import curlew.gameboardeditor.generators.TrenchLandformGenerator;
+import curlew.gameboardeditor.generators.ValleyLandformGenerator;
+import curlew.gameboardeditor.generators.VolcanoLandformGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,6 +25,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
@@ -38,22 +39,16 @@ import javafx.stage.Stage;
 	public class MapEditorController {
 		
 	    @FXML
-	    private MenuItem TitleLabel;
+	    private MenuItem saveAsButton;
 
 	    @FXML
-	    private Button saveAsButton;
+	    private MenuItem saveButton;
 	    
-	    @FXML
-	    private MenuItem DigFeatureButton;
-
 	    @FXML
 	    private Button backButton;
 	    
 	    @FXML
-	    private Button AddBlockButton;
-
-	    @FXML
-	    private ComboBox<LandformsGenerator> featureComboBox;
+	    private ComboBox<LandformGenerator> featureComboBox;
 	    
 	    @FXML
 	    private Button addFeatureButton;
@@ -79,15 +74,13 @@ import javafx.stage.Stage;
 	    @FXML 
 	    private MenuItem featureHelp;
 	    
-	    ObservableList<LandformsGenerator> featureList;
+	
 	    
-		
-		
-		private twoDMapEditor mapEditor;
+	    ObservableList<LandformGenerator> featureList;
+	    
+		private TwoDMapEditor mapEditor;
 		
 		private int legendSelectedHeight;
-		
-		
 
 
 		/**
@@ -100,9 +93,9 @@ import javafx.stage.Stage;
 	    	twoDCanvas.setWidth(400);
 	    	
 	    	TerrainMap map = App.getMap();
-	    	mapEditor = new twoDMapEditor(map, twoDCanvas);
+	    	mapEditor = new TwoDMapEditor(map, twoDCanvas);
 	    	
-	    	featureList = FXCollections.observableArrayList(new MountainGenerator(map), new VolcanoGenerator(map), new ValleyGenerator(map), new TrenchGenerator(map), new GateToHellGenerator(map));
+	    	featureList = FXCollections.observableArrayList(new MountainLandformGenerator(), new VolcanoLandformGenerator(), new ValleyLandformGenerator(), new TrenchLandformGenerator(), new GateToHellLandformGenerator());
 
 	    	GraphicsContext gcLegend = tileElevationLegendCanvas.getGraphicsContext2D();
 	    	
@@ -120,48 +113,22 @@ import javafx.stage.Stage;
 	    	});
 	    	
 	    	twoDCanvas.setOnMousePressed(event -> {
-	    		//find the closest x box corrdinates, then find the closest y
-	    		double tileLength = mapEditor.getLength();
-				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
-				mapEditor.setOrigin(p);
+				mapEditor.setOrigin(event);
 	    	});
 	    	
 	    	twoDCanvas.setOnMouseDragged(event -> {
-	    		//find the closest x box corrdinates, then find the closest y
-	    		double tileLength = mapEditor.getLength();
-	    		
-				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
-				mapEditor.setEnd(p);
+				mapEditor.drawSelectionRect(event);
 	    	});
 	    	
 	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
-	    		//find the closest x box corrdinates, then find the closest y
 
 	    		if (event.getButton() == MouseButton.SECONDARY) {
-	    			ContextMenu context = new ContextMenu();
-	    	    	MenuItem item1 = new MenuItem("Undo");
-	    	    	MenuItem item2 = new MenuItem("Redo");
-	    	    	MenuItem item3 = new MenuItem("Add Row");
-	    	    	MenuItem item4 = new MenuItem("DeleteRow");
-	    	    	MenuItem item5 = new MenuItem("Add Column");
-	    	    	MenuItem item6 = new MenuItem("Delete Column");
-	    	    	MenuItem item7 = new MenuItem("Select Same Height");
-//	    	    	item3.setOnAction(event -> );
-	    	    	context.getItems().addAll(item1, item2, item3, item4, item5, item6, item7);
-	    	    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
+	    			createRightClickMenu(event);
 	    		} else {
-	    			double tileLength = mapEditor.getLength();
-					Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
-					mapEditor.canvasClicked(p);
+					mapEditor.canvasClicked(event);
 	    		}
 	    		
-	    		
-//	    		double tileLength = mapEditor.getLength();
-//				Point p = new Point((int) (event.getX()/tileLength),(int)(event.getY()/tileLength));
-//				mapEditor.canvasClicked(p);
-
-
 	    	});
 	    	
 	    	
@@ -229,7 +196,7 @@ import javafx.stage.Stage;
 	 */
 	@FXML
 	private void addFeatures(ActionEvent event) {
-		LandformsGenerator feature = featureComboBox.getValue();
+		LandformGenerator feature = featureComboBox.getValue();
 		mapEditor.drawLandforms(feature, getScale());
 	}
 	
@@ -245,6 +212,16 @@ import javafx.stage.Stage;
      */
     @FXML
     void saveAsHandler(ActionEvent event) throws IOException {
+    	App.saveAsProjectFile();
+    }
+    
+    /**
+     * When clicked, will save the work and update the existing file and
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    void saveHandler(ActionEvent event) throws IOException {
     	App.saveProjectFile();
     }
     /** 
@@ -347,5 +324,25 @@ import javafx.stage.Stage;
     @FXML
     private void selectTilesOfSameHeight() {
     	mapEditor.selectSameHeight();
+    }
+    
+    private void createRightClickMenu(MouseEvent event) {
+    	ContextMenu context = new ContextMenu();
+    	MenuItem undoItem = new MenuItem("Undo");
+    	MenuItem redoItem = new MenuItem("Redo");
+    	MenuItem addRowItem = new MenuItem("Add Row");
+    	MenuItem delRowItem = new MenuItem("Delete Row");
+    	MenuItem addColItem = new MenuItem("Add Column");
+    	MenuItem delColItem = new MenuItem("Delete Column");
+    	MenuItem sameHeightSelectItem = new MenuItem("Select Same Height");
+    	context.getItems().addAll(undoItem, redoItem, addRowItem, delRowItem, addColItem, delColItem, sameHeightSelectItem);
+    	
+    	addRowItem.setOnAction(eve->{mapEditor.addRow(event);});
+    	delRowItem.setOnAction(eve ->{mapEditor.deleteRow(event);});
+    	addColItem.setOnAction(eve->{mapEditor.addColumn(event);});
+    	delColItem.setOnAction(eve->{mapEditor.deleteColumn(event);});
+    	sameHeightSelectItem.setOnAction(eve->{mapEditor.selectSameHeight(event);});
+    	
+    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
     }
 }

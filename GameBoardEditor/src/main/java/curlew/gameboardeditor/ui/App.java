@@ -65,10 +65,7 @@ public class App extends Application {
      * @throws IOException
      * Stores the current map as a TMap file and stores it in the users desired folder on the computer as well as the data field selected file.
      */
-    public static void saveProjectFile() throws IOException {
-    	
-       // TerrainMap mapAddy = map; //calling terrain map object to get info about box to be saved in to a text file later
-        
+    public static void saveAsProjectFile() throws IOException {        
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("3D TerrainMap File", "*.TMap"));
     	fileChooser.setTitle("Save As");
@@ -80,6 +77,18 @@ public class App extends Application {
     	} 
 	
     }
+    
+    /**
+     * updates the saved file
+     * @throws IOException
+     */
+	public static void saveProjectFile() throws IOException {
+    	if (selectedFile != null) {
+    		GameBoardIO.saveMap(map, selectedFile);
+
+    	}
+	}
+	
     /**
    	 * getMap()
    	 * @return the current map
@@ -101,7 +110,7 @@ public class App extends Application {
      * @param fxml
      * @return Parent
      * @throws IOException
-     * loadeds the fxml file initially, and gets called in the setRoot() method to change the scene
+     * loads the fxml file initially, and gets called in the setRoot() method to change the scene
      */
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
@@ -111,6 +120,8 @@ public class App extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+
     
  
 

@@ -1,26 +1,23 @@
-package curlew.gameboardeditor.datamodel;
+package curlew.gameboardeditor.generators;
 
-public class TrenchGenerator extends LandformsGenerator{
+import curlew.gameboardeditor.datamodel.TerrainMap;
 
-	private static double TRENCH_HEIGHT =0.5;
-	public TrenchGenerator(TerrainMap map) {
-		super(map);
-	}
+public class TrenchLandformGenerator extends LandformGenerator{
+
+	private final static double TRENCH_HEIGHT = 1.0;
 
 	@Override
-	public void build(int row, int column, int scale) {
-		// TODO Auto-generated method stub
-		TerrainMap map = super.getMapOnBuild();
+	public void build(TerrainMap map, int row, int column, int scale) {
 		for(int i =row;i<row+2;i++) {
 			for (int j=column; j<column+2;j++) {
-					map.build(i, j, map.getInitialDepth());
+					map.setHeightAt(i, j, map.getInitialDepth());
 			}
 		}
 		buildTrench(map,row+1,column+1,5+1,0);
 		if(scale!=0) {
 			for(int i =row;i<row+2;i++) {
 				for (int j=column; j<column+2;j++) {
-					map.build(i, j, TRENCH_HEIGHT);
+					map.setHeightAt(i, j, TRENCH_HEIGHT);
 				}
 			}
 			buildTrench(map,row+1,column+1,scale+1,scale);
@@ -35,16 +32,15 @@ public class TrenchGenerator extends LandformsGenerator{
 			}else {
 				newDepth = TRENCH_HEIGHT;
 			}
-			map.build(row, column+1, newDepth );
-			map.build(row+1, column+1, newDepth );
-			map.build(row+1, column, newDepth );
+			map.setHeightAt(row, column+1, newDepth );
+			map.setHeightAt(row+1, column+1, newDepth );
+			map.setHeightAt(row+1, column, newDepth );
 			buildTrench(map, row+1, column+1, numLeft-1, scale);
 		}
 	}
 
 	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
+	public String getName() {
 		return "Trench";
 	}
 
