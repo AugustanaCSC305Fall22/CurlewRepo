@@ -25,7 +25,11 @@ public class MainMenuController {
 	
 	protected static boolean genRandom;
 	protected static boolean genMaze;
-
+	
+	@FXML
+    private void initialize() {
+		App.setSelectedFileToNul();
+	}
 
 	@FXML
 	public void loadExistingFile() throws IOException{
