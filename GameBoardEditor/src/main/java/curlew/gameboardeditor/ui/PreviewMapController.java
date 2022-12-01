@@ -49,6 +49,8 @@ public class PreviewMapController {
     @FXML
     private Canvas templateCanvas;
     
+    private TwoDMapEditor mapPreview;
+    
     private final int numTemplates = 8;
 
     private int boxLength;
@@ -61,9 +63,8 @@ public class PreviewMapController {
     
     
     @FXML
-    private void initialize() {
+    private void initialize() throws JsonSyntaxException, JsonIOException, IOException {
     	//Initializes the canvas, builds the map and makes the 2DEditor
-    	
     	
     	
     	templateFiles = templatesFolder.listFiles();
@@ -89,10 +90,15 @@ public class PreviewMapController {
 			}
 		});
     	
+    	App.setMap(GameBoardIO.loadMap(templateFiles[selectedAreaIndex]));
+    	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
+    	
+    	mapPreview = new TwoDMapEditor(previewCanvas);
+    	
     }
     @FXML
     void clickNext(ActionEvent event) throws IOException {
-    	App.setMap(GameBoardIO.loadMap(templateFiles[selectedAreaIndex]));
+//    	App.setMap(GameBoardIO.loadMap(templateFiles[selectedAreaIndex]));
     	App.setRoot("mapEditor");
     }
     
@@ -102,7 +108,9 @@ public class PreviewMapController {
     	selectedAreaIndex = y/(boxLength+2);
     	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
     	TerrainMap map = GameBoardIO.loadMap(templateFiles[selectedAreaIndex]);
-    	TwoDMapEditor mapPreview = new TwoDMapEditor(map, previewCanvas);
+    	App.setMap(map);
+    	mapPreview.draw();
+    	
     }
 
     @FXML

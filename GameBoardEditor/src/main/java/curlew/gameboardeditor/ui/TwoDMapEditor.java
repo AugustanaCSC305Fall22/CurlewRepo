@@ -20,7 +20,7 @@ import curlew.gameboardeditor.generators.LandformGenerator;
 
 public class TwoDMapEditor {
 	
-	private TerrainMap map;
+
 	private Canvas canvas;
 	private HashSet<Point> pointSet;
 	private double length;
@@ -34,8 +34,8 @@ public class TwoDMapEditor {
 	 * @param map
 	 * @param twoDCanvas
 	 */
-	public TwoDMapEditor(TerrainMap map, Canvas twoDCanvas) {
-		this.map = map;
+	public TwoDMapEditor(Canvas twoDCanvas) {
+		
 		canvas = twoDCanvas;
 		pointSet= new HashSet<>();
 		setTileLength();
@@ -43,19 +43,19 @@ public class TwoDMapEditor {
 	}
 	
 	public void setTileLength() {
-		length=  (canvas.getHeight()/(Math.max(map.getColumns(), map.getRows())));
+		length=  (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())));
 	}
 	
 	public void draw() {
 
 		GraphicsContext gc = canvas.getGraphicsContext2D();
     	gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		for (int i = 0; i < map.getRows(); i++) {
-			for (int j = 0; j < map.getColumns(); j++) {
+		for (int i = 0; i < App.getMap().getRows(); i++) {
+			for (int j = 0; j < App.getMap().getColumns(); j++) {
 				//Sets the default colors for the outline of the canvas
 				gc.setStroke(Color.BLACK);
 		    	gc.strokeRect(j * length, i * length,length, length);
-		    	int height = (int) Math.round(map.getHeight(i, j));
+		    	int height = (int) Math.round(App.getMap().getHeight(i, j));
 				gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
 				gc.fillRect(j * length, i * length,length, length);
 
@@ -72,7 +72,7 @@ public class TwoDMapEditor {
 	public void canvasClicked(MouseEvent event) {
 		
 		Point point =convertEventToPoint(event);
-		if (point.x >= 0 && point.x<map.getColumns() && point.y>=0 && point.y < map.getRows()) {
+		if (point.x >= 0 && point.x<App.getMap().getColumns() && point.y>=0 && point.y < App.getMap().getRows()) {
 		
 			if(pointSet.contains(point)) {
 				pointSet.remove(point);
@@ -99,7 +99,7 @@ public class TwoDMapEditor {
 		} else {
 			Iterator<Point> it = pointSet.iterator();
 			Point p= it.next();
-			landform.build(map, p.y, p.x, scale);
+			landform.build(App.getMap(), p.y, p.x, scale);
 			pointSet.clear();
 			draw();
 		}
@@ -108,7 +108,7 @@ public class TwoDMapEditor {
 	public void raiseTile() {
 		for(Point point:pointSet) {
 			try {
-				map.increaseHeightAt(point.y, point.x);
+				App.getMap().increaseHeightAt(point.y, point.x);
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
@@ -117,7 +117,7 @@ public class TwoDMapEditor {
 	public void raiseTile(int allivation) {
 		for(Point point:pointSet) {
 			try {
-				map.setHeightAt(point.y, point.x,allivation);
+				App.getMap().setHeightAt(point.y, point.x,allivation);
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
@@ -125,7 +125,7 @@ public class TwoDMapEditor {
 	public void lowerTile() {
 		for(Point point:pointSet) {
 			try {
-				map.decreaseHeightAt(point.y, point.x);
+				App.getMap().decreaseHeightAt(point.y, point.x);
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
@@ -160,7 +160,7 @@ public class TwoDMapEditor {
 	}
 	
 	private void addRow(Point p) {
-		map.addRow(p.y);
+		App.getMap().addRow(p.y);
 		pointSet.clear();
 		setTileLength();
 		draw();
@@ -182,7 +182,7 @@ public class TwoDMapEditor {
 	}
 	
 	private void deleteRow(Point p) {
-		map.deleteRow(p.y);
+		App.getMap().deleteRow(p.y);
 		pointSet.clear();
 		setTileLength();
 		draw();
@@ -204,7 +204,7 @@ public class TwoDMapEditor {
 	}
 	
 	private void addColumn(Point p) {
-		map.addColumn(p.x);
+		App.getMap().addColumn(p.x);
 		pointSet.clear();
 		setTileLength();
 		draw();
@@ -226,7 +226,7 @@ public class TwoDMapEditor {
 	}
 	
 	private void deleteColumn(Point p) {
-		map.deleteColumn(p.x);
+		App.getMap().deleteColumn(p.x);
 		pointSet.clear();
 		setTileLength();
 		draw();
@@ -249,10 +249,10 @@ public class TwoDMapEditor {
 	}
 	
 	private void selectSameHeight(Point p) {
-		double height = map.getHeight(p.y, p.x);
-		for(int i=0;i<map.getRows();i++) {
-			for(int j=0;j<map.getColumns();j++) {
-				if(map.getHeight(i, j)==height) {
+		double height = App.getMap().getHeight(p.y, p.x);
+		for(int i=0;i<App.getMap().getRows();i++) {
+			for(int j=0;j<App.getMap().getColumns();j++) {
+				if(App.getMap().getHeight(i, j)==height) {
 					pointSet.add(new Point(j,i));
 				}
 			}
@@ -287,7 +287,7 @@ public class TwoDMapEditor {
 
 	public boolean isValid(MouseEvent event) {
 		Point point = convertEventToPoint(event);
-		return (point.x >= 0 && point.x<=map.getColumns() && point.y>=0 && point.y <= map.getRows());
+		return (point.x >= 0 && point.x<=App.getMap().getColumns() && point.y>=0 && point.y <= App.getMap().getRows());
 	}
 
 	public void squareSelect() {
@@ -312,7 +312,7 @@ public class TwoDMapEditor {
 		copyArray =new double[endY-startY][endX-startX];
 		for(int x = startX; x<endX; x++) {
 			for(int y= startY; y<endY; y++) {
-				copyArray[y-startY][x-startX]= map.getHeight(y, x);
+				copyArray[y-startY][x-startX]= App.getMap().getHeight(y, x);
 			}
 		}
 		draw();
@@ -327,7 +327,7 @@ public class TwoDMapEditor {
 		for(int i=0;i<copyArray.length;i++) {
 			for(int j=0; j<copyArray[0].length;j++) {
 				try {
-					map.setHeightAt(point.y+i, point.x+j, copyArray[i][j]);
+					App.getMap().setHeightAt(point.y+i, point.x+j, copyArray[i][j]);
 				}catch(IndexOutOfBoundsException e) {};
 			}
 		}
@@ -342,7 +342,7 @@ public class TwoDMapEditor {
 		int endY = (int) Math.max(end.getY(), origin.getY());
 		for(int x = startX; x<endX; x++) {
 			for(int y= startY; y<endY; y++) {
-				map.setHeightAt(y, x, map.getInitialDepth());
+				App.getMap().setHeightAt(y, x, App.getMap().getInitialDepth());
 			}
 		}
 		draw();

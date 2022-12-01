@@ -98,7 +98,7 @@ import javafx.stage.Stage;
 	    	twoDCanvas.setWidth(400);
 	    	
 	    	TerrainMap map = App.getMap();
-	    	mapEditor = new TwoDMapEditor(map, twoDCanvas);
+	    	mapEditor = new TwoDMapEditor(twoDCanvas);
 	    	
 	    	featureList = FXCollections.observableArrayList(new MountainLandformGenerator(), new VolcanoLandformGenerator(), new ValleyLandformGenerator(), new TrenchLandformGenerator(), new GateToHellLandformGenerator());
 
