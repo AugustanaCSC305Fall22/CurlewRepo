@@ -283,7 +283,7 @@ import javafx.stage.Stage;
     }
     
 	
-
+    
     
     @FXML
     private void featureHelpClicked() {
@@ -416,5 +416,15 @@ import javafx.stage.Stage;
     	if(Desktop.isDesktopSupported()) {
     		Desktop.getDesktop().browse(uri);
     	}
+    }
+    
+    @FXML
+    private void undo() {
+    	mapEditor.undo();
+    }
+    
+    @FXML
+    private void redo() {
+    	mapEditor.redo();
     }
 }

@@ -1,8 +1,9 @@
 package curlew.gameboardeditor.datamodel;
 
-public class TerrainMap  implements Cloneable {
+public class TerrainMap  implements UndoRedoAble {
 
 	private double[][] heightArray;
+	
 	private final static double INITIAL_DEPTH = 2;
 	private final static double DEPTH_CHANGE = 2;
 	private final static double MAX_HEIGHT = 6*DEPTH_CHANGE;
@@ -94,6 +95,10 @@ public class TerrainMap  implements Cloneable {
 		heightArray = array;
 	}
 	
+	public double[][] getHeightArray(){
+		return heightArray;
+	}
+	
 	public void addRow(int row) {
 		if(row<0||row>=getRows()) {
 			throw new IllegalArgumentException();
@@ -178,11 +183,28 @@ public class TerrainMap  implements Cloneable {
 		
 	}
 	
+	
+
 	@Override
-	public TerrainMap clone() {
+	public UndoRedoAble getClone() {
 		TerrainMap clone = new TerrainMap(getRows(),getColumns());
-		clone.setHeightArray(heightArray.clone());
+		for(int i=0;i<getRows();i++) {
+			for(int j=0;j<getColumns();j++) {
+				clone.setHeightAt(i, j, heightArray[i][j]);
+			}
+		}
+		TestClass.printMap(clone);
+		System.out.println();
 		return clone;
+	}
+
+	@Override
+	public void setState(UndoRedoAble state) {
+		TerrainMap newMap = (TerrainMap) state;
+		heightArray=newMap.getHeightArray();
+//		TestClass.printMap(newMap);
+//		System.out.println();
+		TestClass.printMap(this);
 	}
 
 	

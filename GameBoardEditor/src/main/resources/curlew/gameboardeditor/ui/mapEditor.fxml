@@ -44,8 +44,8 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                        <MenuItem mnemonicParsing="false" text="Undo" />
-                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo" />
+                        <MenuItem mnemonicParsing="false" onAction="#redo" text="Redo" />
                     <MenuItem mnemonicParsing="false" onAction="#addRow" text="Add Row" />
                         <MenuItem mnemonicParsing="false" onAction="#deleteRow" text="Delete Row" />
                         <MenuItem mnemonicParsing="false" onAction="#addColumn" text="Add Column" />

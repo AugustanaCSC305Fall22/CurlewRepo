@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
+import curlew.gameboardeditor.datamodel.UndoRedoHandler;
 import curlew.gameboardeditor.generators.LandformGenerator;
 
 public class TwoDMapEditor {
@@ -27,6 +28,7 @@ public class TwoDMapEditor {
 	private Point origin;
 	private Point end;
 	private double[][] copyArray;
+	private UndoRedoHandler undoRedoHandler;
 	
 	/**
 	 * Constructs TwoDMapEditor by combining the terrainMap and the twoDMapEditor
@@ -35,7 +37,7 @@ public class TwoDMapEditor {
 	 * @param twoDCanvas
 	 */
 	public TwoDMapEditor(Canvas twoDCanvas) {
-		
+		undoRedoHandler = new UndoRedoHandler(App.getMap());
 		canvas = twoDCanvas;
 		pointSet= new HashSet<>();
 		setTileLength();
@@ -102,6 +104,7 @@ public class TwoDMapEditor {
 			landform.build(App.getMap(), p.y, p.x, scale);
 			pointSet.clear();
 			draw();
+			undoRedoHandler.saveState();
 		}
 	}
 	
@@ -112,6 +115,7 @@ public class TwoDMapEditor {
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
+		undoRedoHandler.saveState();
 	}
 	
 	public void raiseTile(int allivation) {
@@ -121,6 +125,7 @@ public class TwoDMapEditor {
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
+		undoRedoHandler.saveState();
 	}
 	public void lowerTile() {
 		for(Point point:pointSet) {
@@ -129,6 +134,7 @@ public class TwoDMapEditor {
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
+		undoRedoHandler.saveState();
 	}
 	
 
@@ -164,6 +170,7 @@ public class TwoDMapEditor {
 		pointSet.clear();
 		setTileLength();
 		draw();
+		undoRedoHandler.saveState();
 	}
 	
 	public void deleteRow() {
@@ -186,6 +193,7 @@ public class TwoDMapEditor {
 		pointSet.clear();
 		setTileLength();
 		draw();
+		undoRedoHandler.saveState();
 	}
 	
 	public void addColumn() {
@@ -208,6 +216,7 @@ public class TwoDMapEditor {
 		pointSet.clear();
 		setTileLength();
 		draw();
+		undoRedoHandler.saveState();
 	}
 	
 	public void deleteColumn() {
@@ -230,6 +239,7 @@ public class TwoDMapEditor {
 		pointSet.clear();
 		setTileLength();
 		draw();
+		undoRedoHandler.saveState();
 	}
 	
 	
@@ -332,6 +342,7 @@ public class TwoDMapEditor {
 			}
 		}
 		draw();
+		undoRedoHandler.saveState();
 		
 	}
 
@@ -346,6 +357,7 @@ public class TwoDMapEditor {
 			}
 		}
 		draw();
+		undoRedoHandler.saveState();
 		
 	}
 
@@ -356,13 +368,29 @@ public class TwoDMapEditor {
 		}
 		squareCopy();
 		squareClear();
+		undoRedoHandler.removeState();
 		paste(event);
+		undoRedoHandler.removeState();
+		undoRedoHandler.saveState();
 		
 		if(temp.length!=0) {
 			copyArray =temp;
 		}
 		
-		
+	}
+	
+	public void undo() {
+		undoRedoHandler.undo();
+		this.unSelectAllPoints();
+		this.setTileLength();
+		draw();
+	}
+	
+	public void redo() {
+		undoRedoHandler.redo();
+		this.unSelectAllPoints();
+		this.setTileLength();
+		draw();
 	}
 }
 
