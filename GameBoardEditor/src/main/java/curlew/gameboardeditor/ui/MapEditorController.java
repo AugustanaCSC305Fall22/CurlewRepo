@@ -3,8 +3,11 @@
 package curlew.gameboardeditor.ui;
 
 
+import java.awt.Desktop;
 import java.awt.Point;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -404,8 +407,14 @@ import javafx.stage.Stage;
     	moveItem.setOnAction(eve->{moveClicked =true;});
     	
     	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
-    	
-    	
 		
 	}
+    
+    @FXML
+    private void openTutorialVideo() throws URISyntaxException, IOException {
+    	final URI uri = new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    	if(Desktop.isDesktopSupported()) {
+    		Desktop.getDesktop().browse(uri);
+    	}
+    }
 }

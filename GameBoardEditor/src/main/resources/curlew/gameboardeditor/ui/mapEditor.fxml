@@ -63,6 +63,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#infoHelpClicked" text="Info" />
                     <MenuItem mnemonicParsing="false" onAction="#scaleHelpClicked" text="Scale info" />
                         <MenuItem mnemonicParsing="false" onAction="#featureHelpClicked" text="Features info" />
+                        <MenuItem mnemonicParsing="false" onAction="#openTutorialVideo" text="Tutorial Video" />
                   </items>
                 </Menu>
               </menus>

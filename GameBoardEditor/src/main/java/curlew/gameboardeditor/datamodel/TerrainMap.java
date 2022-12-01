@@ -178,9 +178,10 @@ public class TerrainMap  implements Cloneable {
 		
 	}
 	
+	@Override
 	public TerrainMap clone() {
 		TerrainMap clone = new TerrainMap(getRows(),getColumns());
-		clone.setHeightArray(heightArray);
+		clone.setHeightArray(heightArray.clone());
 		return clone;
 	}
 
