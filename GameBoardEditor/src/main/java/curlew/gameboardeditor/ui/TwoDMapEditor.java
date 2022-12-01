@@ -281,13 +281,20 @@ public class TwoDMapEditor {
 		double width = Math.abs(end.getX()-origin.getX());
 		double height = Math.abs(end.getY() - origin.getY());
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setStroke(Color.BLUE);
-		gc.strokeRect(x*length, y*length, width*length, height*length);
+		Color blue =Color.rgb(137, 207, 240, 0.5);
+		
+		gc.setFill(blue);
+		gc.fillRect(x*length, y*length, width*length, height*length);
 		
 	}
 
 	public void drawSelectionRect(MouseEvent event) {
 		end=convertEventToPoint(event);
+		if(end.x ==origin.x) {
+			end.x++;
+		}if(end.y == origin.y) {
+			end.y++;
+		}
 		drawSelectionRect();
 	}
 	
