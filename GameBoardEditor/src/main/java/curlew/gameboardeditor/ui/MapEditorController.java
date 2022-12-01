@@ -286,7 +286,7 @@ import javafx.stage.Stage;
     
     
     @FXML
-    private void featureHelpClicked() {
+    private void helpMenuFeature() {
     	Alert featureInfo = new Alert(AlertType.INFORMATION, "Multiple features are provided in our program.\n\n" + 
     			"Mountain is 5 by 5 feature and the selected box will be the middle of the mountain.\n\n"
     			+ "Volcano is 5 by 5 feature and the selected box will be the middle of the volcano.\n\n"
@@ -299,7 +299,7 @@ import javafx.stage.Stage;
     }
     
     @FXML
-    private void scaleHelpClicked() {
+    private void helpMenuScale() {
     	Alert scaleInfo = new Alert(AlertType.INFORMATION, "Scale slider is provided in our program\n\n" +
     			"Scale slider determines the scale of the feature from 1 to 5.\n\n" +
     			"Higher the scale is, higher the mountains and volcanoes are.\n\n" +
@@ -312,7 +312,7 @@ import javafx.stage.Stage;
     }
     
     @FXML
-    private void infoHelpClicked() {
+    private void helpMenuInfo() {
     	Alert pageInfo = new Alert(AlertType.INFORMATION, "Welcome to the Terrain Editor.\n\n" 
     			+ "You can select multiple boxes at the same time and edit.\n" 
     			+ "With Tile Elevation Legend, you can modify the height of the selected tile immediately.\n" 
@@ -326,6 +326,11 @@ import javafx.stage.Stage;
     	pageInfo.setTitle("Map Editor Information");
     	pageInfo.setHeaderText("Information:");
     	pageInfo.show();
+    }
+    
+    @FXML
+    private void helpMenuTileLegend() {
+    	
     }
     
     @FXML
