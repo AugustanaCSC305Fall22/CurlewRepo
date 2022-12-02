@@ -150,7 +150,7 @@ public class App extends Application {
         launch();
     }
     
-    public static void setSelectedFileToNul() {
+    public static void setSelectedFileToNull() {
     	selectedFile = null;
     }
 

@@ -28,7 +28,7 @@ public class MainMenuController {
 	
 	@FXML
     private void initialize() {
-		App.setSelectedFileToNul();
+		App.setSelectedFileToNull();
 	}
 
 	@FXML

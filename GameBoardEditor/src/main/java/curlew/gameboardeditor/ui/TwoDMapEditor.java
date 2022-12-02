@@ -118,10 +118,10 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 	}
 	
-	public void raiseTile(int allivation) {
+	public void raiseTile(int elevation) {
 		for(Point point:pointSet) {
 			try {
-				App.getMap().setHeightAt(point.y, point.x,allivation);
+				App.getMap().setHeightAt(point.y, point.x,elevation);
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
