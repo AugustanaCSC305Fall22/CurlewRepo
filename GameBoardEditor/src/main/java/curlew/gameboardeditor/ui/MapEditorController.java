@@ -127,13 +127,13 @@ import javafx.stage.Stage;
 	    	});
 	    	
 	    	twoDCanvas.setOnMousePressed(event -> {
-				if(!creatingSelectionRect&&!moveClicked&&mapEditor.isValid(event)) {
+				if(!creatingSelectionRect&&!moveClicked&&mapEditor.isValidDragEvt(event)) {
 					mapEditor.setOrigin(event);
 				}
 	    	});
 	    	
 	    	twoDCanvas.setOnMouseDragged(event -> {
-	    		if(mapEditor.isValid(event)) {
+	    		if(mapEditor.isValidDragEvt(event)) {
 	    			creatingSelectionRect =mapEditor.drawSelectionRect(event);
 	    		}else {
 	    			if(!creatingSelectionRect) {
@@ -145,18 +145,20 @@ import javafx.stage.Stage;
 	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
 
-	    		if (event.getButton() == MouseButton.SECONDARY && mapEditor.isValid(event)) {
+	    		if (event.getButton() == MouseButton.SECONDARY && mapEditor.isValidSelectEvt(event)) {
 	    			if(creatingSelectionRect) {
 	    				showSquareSelectionMenu(event);
 	    			}else {
 	    				showRightClickMenu(event);
+	    				squareSelectMenu.hide();
+	    				mapEditor.draw();
 	    			}
 	    			
 	    		} else {
 	    			if(creatingSelectionRect) {
 	    				showSquareSelectionMenu(event);
 	    			}else if(moveClicked) {
-	    				if(mapEditor.isValid(event)) {
+	    				if(mapEditor.isValidSelectEvt(event)) {
 	    					mapEditor.squareMove(event);
 		    				moveClicked = false;
 	    				}
@@ -416,8 +418,8 @@ import javafx.stage.Stage;
     
     private void showSquareSelectionMenu(MouseEvent event) {
     	creatingSelectionRect = false;
-    	squareSelectMenu = new ContextMenu();
-
+    	
+    	squareSelectMenu.getItems().clear();
     	MenuItem selectAllItem = new MenuItem("Select All");
     	MenuItem copyItem = new MenuItem("Copy");
     	MenuItem moveItem = new MenuItem("Move");

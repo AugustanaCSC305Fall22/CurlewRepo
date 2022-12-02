@@ -328,9 +328,14 @@ public class TwoDMapEditor {
 		return new Point((int) (event.getX()/length),(int)(event.getY()/length));
 	}
 
-	public boolean isValid(MouseEvent event) {
+	public boolean isValidDragEvt(MouseEvent event) {
 		Point point = convertEventToPoint(event);
-		return (point.x >= 0 && point.x<=App.getMap().getColumns() && point.y>=0 && point.y <= App.getMap().getRows());
+		return (point.x >=0 && point.x<=App.getMap().getColumns() && point.y>=0 && point.y <= App.getMap().getRows());
+	}
+	
+	public boolean isValidSelectEvt(MouseEvent event) {
+		Point point = convertEventToPoint(event);
+		return (point.x >=0 && point.x<App.getMap().getColumns() && point.y>=0 && point.y < App.getMap().getRows());
 	}
 
 	public void squareSelect() {
