@@ -22,6 +22,7 @@ import curlew.gameboardeditor.generators.VolcanoLandformGenerator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -77,7 +78,7 @@ import javafx.stage.Stage;
 	    @FXML 
 	    private MenuItem featureHelp;
 	    
-	    private boolean dragging;
+	    private boolean creatingSelectionRect;
 	    
 	    private ObservableList<LandformGenerator> featureList;
 	    
@@ -87,6 +88,10 @@ import javafx.stage.Stage;
 
 		private boolean moveClicked;
 
+		private ContextMenu rightClickMenu;
+
+		private ContextMenu squareSelectMenu;
+
 
 		/**
 		 * Initializes the canvas, builds the map and makes the 2DEditor. 
@@ -94,8 +99,12 @@ import javafx.stage.Stage;
 		 */
 	    @FXML
 	    private void initialize() {
-	    	twoDCanvas.setHeight(400);
+	    	twoDCanvas.setHeight(400); //delete this and set Height in scene builder directly.
 	    	twoDCanvas.setWidth(400);
+	    	
+	    	rightClickMenu = new ContextMenu();
+	    	squareSelectMenu = new ContextMenu();
+	    	
 	    	
 	    	TerrainMap map = App.getMap();
 	    	mapEditor = new TwoDMapEditor(twoDCanvas);
@@ -118,15 +127,16 @@ import javafx.stage.Stage;
 	    	});
 	    	
 	    	twoDCanvas.setOnMousePressed(event -> {
-				if(!dragging&&!moveClicked) {
+				if(!creatingSelectionRect&&!moveClicked&&mapEditor.isValid(event)) {
 					mapEditor.setOrigin(event);
 				}
 	    	});
 	    	
 	    	twoDCanvas.setOnMouseDragged(event -> {
-	    		dragging=true;
 	    		if(mapEditor.isValid(event)) {
-	    			mapEditor.drawSelectionRect(event);
+	    			creatingSelectionRect =mapEditor.drawSelectionRect(event);
+	    		}else {
+	    			mapEditor.setOriginToNull();
 	    		}
 	    	});
 	    	
@@ -134,18 +144,20 @@ import javafx.stage.Stage;
 	    	twoDCanvas.setOnMouseClicked(event -> {
 
 	    		if (event.getButton() == MouseButton.SECONDARY && mapEditor.isValid(event)) {
-	    			createRightClickMenu(event);
+	    			showRightClickMenu(event);
 	    			
 	    		} else {
-	    			if(dragging) {
-	    				createSquareSelectionMenu(event);
+	    			if(creatingSelectionRect) {
+	    				showSquareSelectionMenu(event);
 	    			}else if(moveClicked) {
 	    				mapEditor.squareMove(event);
 	    				moveClicked = false;
 	    			}
 	    			else {
 	    				mapEditor.canvasClicked(event);
+	    				squareSelectMenu.hide();
 	    			}
+	    			rightClickMenu.hide();
 	    		}
 	    		
 	    	});
@@ -366,9 +378,9 @@ import javafx.stage.Stage;
     	mapEditor.selectSameHeight();
     }
     
-    private void createRightClickMenu(MouseEvent event) {
-    	ContextMenu context = new ContextMenu();
-
+    
+    private void showRightClickMenu(MouseEvent event) {
+    	rightClickMenu.getItems().clear();
     	MenuItem addRowItem = new MenuItem("Add Row");
     	MenuItem delRowItem = new MenuItem("Delete Row");
     	MenuItem addColItem = new MenuItem("Add Column");
@@ -377,7 +389,7 @@ import javafx.stage.Stage;
     	MenuItem closeItem = new MenuItem("Close");
     	MenuItem pasteItem = new MenuItem("Paste");
     	
-    	context.getItems().addAll(pasteItem, addRowItem, delRowItem, addColItem, delColItem, sameHeightSelectItem, closeItem);
+    	rightClickMenu.getItems().addAll(pasteItem, addRowItem, delRowItem, addColItem, delColItem, sameHeightSelectItem, closeItem);
     	
     	if(!mapEditor.copied()) {
     		pasteItem.setDisable(true);
@@ -387,31 +399,31 @@ import javafx.stage.Stage;
     	delRowItem.setOnAction(eve ->{mapEditor.deleteRow(event);});
     	addColItem.setOnAction(eve->{mapEditor.addColumn(event);});
     	delColItem.setOnAction(eve->{mapEditor.deleteColumn(event);});
-    	closeItem.setOnAction(eve->{context.hide();});
+    	closeItem.setOnAction(eve->{rightClickMenu.hide();});
     	sameHeightSelectItem.setOnAction(eve->{mapEditor.selectSameHeight(event);});
     	pasteItem.setOnAction(eve->{mapEditor.paste(event);});
     	
-    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
+    	rightClickMenu.show(twoDCanvas, event.getScreenX(), event.getScreenY());
     }
     
-    private void createSquareSelectionMenu(MouseEvent event) {
-    	dragging = false;
-    	ContextMenu context = new ContextMenu();
+    private void showSquareSelectionMenu(MouseEvent event) {
+    	creatingSelectionRect = false;
+    	squareSelectMenu = new ContextMenu();
 
     	MenuItem selectAllItem = new MenuItem("Select All");
     	MenuItem copyItem = new MenuItem("Copy");
     	MenuItem moveItem = new MenuItem("Move");
     	MenuItem clearItem = new MenuItem("Clear");
     	MenuItem closeItem = new MenuItem("Close");
-    	context.getItems().addAll(selectAllItem, copyItem, moveItem, clearItem,closeItem);
+    	squareSelectMenu.getItems().addAll(selectAllItem, copyItem, moveItem, clearItem,closeItem);
     	
-    	closeItem.setOnAction(eve->{context.hide(); mapEditor.draw();});
+    	closeItem.setOnAction(eve->{squareSelectMenu.hide(); mapEditor.draw();});
     	selectAllItem.setOnAction(eve->{mapEditor.squareSelect();});
     	copyItem.setOnAction(eve->{mapEditor.squareCopy();});
     	clearItem.setOnAction(eve->{mapEditor.squareClear();});
     	moveItem.setOnAction(eve->{moveClicked =true;});
     	
-    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
+    	squareSelectMenu.show(twoDCanvas, event.getScreenX(), event.getScreenY());
 		
 	}
     

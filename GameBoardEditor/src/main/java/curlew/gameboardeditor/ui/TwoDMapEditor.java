@@ -273,6 +273,10 @@ public class TwoDMapEditor {
 	public void setOrigin(MouseEvent event) {
 		origin =convertEventToPoint(event);
 	}
+	
+	public void setOriginToNull() {
+		origin = null;
+	}
 
 	private void drawSelectionRect() {
 		draw();
@@ -288,14 +292,19 @@ public class TwoDMapEditor {
 		
 	}
 
-	public void drawSelectionRect(MouseEvent event) {
-		end=convertEventToPoint(event);
-		if(end.x ==origin.x) {
-			end.x++;
-		}if(end.y == origin.y) {
-			end.y++;
+	public boolean drawSelectionRect(MouseEvent event) {
+		if(origin!=null) {
+			end=convertEventToPoint(event);
+			if(end.x ==origin.x) {
+				end.x++;
+			}if(end.y == origin.y) {
+				end.y++;
+			}
+			drawSelectionRect();
+			return true;
+		}else {
+			return false;
 		}
-		drawSelectionRect();
 	}
 	
 	private Point convertEventToPoint(MouseEvent event) {
