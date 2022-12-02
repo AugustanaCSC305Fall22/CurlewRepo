@@ -278,17 +278,21 @@ public class TwoDMapEditor {
 		origin = null;
 	}
 
-	private void drawSelectionRect() {
+	private void drawRect(Color color, boolean fill) {
 		draw();
 		double x = Math.min(end.getX(), origin.getX());
 		double y = Math.min(end.getY(), origin.getY());
 		double width = Math.abs(end.getX()-origin.getX());
 		double height = Math.abs(end.getY() - origin.getY());
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		Color blue =Color.rgb(137, 207, 240, 0.5);
+		if(fill) {
+			gc.setFill(color);
+			gc.fillRect(x*length, y*length, width*length, height*length);
+		}else {
+			gc.setStroke(color);
+			gc.strokeRect(x*length, y*length, width*length, height*length);
+		}
 		
-		gc.setFill(blue);
-		gc.fillRect(x*length, y*length, width*length, height*length);
 		
 	}
 
@@ -296,15 +300,28 @@ public class TwoDMapEditor {
 		if(origin!=null) {
 			end=convertEventToPoint(event);
 			if(end.x ==origin.x) {
-				end.x++;
+				if(end.x>=App.getMap().getColumns()) {
+					end.x--;
+				}else {
+					end.x++;
+				}
+				
 			}if(end.y == origin.y) {
-				end.y++;
+				if(end.y>=App.getMap().getRows()) {
+					end.y--;
+				}else {
+					end.y++;
+				}
 			}
-			drawSelectionRect();
+			drawRect(Color.rgb(137, 207, 240, 0.5), true);
 			return true;
 		}else {
 			return false;
 		}
+	}
+	
+	public void drawMoveSquare() {
+		drawRect(Color.RED,false);
 	}
 	
 	private Point convertEventToPoint(MouseEvent event) {

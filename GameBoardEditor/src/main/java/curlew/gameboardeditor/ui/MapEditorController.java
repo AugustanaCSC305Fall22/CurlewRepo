@@ -136,7 +136,9 @@ import javafx.stage.Stage;
 	    		if(mapEditor.isValid(event)) {
 	    			creatingSelectionRect =mapEditor.drawSelectionRect(event);
 	    		}else {
-	    			mapEditor.setOriginToNull();
+	    			if(!creatingSelectionRect) {
+	    				mapEditor.setOriginToNull();
+	    			}
 	    		}
 	    	});
 	    	
@@ -144,14 +146,20 @@ import javafx.stage.Stage;
 	    	twoDCanvas.setOnMouseClicked(event -> {
 
 	    		if (event.getButton() == MouseButton.SECONDARY && mapEditor.isValid(event)) {
-	    			showRightClickMenu(event);
+	    			if(creatingSelectionRect) {
+	    				showSquareSelectionMenu(event);
+	    			}else {
+	    				showRightClickMenu(event);
+	    			}
 	    			
 	    		} else {
 	    			if(creatingSelectionRect) {
 	    				showSquareSelectionMenu(event);
 	    			}else if(moveClicked) {
-	    				mapEditor.squareMove(event);
-	    				moveClicked = false;
+	    				if(mapEditor.isValid(event)) {
+	    					mapEditor.squareMove(event);
+		    				moveClicked = false;
+	    				}
 	    			}
 	    			else {
 	    				mapEditor.canvasClicked(event);
@@ -421,7 +429,7 @@ import javafx.stage.Stage;
     	selectAllItem.setOnAction(eve->{mapEditor.squareSelect();});
     	copyItem.setOnAction(eve->{mapEditor.squareCopy();});
     	clearItem.setOnAction(eve->{mapEditor.squareClear();});
-    	moveItem.setOnAction(eve->{moveClicked =true;});
+    	moveItem.setOnAction(eve->{moveClicked =true;mapEditor.drawMoveSquare();});
     	
     	squareSelectMenu.show(twoDCanvas, event.getScreenX(), event.getScreenY());
 		
