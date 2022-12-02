@@ -51,9 +51,8 @@ public class PreviewMapController {
     
     private TwoDMapEditor mapPreview;
     
-    private final int numTemplates = 8;
 
-    private int boxLength;
+    private static final int BOX_LENGTH=35;
     
     private int selectedAreaIndex;
     File[] templateFiles;
@@ -68,17 +67,16 @@ public class PreviewMapController {
     	
     	
     	templateFiles = templatesFolder.listFiles();
-    	
+    	templateCanvas.setHeight((BOX_LENGTH+2)*templateFiles.length);
     	GraphicsContext gc = templateCanvas.getGraphicsContext2D();
     	
     	int width = (int) templateCanvas.getWidth();
-    	int length = (int) templateCanvas.getHeight();
-    	boxLength = (length / numTemplates)-2;
+    	System.out.println(BOX_LENGTH);
     	int boxWidth = width - 2;
     	gc.setStroke(Color.BLACK);
-    	for (int i = 0; i < numTemplates; i++) {
-    		gc.strokeRect(2, i * (boxLength+2), boxWidth, boxLength);
-    		gc.strokeText(templateFiles[i].getName().replaceAll(".TMap", ""), (boxWidth/2) -40 , ((boxLength + 2) * i) + boxLength/2);
+    	for (int i = 0; i < templateFiles.length; i++) {
+    		gc.strokeRect(2, i * (BOX_LENGTH+2), boxWidth, BOX_LENGTH);
+    		gc.strokeText(templateFiles[i].getName().replaceAll(".TMap", ""), (boxWidth/2) -40 , ((BOX_LENGTH + 2) * i) + BOX_LENGTH/2);
     		
     	}
     	templateCanvas.setOnMouseClicked(evt -> {
@@ -105,10 +103,11 @@ public class PreviewMapController {
     @FXML
     private void onMouseClicked(MouseEvent event) throws IOException {
     	int y = (int) event.getY();
-    	selectedAreaIndex = y/(boxLength+2);
+    	selectedAreaIndex = y/(BOX_LENGTH+2);
     	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
     	TerrainMap map = GameBoardIO.loadMap(templateFiles[selectedAreaIndex]);
     	App.setMap(map);
+    	mapPreview.setTileLength();
     	mapPreview.draw();
     	
     }
