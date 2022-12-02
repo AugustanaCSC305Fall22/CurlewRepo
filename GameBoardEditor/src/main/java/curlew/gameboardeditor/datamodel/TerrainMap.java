@@ -1,7 +1,11 @@
 package curlew.gameboardeditor.datamodel;
 
+import curlew.gameboardeditor.datamodel.Tile2DGeometry.TileShape;
+
 public class TerrainMap  implements UndoRedoAble {
 
+	private Tile2DGeometry.TileShape tileShape = Tile2DGeometry.TileShape.SQUARE;
+	
 	private double[][] heightArray;
 	
 	private final static double INITIAL_DEPTH = 2;
@@ -22,6 +26,29 @@ public class TerrainMap  implements UndoRedoAble {
 		}
 	}
 
+	public Tile2DGeometry.TileShape getTileShape() {
+		return tileShape;
+	}
+	
+	public Tile2DGeometry getShapeAt(int row, int col) {
+		return new Tile2DGeometry(row, col, tileShape);
+	}
+
+	/**
+	 * For a point x,y in space, which tile (represented by a TileGeometry object) is that point inside?
+	 * @param x
+	 * @param y
+	 * @param scalingFactor
+	 */
+	public Tile2DGeometry getTileGeometryContaining(double x, double y, double scalingFactor) {
+		if (tileShape == TileShape.SQUARE) {
+			return new Tile2DGeometry((int) (y/scalingFactor), (int) (x/scalingFactor), tileShape);
+		} else {
+			throw new IllegalStateException("not implemented yet");
+		}
+	}
+
+	
 	/**
 	 * sets elevation of the tile at the specified row and column
 	 * @param row
@@ -182,7 +209,6 @@ public class TerrainMap  implements UndoRedoAble {
 		heightArray = newArray;
 		
 	}
-	
 	
 
 	@Override
