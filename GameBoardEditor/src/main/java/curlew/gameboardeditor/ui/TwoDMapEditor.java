@@ -273,31 +273,69 @@ public class TwoDMapEditor {
 	public void setOrigin(MouseEvent event) {
 		origin =convertEventToPoint(event);
 	}
+	
+	public void setOriginToNull() {
+		origin = null;
+	}
 
-	private void drawSelectionRect() {
+	private void drawRect(Color color, boolean fill) {
 		draw();
 		double x = Math.min(end.getX(), origin.getX());
 		double y = Math.min(end.getY(), origin.getY());
 		double width = Math.abs(end.getX()-origin.getX());
 		double height = Math.abs(end.getY() - origin.getY());
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setStroke(Color.BLUE);
-		gc.strokeRect(x*length, y*length, width*length, height*length);
+		if(fill) {
+			gc.setFill(color);
+			gc.fillRect(x*length, y*length, width*length, height*length);
+		}else {
+			gc.setStroke(color);
+			gc.strokeRect(x*length, y*length, width*length, height*length);
+		}
+		
 		
 	}
 
-	public void drawSelectionRect(MouseEvent event) {
-		end=convertEventToPoint(event);
-		drawSelectionRect();
+	public boolean drawSelectionRect(MouseEvent event) {
+		if(origin!=null) {
+			end=convertEventToPoint(event);
+			if(end.x ==origin.x) {
+				if(end.x>=App.getMap().getColumns()) {
+					end.x--;
+				}else {
+					end.x++;
+				}
+				
+			}if(end.y == origin.y) {
+				if(end.y>=App.getMap().getRows()) {
+					end.y--;
+				}else {
+					end.y++;
+				}
+			}
+			drawRect(Color.rgb(137, 207, 240, 0.5), true);
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public void drawMoveSquare() {
+		drawRect(Color.RED,false);
 	}
 	
 	private Point convertEventToPoint(MouseEvent event) {
 		return new Point((int) (event.getX()/length),(int)(event.getY()/length));
 	}
 
-	public boolean isValid(MouseEvent event) {
+	public boolean isValidDragEvt(MouseEvent event) {
 		Point point = convertEventToPoint(event);
-		return (point.x >= 0 && point.x<=App.getMap().getColumns() && point.y>=0 && point.y <= App.getMap().getRows());
+		return (point.x >=0 && point.x<=App.getMap().getColumns() && point.y>=0 && point.y <= App.getMap().getRows());
+	}
+	
+	public boolean isValidSelectEvt(MouseEvent event) {
+		Point point = convertEventToPoint(event);
+		return (point.x >=0 && point.x<App.getMap().getColumns() && point.y>=0 && point.y < App.getMap().getRows());
 	}
 
 	public void squareSelect() {
