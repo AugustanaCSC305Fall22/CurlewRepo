@@ -19,6 +19,7 @@ import curlew.gameboardeditor.generators.MountainLandformGenerator;
 import curlew.gameboardeditor.generators.TrenchLandformGenerator;
 import curlew.gameboardeditor.generators.ValleyLandformGenerator;
 import curlew.gameboardeditor.generators.VolcanoLandformGenerator;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,7 +30,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -86,6 +90,11 @@ import javafx.stage.Stage;
 		private int legendSelectedHeight;
 
 		private boolean moveClicked;
+		
+		private boolean isSavedRecent;
+		
+		@FXML
+		private BorderPane mainPane;
 
 
 		/**
@@ -96,6 +105,7 @@ import javafx.stage.Stage;
 	    private void initialize() {
 	    	twoDCanvas.setHeight(400);
 	    	twoDCanvas.setWidth(400);
+	    	isSavedRecent = false;
 	    	
 	    	TerrainMap map = App.getMap();
 	    	mapEditor = new TwoDMapEditor(twoDCanvas);
@@ -113,6 +123,7 @@ import javafx.stage.Stage;
 	    		setLegendSelectedHeight(p.y);
 	    		if (p.x >= 0 && p.x < 100 && p.y >= 0 && p.y <= 400) {
 	    			mapEditor.raiseTile(legendSelectedHeight);
+	    			isSavedRecent = false;
 	    		}
 	    		
 	    	});
@@ -156,7 +167,16 @@ import javafx.stage.Stage;
 	    
 	    	ToggleGroup toggleGroup = new ToggleGroup();
 	    	raiseTileButton.setToggleGroup(toggleGroup);
-	    	lowerTileButton.setToggleGroup(toggleGroup);	    	
+	    	lowerTileButton.setToggleGroup(toggleGroup);	
+	    	
+	    	Stage stage = App.getStage();
+	    	stage.setOnCloseRequest(e -> {
+				try {
+					windowExit();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			});
 	    }
 	    
 	    
@@ -220,10 +240,23 @@ import javafx.stage.Stage;
 	private void addFeatures(ActionEvent event) {
 		LandformGenerator feature = featureComboBox.getValue();
 		mapEditor.drawLandforms(feature, getScale());
+		isSavedRecent = false;
 	}
 	
     @FXML
     private void clickedBack(ActionEvent event) throws IOException {
+    	if (!isSavedRecent) {
+    		ButtonType saveAndBack = new ButtonType("Save and Back", ButtonBar.ButtonData.OK_DONE);
+    		ButtonType discard = new ButtonType("Discard", ButtonBar.ButtonData.CANCEL_CLOSE);
+    		
+    		Alert saveConfirmation = new Alert(AlertType.CONFIRMATION, "abcd", saveAndBack, discard);
+    		saveConfirmation.setTitle("CONFIRMATION");
+    		saveConfirmation.setHeaderText("You have unsaved changes");
+    		saveConfirmation.setContentText("Do you save before exiting?");
+    		if (saveConfirmation.showAndWait().get() == saveAndBack) {
+    			saveHandler();
+    		} 
+    	}
     	App.setRoot("mainMenu");
     }
 
@@ -235,6 +268,7 @@ import javafx.stage.Stage;
     @FXML
     void saveAsHandler(ActionEvent event) throws IOException {
     	App.saveAsProjectFile();
+    	isSavedRecent = true;
     }
     
     /**
@@ -243,8 +277,9 @@ import javafx.stage.Stage;
      * @throws IOException 
      */
     @FXML
-    void saveHandler(ActionEvent event) throws IOException {
+    void saveHandler() throws IOException {
     	App.saveProjectFile();
+    	isSavedRecent = true;
     }
     
 
@@ -265,6 +300,7 @@ import javafx.stage.Stage;
     @FXML
     private void lowerTileButtonHandler() {
     	mapEditor.lowerTile();
+    	isSavedRecent = false;
     }
     /**
      * this handles the buildButton and elevates the selected tiles if possible
@@ -272,6 +308,7 @@ import javafx.stage.Stage;
     @FXML
     private void raiseTileButtonHandler() {
     	mapEditor.raiseTile();
+    	isSavedRecent = false;
     }
     
     /**
@@ -329,11 +366,6 @@ import javafx.stage.Stage;
     }
     
     @FXML
-    private void helpMenuTileLegend() {
-    	
-    }
-    
-    @FXML
     private void threeDView() throws Exception {
     	ThreeDController threeDController = new ThreeDController();
 		Stage stage = new Stage();
@@ -344,21 +376,25 @@ import javafx.stage.Stage;
     @FXML
     private void addRow() {
     	mapEditor.addRow();
+    	isSavedRecent = false;
     }
     
     @FXML
     private void deleteRow() {
     	mapEditor.deleteRow();
+    	isSavedRecent = false;
     }
     
     @FXML
     private void addColumn() {
     	mapEditor.addColumn();
+    	isSavedRecent = false;
     }
     
     @FXML
     private void deleteColumn() {
     	mapEditor.deleteColumn();
+    	isSavedRecent = false;
     }
     
     @FXML
@@ -383,13 +419,13 @@ import javafx.stage.Stage;
     		pasteItem.setDisable(true);
     	}
     	
-    	addRowItem.setOnAction(eve->{mapEditor.addRow(event);});
-    	delRowItem.setOnAction(eve ->{mapEditor.deleteRow(event);});
-    	addColItem.setOnAction(eve->{mapEditor.addColumn(event);});
-    	delColItem.setOnAction(eve->{mapEditor.deleteColumn(event);});
+    	addRowItem.setOnAction(eve->{mapEditor.addRow(event); isSavedRecent = false;});
+    	delRowItem.setOnAction(eve ->{mapEditor.deleteRow(event); isSavedRecent = false;});
+    	addColItem.setOnAction(eve->{mapEditor.addColumn(event); isSavedRecent = false;});
+    	delColItem.setOnAction(eve->{mapEditor.deleteColumn(event); isSavedRecent = false;});
     	closeItem.setOnAction(eve->{context.hide();});
     	sameHeightSelectItem.setOnAction(eve->{mapEditor.selectSameHeight(event);});
-    	pasteItem.setOnAction(eve->{mapEditor.paste(event);});
+    	pasteItem.setOnAction(eve->{mapEditor.paste(event); isSavedRecent = false;});
     	
     	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
     }
@@ -408,8 +444,8 @@ import javafx.stage.Stage;
     	closeItem.setOnAction(eve->{context.hide(); mapEditor.draw();});
     	selectAllItem.setOnAction(eve->{mapEditor.squareSelect();});
     	copyItem.setOnAction(eve->{mapEditor.squareCopy();});
-    	clearItem.setOnAction(eve->{mapEditor.squareClear();});
-    	moveItem.setOnAction(eve->{moveClicked =true;});
+    	clearItem.setOnAction(eve->{mapEditor.squareClear(); isSavedRecent = false;});
+    	moveItem.setOnAction(eve->{moveClicked =true; isSavedRecent = false;});
     	
     	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
 		
@@ -426,10 +462,35 @@ import javafx.stage.Stage;
     @FXML
     private void undo() {
     	mapEditor.undo();
+    	isSavedRecent = false;
     }
     
     @FXML
     private void redo() {
     	mapEditor.redo();
+    	isSavedRecent = false;
     }
+    
+    
+    private void windowExit() throws IOException {
+    	if (!isSavedRecent) {
+    		ButtonType saveAndExit = new ButtonType("Save and Exit", ButtonBar.ButtonData.OK_DONE);
+    		ButtonType discard = new ButtonType("Discard", ButtonBar.ButtonData.CANCEL_CLOSE);
+    		
+    		Alert saveConfirmation = new Alert(AlertType.CONFIRMATION, "abcd", saveAndExit, discard);
+    		saveConfirmation.setTitle("CONFIRMATION");
+    		saveConfirmation.setHeaderText("You have unsaved changes");
+    		saveConfirmation.setContentText("Do you save before exiting?");
+    		if (saveConfirmation.showAndWait().get() == saveAndExit) {
+    			saveHandler();
+    			Platform.exit();
+    		} else {
+    			Platform.exit();
+    		}
+    	}
+    	Platform.exit();
+    	System.out.println(isSavedRecent);
+    }
+    
+    
 }

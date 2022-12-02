@@ -392,6 +392,8 @@ public class TwoDMapEditor {
 		this.setTileLength();
 		draw();
 	}
+	
+	
 }
 
 
