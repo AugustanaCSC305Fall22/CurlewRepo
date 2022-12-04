@@ -1,10 +1,12 @@
 package curlew.gameboardeditor.datamodel;
 
+import java.awt.Polygon;
+
 import curlew.gameboardeditor.datamodel.Tile2DGeometry.TileShape;
 
 public class TerrainMap  implements UndoRedoAble {
 
-	private Tile2DGeometry.TileShape tileShape = Tile2DGeometry.TileShape.SQUARE;
+	private Tile2DGeometry.TileShape tileShape; //= Tile2DGeometry.TileShape.HEXAGON;
 	
 	private double[][] heightArray;
 	
@@ -17,8 +19,9 @@ public class TerrainMap  implements UndoRedoAble {
 	 * this makes an array to keep track of the height and iterates through each tile in
 	 * the 2d array and sets the height to INITIAL_DEPTH
 	 */
-	public TerrainMap(int numRows, int numColumns) {
+	public TerrainMap(int numRows, int numColumns,Tile2DGeometry.TileShape shape) {
 		heightArray = new double[numRows][numColumns];
+		tileShape = shape;
 		for(int row=0; row<numRows;row++) {
 			for(int col=0;col<numColumns;col++) {
 			heightArray[row][col]= INITIAL_DEPTH;
@@ -28,6 +31,10 @@ public class TerrainMap  implements UndoRedoAble {
 
 	public Tile2DGeometry.TileShape getTileShape() {
 		return tileShape;
+	}
+	
+	public void setTileShape(Tile2DGeometry.TileShape shape) {
+		tileShape = shape;
 	}
 	
 	public Tile2DGeometry getShapeAt(int row, int col) {
@@ -44,10 +51,30 @@ public class TerrainMap  implements UndoRedoAble {
 		if (tileShape == TileShape.SQUARE) {
 			return new Tile2DGeometry((int) (y/scalingFactor), (int) (x/scalingFactor), tileShape);
 		} else {
-			throw new IllegalStateException("not implemented yet");
+			return getHexContaining(x,y,scalingFactor);
 		}
 	}
 
+	private Tile2DGeometry getHexContaining(double x, double y, double scalingFactor) {
+		int probableCol = (int) (x/scalingFactor);
+		for(int row=0;row<=heightArray.length;row++) {
+			for(int col=probableCol-1;col<=probableCol+1;col++) {
+				Tile2DGeometry hexGeometry = this.getShapeAt(row, col);
+				double[] xCoord = hexGeometry.getPolygonXCoords(scalingFactor);
+				double[] yCoord = hexGeometry.getPolygonYCoords(scalingFactor);
+				Polygon hexagon = new Polygon();
+				
+				for(int i=0;i<6;i++) {
+					hexagon.addPoint((int)xCoord[i]*1000, (int)yCoord[i]*1000);
+				}
+				if(hexagon.contains((int)(x*1000),(int)(y*1000))){
+					return hexGeometry;
+				}
+			}
+		}
+		return getShapeAt(-1,-1);
+	}
+	
 	
 	/**
 	 * sets elevation of the tile at the specified row and column
@@ -213,7 +240,7 @@ public class TerrainMap  implements UndoRedoAble {
 
 	@Override
 	public UndoRedoAble getClone() {
-		TerrainMap clone = new TerrainMap(getRows(),getColumns());
+		TerrainMap clone = new TerrainMap(getRows(),getColumns(), tileShape);
 		for(int i=0;i<getRows();i++) {
 			for(int j=0;j<getColumns();j++) {
 				clone.setHeightAt(i, j, heightArray[i][j]);
@@ -228,6 +255,7 @@ public class TerrainMap  implements UndoRedoAble {
 	public void setState(UndoRedoAble state) {
 		TerrainMap newMap = (TerrainMap) state;
 		heightArray=newMap.getHeightArray();
+		tileShape = newMap.getTileShape(); 
 //		TestClass.printMap(newMap);
 //		System.out.println();
 		TestClass.printMap(this);

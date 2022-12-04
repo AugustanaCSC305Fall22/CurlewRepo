@@ -107,7 +107,7 @@ public class PreviewMapController {
     	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
     	TerrainMap map = GameBoardIO.loadMap(templateFiles[selectedAreaIndex]);
     	App.setMap(map);
-    	mapPreview.setTileLength();
+    	mapPreview.updateScale();
     	mapPreview.draw();
     	
     }

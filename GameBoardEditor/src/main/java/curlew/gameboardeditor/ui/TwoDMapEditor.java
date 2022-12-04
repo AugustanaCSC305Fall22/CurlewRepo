@@ -1,6 +1,6 @@
 package curlew.gameboardeditor.ui;
 
-import javafx.event.ActionEvent; 
+import javafx.event.ActionEvent;  
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
+import curlew.gameboardeditor.datamodel.Tile2DGeometry;
 import curlew.gameboardeditor.datamodel.UndoRedoHandler;
 import curlew.gameboardeditor.generators.LandformGenerator;
 
@@ -23,10 +24,10 @@ public class TwoDMapEditor {
 	
 
 	private Canvas canvas;
-	private HashSet<Point> pointSet;
-	private double length;
-	private Point origin;
-	private Point end;
+	private HashSet<Tile2DGeometry> selectedShapeSet;
+	private double scale;
+	private Tile2DGeometry origin;
+	private Tile2DGeometry end;
 	private double[][] copyArray;
 	private UndoRedoHandler undoRedoHandler;
 	
@@ -39,57 +40,64 @@ public class TwoDMapEditor {
 	public TwoDMapEditor(Canvas twoDCanvas) {
 		undoRedoHandler = new UndoRedoHandler(App.getMap());
 		canvas = twoDCanvas;
-		pointSet= new HashSet<>();
-		setTileLength();
+		selectedShapeSet= new HashSet<>();
+		updateScale();
 		draw();
 	}
 	
-	public void setTileLength() {
-		length=  (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())));
+	public void updateScale() {
+		scale=  (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())+1));
 	}
 	
 	public void draw() {
-
+		TerrainMap map = App.getMap();
 		GraphicsContext gc = canvas.getGraphicsContext2D();
     	gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-		for (int i = 0; i < App.getMap().getRows(); i++) {
-			for (int j = 0; j < App.getMap().getColumns(); j++) {
-				//Sets the default colors for the outline of the canvas
+		for (int row = 0; row < map.getRows(); row++) {
+			for (int col = 0; col < map.getColumns(); col++) {
+				Tile2DGeometry shape = map.getShapeAt(row, col);
 				gc.setStroke(Color.BLACK);
-		    	gc.strokeRect(j * length, i * length,length, length);
-		    	int height = (int) Math.round(App.getMap().getHeight(i, j));
+				
+				double[] xCoord =shape.getPolygonXCoords(scale);
+				double[] yCoord = shape.getPolygonYCoords(scale);
+				gc.strokePolygon(xCoord, yCoord, xCoord.length);
+				
+		    	int height = (int) Math.round(App.getMap().getHeight(row, col));
 				gc.setFill(Color.rgb(250-20*(height),250-20*(height) ,250-20*(height)));	
-				gc.fillRect(j * length, i * length,length, length);
+				gc.fillPolygon(xCoord, yCoord, xCoord.length);
 
 			}
     	}
 		
-		for(Point point:pointSet) {
+		for(Tile2DGeometry shape:selectedShapeSet) {
 			gc.setStroke(Color.AQUA);
-			gc.strokeRect(point.x * length, point.y*length, length, length);
+			double[] xCoord =shape.getPolygonXCoords(scale);
+			double[] yCoord = shape.getPolygonYCoords(scale);
+			gc.strokePolygon(xCoord, yCoord, xCoord.length);
 		}
+		
 		
 	}
 	
 	public void canvasClicked(MouseEvent event) {
 		
-		Point point =convertEventToPoint(event);
-		if (point.x >= 0 && point.x<App.getMap().getColumns() && point.y>=0 && point.y < App.getMap().getRows()) {
+		Tile2DGeometry shape =getShapeFromEvent(event);
+		if (shape.getCol() >= 0 && shape.getCol()<App.getMap().getColumns() && shape.getRow()>=0 && shape.getRow() < App.getMap().getRows()) {
 		
-			if(pointSet.contains(point)) {
-				pointSet.remove(point);
+			if(selectedShapeSet.contains(shape)) {
+				selectedShapeSet.remove(shape);
 			}
 			else {
-				pointSet.add(point);
+				selectedShapeSet.add(shape);
 			}
 			draw();
 		}
 	}
 	
 	public void drawLandforms(LandformGenerator landform, int scale) {
-		if(pointSet.isEmpty()) {
+		if(selectedShapeSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
-    	}else if(pointSet.size()!=1) {
+    	}else if(selectedShapeSet.size()!=1) {
     		unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
     	}
@@ -99,19 +107,19 @@ public class TwoDMapEditor {
 			alert.setContentText("You must select the feature to be added");
 			alert.show();
 		} else {
-			Iterator<Point> it = pointSet.iterator();
-			Point p= it.next();
-			landform.build(App.getMap(), p.y, p.x, scale);
-			pointSet.clear();
+			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
+			Tile2DGeometry shape= it.next();
+			landform.build(App.getMap(), shape.getRow(), shape.getCol(), scale);
+			selectedShapeSet.clear();
 			draw();
 			undoRedoHandler.saveState();
 		}
 	}
 	
 	public void raiseTile() {
-		for(Point point:pointSet) {
+		for(Tile2DGeometry shape:selectedShapeSet) {
 			try {
-				App.getMap().increaseHeightAt(point.y, point.x);
+				App.getMap().increaseHeightAt(shape.getRow(), shape.getCol());
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
@@ -119,18 +127,18 @@ public class TwoDMapEditor {
 	}
 	
 	public void raiseTile(int elevation) {
-		for(Point point:pointSet) {
+		for(Tile2DGeometry shape:selectedShapeSet) {
 			try {
-				App.getMap().setHeightAt(point.y, point.x,elevation);
+				App.getMap().setHeightAt(shape.getRow(), shape.getCol(),elevation);
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
 		undoRedoHandler.saveState();
 	}
 	public void lowerTile() {
-		for(Point point:pointSet) {
+		for(Tile2DGeometry shape:selectedShapeSet) {
 			try {
-				App.getMap().decreaseHeightAt(point.y, point.x);
+				App.getMap().decreaseHeightAt(shape.getRow(), shape.getCol());
 			}catch (IllegalArgumentException e) {}
 		}
 		draw();
@@ -138,132 +146,130 @@ public class TwoDMapEditor {
 	}
 	
 
-	public double getLength() {
-		// TODO Auto-generated method stub
-		return length;
-	}
+	
 
 	public void unSelectAllPoints() {
-		pointSet.clear();
+		selectedShapeSet.clear();
 		draw();
 		
 	}
 	
 	public void addRow() {
-		if(pointSet.size()!=1) {
+		if(selectedShapeSet.size()!=1) {
 			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
-			Iterator<Point> it = pointSet.iterator();
-			Point p= it.next();
-			addRow(p);
+			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
+			Tile2DGeometry shape= it.next();
+			addRow(shape);
 		}
 	}
 	
 	public void addRow(MouseEvent event) {
-		Point p= convertEventToPoint(event);
-		addRow(p);
+		Tile2DGeometry shape= getShapeFromEvent(event);
+		addRow(shape);
 	}
 	
-	private void addRow(Point p) {
-		App.getMap().addRow(p.y);
-		pointSet.clear();
-		setTileLength();
+	private void addRow(Tile2DGeometry shape) {
+		App.getMap().addRow(shape.getRow());
+		selectedShapeSet.clear();
+		updateScale();
 		draw();
 		undoRedoHandler.saveState();
 	}
 	
 	public void deleteRow() {
-		if(pointSet.size()!=1) {
+		if(selectedShapeSet.size()!=1) {
 			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
-			Iterator<Point> it = pointSet.iterator();
-			Point p= it.next();
-			deleteRow(p);
+			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
+			Tile2DGeometry shape= it.next();
+			deleteRow(shape);
 		}
 	}
 	
 	public void deleteRow(MouseEvent event) {
-		deleteRow(convertEventToPoint(event));
+		deleteRow(getShapeFromEvent(event));
 	}
 	
-	private void deleteRow(Point p) {
-		App.getMap().deleteRow(p.y);
-		pointSet.clear();
-		setTileLength();
+	private void deleteRow(Tile2DGeometry shape) {
+		App.getMap().deleteRow(shape.getRow());
+		selectedShapeSet.clear();
+		updateScale();
 		draw();
 		undoRedoHandler.saveState();
 	}
 	
 	public void addColumn() {
-		if(pointSet.size()!=1) {
+		if(selectedShapeSet.size()!=1) {
 			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
-			Iterator<Point> it = pointSet.iterator();
-			Point p= it.next();
-			addColumn(p);
+			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
+			Tile2DGeometry shape= it.next();
+			addColumn(shape);
 		}
 	}
 	
 	public void addColumn(MouseEvent event) {
-		addColumn(convertEventToPoint(event));
+		addColumn(getShapeFromEvent(event));
 	}
 	
-	private void addColumn(Point p) {
-		App.getMap().addColumn(p.x);
-		pointSet.clear();
-		setTileLength();
+	private void addColumn(Tile2DGeometry shape) {
+		App.getMap().addColumn(shape.getCol());
+		selectedShapeSet.clear();
+		updateScale();
 		draw();
 		undoRedoHandler.saveState();
 	}
 	
 	public void deleteColumn() {
-		if(pointSet.size()!=1) {
+		if(selectedShapeSet.size()!=1) {
 			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
-			Iterator<Point> it = pointSet.iterator();
-			Point p= it.next();
-			deleteColumn(p);
+			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
+			Tile2DGeometry shape= it.next();
+			deleteColumn(shape);
 		}
 	}
 	
 	public void deleteColumn(MouseEvent event) {
-		deleteColumn(convertEventToPoint(event));
+		deleteColumn(getShapeFromEvent(event));
 	}
 	
-	private void deleteColumn(Point p) {
-		App.getMap().deleteColumn(p.x);
-		pointSet.clear();
-		setTileLength();
+	private void deleteColumn(Tile2DGeometry shape) {
+		App.getMap().deleteColumn(shape.getCol());
+		selectedShapeSet.clear();
+		updateScale();
 		draw();
 		undoRedoHandler.saveState();
 	}
 	
 	
 	public void selectSameHeight() {
-		if(pointSet.size()!=1) {
+		if(selectedShapeSet.size()!=1) {
 			unSelectAllPoints();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
-			Iterator<Point> it = pointSet.iterator();
-			Point p= it.next();
-			selectSameHeight(p);
+			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
+			Tile2DGeometry shape= it.next();
+			selectSameHeight(shape);
 		}
 	}
 	
 	public void selectSameHeight(MouseEvent event) {
-		selectSameHeight(convertEventToPoint(event));
+		selectSameHeight(getShapeFromEvent(event));
 	}
 	
-	private void selectSameHeight(Point p) {
-		double height = App.getMap().getHeight(p.y, p.x);
-		for(int i=0;i<App.getMap().getRows();i++) {
-			for(int j=0;j<App.getMap().getColumns();j++) {
-				if(App.getMap().getHeight(i, j)==height) {
-					pointSet.add(new Point(j,i));
+	private void selectSameHeight(Tile2DGeometry shape) {
+		TerrainMap map =App.getMap();
+		double height = map.getHeight(shape.getRow(), shape.getCol());
+		for(int row=0;row<map.getRows();row++) {
+			for(int col=0;col<map.getColumns();col++) {
+				if(App.getMap().getHeight(row, col)==height) {
+					selectedShapeSet.add(map.getShapeAt(row, col));
 				}
 			}
 		}
@@ -271,7 +277,7 @@ public class TwoDMapEditor {
 	}
 
 	public void setOrigin(MouseEvent event) {
-		origin =convertEventToPoint(event);
+		origin =getShapeFromEvent(event);
 	}
 	
 	public void setOriginToNull() {
@@ -279,38 +285,46 @@ public class TwoDMapEditor {
 	}
 
 	private void drawRect(Color color, boolean fill) {
+		TerrainMap map = App.getMap();
 		draw();
-		double x = Math.min(end.getX(), origin.getX());
-		double y = Math.min(end.getY(), origin.getY());
-		double width = Math.abs(end.getX()-origin.getX());
-		double height = Math.abs(end.getY() - origin.getY());
+		int startRow = (int) Math.min(end.getRow(), origin.getRow());
+		int startCol = (int) Math.min(end.getCol(), origin.getCol());
+		int endRow = (int) Math.max(end.getRow(), origin.getRow());
+		int endCol = (int) Math.max(end.getCol(), origin.getCol());
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		if(fill) {
-			gc.setFill(color);
-			gc.fillRect(x*length, y*length, width*length, height*length);
-		}else {
-			gc.setStroke(color);
-			gc.strokeRect(x*length, y*length, width*length, height*length);
+		
+		for (int row = startRow; row < endRow; row++) {
+			for (int col = startCol; col < endCol; col++) {
+				Tile2DGeometry shape = map.getShapeAt(row, col);
+				double[] xCoord =shape.getPolygonXCoords(scale);
+				double[] yCoord = shape.getPolygonYCoords(scale);
+				if(fill) {
+					gc.setFill(color);
+					gc.fillPolygon(xCoord, yCoord, xCoord.length);
+				}else {
+					gc.setStroke(color);
+					gc.strokePolygon(xCoord, yCoord, xCoord.length);
+				}
+			}
 		}
-		
-		
 	}
 
 	public boolean drawSelectionRect(MouseEvent event) {
+		TerrainMap map = App.getMap();
 		if(origin!=null) {
-			end=convertEventToPoint(event);
-			if(end.x ==origin.x) {
-				if(end.x>=App.getMap().getColumns()) {
-					end.x--;
+			end=this.getShapeFromEvent(event);
+			if(end.getCol() ==origin.getCol()) {
+				if(end.getCol()>=map.getColumns()) {
+					end=map.getShapeAt(end.getRow(), end.getCol()-1);
 				}else {
-					end.x++;
+					end= map.getShapeAt(end.getRow(), end.getCol()+1);
 				}
 				
-			}if(end.y == origin.y) {
-				if(end.y>=App.getMap().getRows()) {
-					end.y--;
+			}if(end.getRow() == origin.getRow()) {
+				if(end.getRow()>=map.getRows()) {
+					end=map.getShapeAt(end.getRow()-1, end.getCol());
 				}else {
-					end.y++;
+					end=map.getShapeAt(end.getRow()+1, end.getCol());;
 				}
 			}
 			drawRect(Color.rgb(137, 207, 240, 0.5), true);
@@ -324,43 +338,44 @@ public class TwoDMapEditor {
 		drawRect(Color.RED,false);
 	}
 	
-	private Point convertEventToPoint(MouseEvent event) {
-		return new Point((int) (event.getX()/length),(int)(event.getY()/length));
+	private Tile2DGeometry getShapeFromEvent(MouseEvent event) {
+		return App.getMap().getTileGeometryContaining(event.getX(),event.getY() , scale);
+
 	}
 
 	public boolean isValidDragEvt(MouseEvent event) {
-		Point point = convertEventToPoint(event);
-		return (point.x >=0 && point.x<=App.getMap().getColumns() && point.y>=0 && point.y <= App.getMap().getRows());
+		Tile2DGeometry shape = getShapeFromEvent(event);
+		return (shape.getCol() >=0 && shape.getCol()<=App.getMap().getColumns() && shape.getRow()>=0 && shape.getRow() <= App.getMap().getRows());
 	}
 	
 	public boolean isValidSelectEvt(MouseEvent event) {
-		Point point = convertEventToPoint(event);
-		return (point.x >=0 && point.x<App.getMap().getColumns() && point.y>=0 && point.y < App.getMap().getRows());
+		Tile2DGeometry shape = getShapeFromEvent(event);
+		return (shape.getCol() >=0 && shape.getCol()<App.getMap().getColumns() && shape.getRow()>=0 && shape.getRow() < App.getMap().getRows());
 	}
 
 	public void squareSelect() {
 		
-		int startX = (int) Math.min(end.getX(), origin.getX());
-		int startY = (int) Math.min(end.getY(), origin.getY());
-		int endX = (int) Math.max(end.getX(),origin.getX());
-		int endY = (int) Math.max(end.getY(), origin.getY());
-		for(int x = startX; x<endX; x++) {
-			for(int y= startY; y<endY; y++) {
-				pointSet.add(new Point(x,y));
+		int startRow = (int) Math.min(end.getRow(), origin.getRow());
+		int startCol = (int) Math.min(end.getCol(), origin.getCol());
+		int endRow = (int) Math.max(end.getRow(), origin.getRow());
+		int endCol = (int) Math.max(end.getCol(), origin.getCol());
+		for(int row = startRow; row< endRow; row++) {
+			for(int col= startCol; col<endCol; col++) {
+				selectedShapeSet.add(App.getMap().getShapeAt(row, col));
 			}
 		}
 		draw();
 	}
 
 	public void squareCopy() {
-		int startX = (int) Math.min(end.getX(), origin.getX());
-		int startY = (int) Math.min(end.getY(), origin.getY());
-		int endX = (int) Math.max(end.getX(),origin.getX());
-		int endY = (int) Math.max(end.getY(), origin.getY());
-		copyArray =new double[endY-startY][endX-startX];
-		for(int x = startX; x<endX; x++) {
-			for(int y= startY; y<endY; y++) {
-				copyArray[y-startY][x-startX]= App.getMap().getHeight(y, x);
+		int startRow = (int) Math.min(end.getRow(), origin.getRow());
+		int startCol = (int) Math.min(end.getCol(), origin.getCol());
+		int endRow = (int) Math.max(end.getRow(), origin.getRow());
+		int endCol = (int) Math.max(end.getCol(), origin.getCol());
+		copyArray =new double[endRow-startRow][endCol-startCol];
+		for(int row = startRow; row< endRow; row++) {
+			for(int col= startCol; col<endCol; col++) {
+				copyArray[row-startRow][col-startCol]= App.getMap().getHeight(row, col);
 			}
 		}
 		draw();
@@ -371,11 +386,11 @@ public class TwoDMapEditor {
 	}
 
 	public void paste(MouseEvent event) {
-		Point point = convertEventToPoint(event);
+		Tile2DGeometry shape = getShapeFromEvent(event);
 		for(int i=0;i<copyArray.length;i++) {
 			for(int j=0; j<copyArray[0].length;j++) {
 				try {
-					App.getMap().setHeightAt(point.y+i, point.x+j, copyArray[i][j]);
+					App.getMap().setHeightAt(shape.getRow()+i, shape.getCol()+j, copyArray[i][j]);
 				}catch(IndexOutOfBoundsException e) {};
 			}
 		}
@@ -385,13 +400,13 @@ public class TwoDMapEditor {
 	}
 
 	public void squareClear() {
-		int startX = (int) Math.min(end.getX(), origin.getX());
-		int startY = (int) Math.min(end.getY(), origin.getY());
-		int endX = (int) Math.max(end.getX(),origin.getX());
-		int endY = (int) Math.max(end.getY(), origin.getY());
-		for(int x = startX; x<endX; x++) {
-			for(int y= startY; y<endY; y++) {
-				App.getMap().setHeightAt(y, x, App.getMap().getInitialDepth());
+		int startRow = (int) Math.min(end.getRow(), origin.getRow());
+		int startCol = (int) Math.min(end.getCol(), origin.getCol());
+		int endRow = (int) Math.max(end.getRow(), origin.getRow());
+		int endCol = (int) Math.max(end.getCol(), origin.getCol());
+		for(int row = startRow; row<endRow; row++) {
+			for(int col= startCol; col<endCol; col++) {
+				App.getMap().setHeightAt(row, col, App.getMap().getInitialDepth());
 			}
 		}
 		draw();
@@ -405,6 +420,7 @@ public class TwoDMapEditor {
 			temp = copyArray.clone();
 		}
 		squareCopy();
+		
 		squareClear();
 		undoRedoHandler.removeState();
 		paste(event);
@@ -415,19 +431,20 @@ public class TwoDMapEditor {
 			copyArray =temp;
 		}
 		
+		
 	}
 	
 	public void undo() {
 		undoRedoHandler.undo();
 		this.unSelectAllPoints();
-		this.setTileLength();
+		this.updateScale();
 		draw();
 	}
 	
 	public void redo() {
 		undoRedoHandler.redo();
 		this.unSelectAllPoints();
-		this.setTileLength();
+		this.updateScale();
 		draw();
 	}
 	
