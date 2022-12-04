@@ -2,6 +2,7 @@
 
 package curlew.gameboardeditor.ui;
 
+import java.awt.Point;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -18,10 +19,13 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
@@ -54,9 +58,12 @@ public class PreviewMapController {
     private final int numTemplates = 8;
 
     private int boxLength;
+	private boolean moveClicked;
+
     
     private int selectedAreaIndex;
     File[] templateFiles;
+    
     
     //create new file that represents the templates folder 
     File templatesFolder = new File("templates/");
@@ -82,13 +89,22 @@ public class PreviewMapController {
     		
     	}
     	templateCanvas.setOnMouseClicked(evt -> {
-			try {
-				onMouseClicked(evt);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});
+    		int y = (int) evt.getY();
+        	selectedAreaIndex = y/(boxLength+2);
+    		
+        	if (evt.getButton() == MouseButton.SECONDARY) {
+    			createRightClickMenu(evt);
+    		}else {
+    			try {
+    				onMouseClicked(evt);
+    			} catch (IOException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    		}
+		} );
+    	
+    	
     	
     	App.setMap(GameBoardIO.loadMap(templateFiles[selectedAreaIndex]));
     	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
@@ -96,7 +112,8 @@ public class PreviewMapController {
     	mapPreview = new TwoDMapEditor(previewCanvas);
     	
     }
-    @FXML
+    
+	@FXML
     void clickNext(ActionEvent event) throws IOException {
 //    	App.setMap(GameBoardIO.loadMap(templateFiles[selectedAreaIndex]));
     	App.setRoot("mapEditor");
@@ -104,16 +121,45 @@ public class PreviewMapController {
     
     @FXML
     private void onMouseClicked(MouseEvent event) throws IOException {
-    	int y = (int) event.getY();
-    	selectedAreaIndex = y/(boxLength+2);
+    	
     	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
     	TerrainMap map = GameBoardIO.loadMap(templateFiles[selectedAreaIndex]);
     	App.setMap(map);
     	mapPreview.draw();
     	
     }
+    
+    private void createRightClickMenu(MouseEvent event) {
+    	ContextMenu context = new ContextMenu();
 
-    @FXML
+    	MenuItem selectItem = new MenuItem("Select");
+    	MenuItem deleteItem = new MenuItem("Delete");
+
+    	
+    	context.getItems().addAll(selectItem, deleteItem);
+    	
+
+    	
+    	selectItem.setOnAction(eve->{try {
+			onMouseClicked(event);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}});
+    	deleteItem.setOnAction(eve ->{deleteSelectdFile(event);});
+    	
+    	
+    	context.show(templateCanvas, event.getScreenX(), event.getScreenY());
+    }
+    
+
+
+    private void deleteSelectdFile(MouseEvent event) {
+    	
+		
+	}
+
+	@FXML
     void clickedBack(ActionEvent event) throws IOException {
     	App.setRoot("mainMenu");
     }
