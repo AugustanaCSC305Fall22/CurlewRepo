@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="550.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.MapEditorController">
+<BorderPane fx:id="mainPane" prefHeight="550.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.MapEditorController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
@@ -38,31 +38,58 @@
                            <accelerator>
                               <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#exportHandler" text="Export" />
+                        <MenuItem mnemonicParsing="false" onAction="#exportHandler" text="Export">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#saveAsTemplateHandler" text="Save As Template" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                   <items>
-                        <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo" />
-                        <MenuItem mnemonicParsing="false" onAction="#redo" text="Redo" />
-                    <MenuItem mnemonicParsing="false" onAction="#addRow" text="Add Row" />
-                        <MenuItem mnemonicParsing="false" onAction="#deleteRow" text="Delete Row" />
-                        <MenuItem mnemonicParsing="false" onAction="#addColumn" text="Add Column" />
-                        <MenuItem mnemonicParsing="false" onAction="#deleteColumn" text="Delete Column" />
-                        <MenuItem mnemonicParsing="false" onAction="#selectTilesOfSameHeight" text="Select Tiles of Same Height" />
+                        <MenuItem mnemonicParsing="false" onAction="#undo" text="Undo">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#redo" text="Redo">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Y" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                    <MenuItem mnemonicParsing="false" onAction="#addRow" text="Add Row">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#deleteRow" text="Delete Row">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#addColumn" text="Add Column">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#deleteColumn" text="Delete Column">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#selectTilesOfSameHeight" text="Select Tiles of Same Height">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="ENTER" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                           </accelerator></MenuItem>
                   </items>
                 </Menu>
                   <Menu mnemonicParsing="false" text="3D  View">
                     <items>
-                      <MenuItem mnemonicParsing="false" onAction="#threeDView" text="Preview" />
+                      <MenuItem mnemonicParsing="false" onAction="#threeDView" text="Preview">
+                           <accelerator>
+                              <KeyCodeCombination alt="DOWN" code="P" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
                     </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                        <MenuItem mnemonicParsing="false" onAction="#infoHelpClicked" text="Info" />
-                    <MenuItem mnemonicParsing="false" onAction="#scaleHelpClicked" text="Scale info" />
-                        <MenuItem mnemonicParsing="false" onAction="#featureHelpClicked" text="Features info" />
+                        <MenuItem mnemonicParsing="false" onAction="#helpMenuInfo" text="Info" />
+                    <MenuItem mnemonicParsing="false" onAction="#helpMenuScale" text="Scale info" />
+                        <MenuItem mnemonicParsing="false" onAction="#helpMenuFeature" text="Features info" />
                         <MenuItem mnemonicParsing="false" onAction="#openTutorialVideo" text="Tutorial Video" />
                   </items>
                 </Menu>
