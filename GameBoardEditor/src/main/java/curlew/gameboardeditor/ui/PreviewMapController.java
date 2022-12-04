@@ -193,7 +193,7 @@ public class PreviewMapController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-	    	mapPreview.setTileLength();
+	    	mapPreview.updateScale();
 	    	mapPreview.draw();
 		} 
     	
