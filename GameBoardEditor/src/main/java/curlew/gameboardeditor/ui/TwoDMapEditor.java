@@ -46,7 +46,11 @@ public class TwoDMapEditor {
 	}
 	
 	public void updateScale() {
-		scale=  (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())+1));
+		if(App.getMap().getTileShape()== Tile2DGeometry.TileShape.SQUARE) {
+			scale=  (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())));
+    	}else {
+    		scale=  (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())+1));
+    	}
 	}
 	
 	public void draw() {
@@ -448,6 +452,12 @@ public class TwoDMapEditor {
 		draw();
 	}
 	
+	public void setShape(Tile2DGeometry.TileShape shape) {
+		App.getMap().setTileShape(shape);
+		updateScale();
+		draw();
+		undoRedoHandler.saveState();
+	}
 	
 }
 

@@ -65,7 +65,7 @@ public class TerrainMap  implements UndoRedoAble {
 				Polygon hexagon = new Polygon();
 				
 				for(int i=0;i<6;i++) {
-					hexagon.addPoint((int)xCoord[i]*1000, (int)yCoord[i]*1000);
+					hexagon.addPoint((int)(xCoord[i]*1000), (int)(yCoord[i]*1000));
 				}
 				if(hexagon.contains((int)(x*1000),(int)(y*1000))){
 					return hexGeometry;

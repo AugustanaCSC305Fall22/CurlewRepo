@@ -13,6 +13,7 @@ import java.util.Iterator;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
+import curlew.gameboardeditor.datamodel.Tile2DGeometry;
 import curlew.gameboardeditor.generators.GateToHellLandformGenerator;
 import curlew.gameboardeditor.generators.LandformGenerator;
 import curlew.gameboardeditor.generators.MountainLandformGenerator;
@@ -82,6 +83,9 @@ import javafx.stage.Stage;
 	    @FXML 
 	    private MenuItem featureHelp;
 	    
+	    @FXML
+	    private MenuItem switchTileItem;
+	    
 	    private boolean creatingSelectionRect;
 	    
 	    private ObservableList<LandformGenerator> featureList;
@@ -94,8 +98,6 @@ import javafx.stage.Stage;
 		
 		private boolean isSavedRecent;
 		
-		@FXML
-		private BorderPane mainPane;
 
 		private ContextMenu rightClickMenu;
 
@@ -114,6 +116,12 @@ import javafx.stage.Stage;
 	    	
 	    	rightClickMenu = new ContextMenu();
 	    	squareSelectMenu = new ContextMenu();
+	    	
+	    	if(App.getMap().getTileShape()== Tile2DGeometry.TileShape.SQUARE) {
+	    		switchTileItem.setText("Switch to "+Tile2DGeometry.TileShape.HEXAGON + " grid");
+	    	}else {
+	    		switchTileItem.setText("Switch to "+Tile2DGeometry.TileShape.SQUARE + " grid");
+	    	}
 	    	
 	    	
 	    	TerrainMap map = App.getMap();
@@ -494,6 +502,17 @@ import javafx.stage.Stage;
     @FXML
     private void redo() {
     	mapEditor.redo();
+    	isSavedRecent = false;
+    }
+    
+    @FXML
+    private void changeShape() {
+    	switchTileItem.setText("Switch to "+App.getMap().getTileShape() + " grid");
+    	if(App.getMap().getTileShape()== Tile2DGeometry.TileShape.SQUARE) {
+    		mapEditor.setShape(Tile2DGeometry.TileShape.HEXAGON);
+    	}else {
+    		mapEditor.setShape(Tile2DGeometry.TileShape.SQUARE);
+    	}
     	isSavedRecent = false;
     }
     
