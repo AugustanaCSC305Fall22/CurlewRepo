@@ -57,22 +57,29 @@ public class TerrainMap  implements UndoRedoAble {
 
 	private Tile2DGeometry getHexContaining(double x, double y, double scalingFactor) {
 		int probableCol = (int) (x/scalingFactor);
-		for(int row=0;row<=heightArray.length;row++) {
-			for(int col=probableCol-1;col<=probableCol+1;col++) {
+		double heightFactor = 3*scalingFactor/Math.tan(Math.PI/3);
+		int probableRow =((int)(y/heightFactor))*2;
+		double mindis = 10000;
+		Tile2DGeometry selectedHex = getShapeAt(-1,-1);
+		System.out.println(probableRow +" "+ probableCol);
+		for(int row=probableRow-1;row<=probableRow+1;row++) {
+			for(int col=probableCol-1;col<=probableCol;col++) {
 				Tile2DGeometry hexGeometry = this.getShapeAt(row, col);
 				double[] xCoord = hexGeometry.getPolygonXCoords(scalingFactor);
 				double[] yCoord = hexGeometry.getPolygonYCoords(scalingFactor);
-				Polygon hexagon = new Polygon();
 				
-				for(int i=0;i<6;i++) {
-					hexagon.addPoint((int)(xCoord[i]*1000), (int)(yCoord[i]*1000));
-				}
-				if(hexagon.contains((int)(x*1000),(int)(y*1000))){
-					return hexGeometry;
+				double midx = (xCoord[1]+xCoord[4])/2;
+				double midy = (yCoord[1]+yCoord[4])/2;
+				double distance = Math.sqrt((midx-x)*(midx-x)+(midy-y)*(midy-y));
+				
+				System.out.println(distance);
+				if(distance < mindis) {
+					mindis = distance;
+					selectedHex = hexGeometry;
 				}
 			}
 		}
-		return getShapeAt(-1,-1);
+		return selectedHex;
 	}
 	
 	
