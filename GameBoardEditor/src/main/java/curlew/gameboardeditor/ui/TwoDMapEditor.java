@@ -455,6 +455,7 @@ public class TwoDMapEditor {
 	public void setShape(Tile2DGeometry.TileShape shape) {
 		App.getMap().setTileShape(shape);
 		updateScale();
+		this.selectedShapeSet.clear();
 		draw();
 		undoRedoHandler.saveState();
 	}
