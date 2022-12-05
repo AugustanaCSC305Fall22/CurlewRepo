@@ -73,7 +73,7 @@ public class TerrainMap  implements UndoRedoAble {
 				double distance = Math.sqrt((midx-x)*(midx-x)+(midy-y)*(midy-y));
 				
 				System.out.println(distance);
-				if(distance < mindis) {
+				if(distance <= mindis) {
 					mindis = distance;
 					selectedHex = hexGeometry;
 				}
