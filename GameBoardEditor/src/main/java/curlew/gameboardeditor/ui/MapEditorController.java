@@ -525,7 +525,7 @@ import javafx.stage.Stage;
     		Alert saveConfirmation = new Alert(AlertType.CONFIRMATION, "abcd", saveAndExit, discard);
     		saveConfirmation.setTitle("CONFIRMATION");
     		saveConfirmation.setHeaderText("You have unsaved changes");
-    		saveConfirmation.setContentText("Do you save before exiting?");
+    		saveConfirmation.setContentText("Do you want to save before exiting?");
     		if (saveConfirmation.showAndWait().get() == saveAndExit) {
     			saveHandler();
     			Platform.exit();

@@ -18,6 +18,7 @@ import com.google.gson.JsonSyntaxException;
 
 import curlew.gameboardeditor.datamodel.GameBoardIO;
 import curlew.gameboardeditor.datamodel.TerrainMap;
+import curlew.gameboardeditor.datamodel.Tile2DGeometry;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,10 +28,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -67,6 +71,9 @@ public class PreviewMapController {
     private TwoDMapEditor mapPreview;
     private int selectedAreaIndex;
     File[] templateFiles;
+    
+    @FXML
+    private ChoiceBox<Tile2DGeometry.TileShape> shapeChoiceBox;
     
     private static final ArrayList<String> ORIGINAL_FILES= new ArrayList<String>(Arrays.asList( 
     		"ACE.TMap","cliff.TMap","colussium.TMap","elevated corner.TMap" ,"many walls.TMap", 
@@ -105,9 +112,11 @@ public class PreviewMapController {
     		}
 		} );
     	
-    	
+    	shapeChoiceBox.getItems().addAll(Tile2DGeometry.TileShape.SQUARE ,Tile2DGeometry.TileShape.HEXAGON);
+		shapeChoiceBox.setValue(Tile2DGeometry.TileShape.SQUARE);
     	
     	App.setMap(GameBoardIO.loadMap(templateFiles[selectedAreaIndex]));
+    	App.getMap().setTileShape(Tile2DGeometry.TileShape.SQUARE);
     	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
     	
     	mapPreview = new TwoDMapEditor(previewCanvas);
@@ -125,6 +134,7 @@ public class PreviewMapController {
     	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
     	TerrainMap map = GameBoardIO.loadMap(templateFiles[selectedAreaIndex]);
     	App.setMap(map);
+    	mapPreview.setShape(shapeChoiceBox.getValue());
     	mapPreview.updateScale();
     	mapPreview.draw();
     	
