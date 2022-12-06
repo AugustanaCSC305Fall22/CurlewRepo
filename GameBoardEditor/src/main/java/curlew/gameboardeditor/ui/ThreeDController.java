@@ -119,7 +119,7 @@ public class ThreeDController extends Application {
 			@Override
 			public void handle(long now) {
 				// TODO Auto-generated method stub
-				lightSource.setRotate(lightSource.getRotate() + 1);
+				lightSource.setRotate(lightSource.getRotate() + 3);
 			}
         	
         };
@@ -130,8 +130,8 @@ public class ThreeDController extends Application {
     private final PointLight lightSource = new PointLight();
     
     private Node[] prepareLightSource() {
-    	lightSource.setColor(Color.RED);
-    	lightSource.getTransforms().add(new Translate(150, -150, 100));
+    	lightSource.setColor(Color.CORNSILK);
+    	lightSource.getTransforms().add(new Translate(150, -150, 300));
     	lightSource.setRotationAxis(Rotate.X_AXIS);
     	
     	Sphere lightSphere = new Sphere(5);
