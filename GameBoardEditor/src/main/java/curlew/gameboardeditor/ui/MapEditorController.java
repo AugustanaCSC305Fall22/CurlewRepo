@@ -487,7 +487,7 @@ import javafx.stage.Stage;
     
     @FXML
     private void openTutorialVideo() throws URISyntaxException, IOException {
-    	final URI uri = new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    	final URI uri = new URI("https://share.vidyard.com/watch/uFPgsrDTDqMm5kshFw8gpr?vyetoken=b5144743-94dd-461f-be70-48d396fe6ae8&autoplay=1");
     	if(Desktop.isDesktopSupported()) {
     		Desktop.getDesktop().browse(uri);
     	}
