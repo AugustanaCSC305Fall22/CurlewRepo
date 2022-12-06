@@ -126,7 +126,7 @@ public class ThreeDController extends Application {
     
     private Node[] prepareLightSource() {
     	lightSource.setColor(Color.CORNSILK);
-    	lightSource.getTransforms().add(new Translate(150, -150, 300));
+    	lightSource.getTransforms().add(new Translate(150, 150, 300));
     	lightSource.setRotationAxis(Rotate.X_AXIS);
     	
     	Sphere lightSphere = new Sphere(5);
