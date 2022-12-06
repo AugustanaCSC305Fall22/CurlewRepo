@@ -114,7 +114,7 @@ public class ThreeDController extends Application {
 			@Override
 			public void handle(long now) {
 				// TODO Auto-generated method stub
-				lightSource.setRotate(lightSource.getRotate() + 3);
+				lightSource.setRotate(lightSource.getRotate() + 1.5);
 			}
         	
         };
