@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import curlew.gameboardeditor.datamodel.GameBoardIO;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
+import curlew.gameboardeditor.datamodel.Tile2DGeometry.TileShape;
 import curlew.gameboardeditor.generators.RandomMapGenerator;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -50,21 +51,15 @@ public class ThreeDController extends Application {
 	private double anchorAngleY = 0;
 	
     public void start(Stage primaryStage) throws Exception {
+    	SmartGroup group = new SmartGroup();
+    	
     	TerrainMap map = App.getMap();
-
-		
-		Box[][] boxArray = new Box[map.getRows()][map.getColumns()];
-		SmartGroup group = new SmartGroup();
-		for(int i=0;i<map.getRows();i++) {
-			for(int j=0;j<map.getColumns();j++) {
-				boxArray[i][j] = new Box(BOX_WIDTH,BOX_HEIGHT,BOX_DEPTH*map.getHeight(i, j));
-				group.getChildren().add(boxArray[i][j]);
-//				group.getChildren().addAll(prepareLightSource());
-				boxArray[i][j].translateXProperty().set((BOX_WIDTH/2)+j*(BOX_WIDTH));
-				boxArray[i][j].translateYProperty().set((BOX_HEIGHT/2)+i*(BOX_HEIGHT));
-				boxArray[i][j].translateZProperty().set(-map.getHeight(i, j)*BOX_DEPTH/2);
-			}
-		}
+    	if(map.getTileShape()==TileShape.SQUARE) {
+    		makeSquarePreview(group);
+    	}else {
+    		makeHexPreview(group);
+    	}
+    	
 		group.getChildren().addAll(prepareLightSource());
 
         //Create new Camera
@@ -171,6 +166,64 @@ public class ThreeDController extends Application {
     
     public static void main(String[] args) {
         launch(args);
+    }
+    
+    private void makeSquarePreview(Group group) {
+    	TerrainMap map = App.getMap();
+    	Box[][] boxArray = new Box[map.getRows()][map.getColumns()];
+    	for(int i=0;i<map.getRows();i++) {
+			for(int j=0;j<map.getColumns();j++) {
+				boxArray[i][j] = new Box(BOX_WIDTH,BOX_HEIGHT,BOX_DEPTH*map.getHeight(i, j));
+				group.getChildren().add(boxArray[i][j]);
+				boxArray[i][j].translateXProperty().set((BOX_WIDTH/2)+j*(BOX_WIDTH));
+				boxArray[i][j].translateYProperty().set((BOX_HEIGHT/2)+i*(BOX_HEIGHT));
+				boxArray[i][j].translateZProperty().set(-map.getHeight(i, j)*BOX_DEPTH/2);
+			}
+		}
+    }
+    
+    private void makeHexPreview(Group group) {
+    	TerrainMap map = App.getMap();
+    	double heightFactor = 23.33+5.25;
+    	for(int i=0;i<map.getRows();i++) {
+			for(int j=0;j<map.getColumns();j++) {
+				Box topBox = new Box(BOX_WIDTH,BOX_HEIGHT,BOX_DEPTH*map.getHeight(i, j));
+				Box botomBox = new Box(BOX_WIDTH,BOX_HEIGHT,BOX_DEPTH*map.getHeight(i, j));
+				Box middleBox = new Box(14,10.5,BOX_DEPTH*map.getHeight(i, j));
+				
+				Transform t = new Rotate();
+				Rotate r = new Rotate(45, Rotate.Z_AXIS);
+			    t = t.createConcatenation(r);
+			    topBox.getTransforms().addAll(t);
+			    botomBox.getTransforms().addAll(t);
+			    
+				topBox.translateZProperty().set(-map.getHeight(i, j)*BOX_DEPTH/2);
+				botomBox.translateZProperty().set(-map.getHeight(i, j)*BOX_DEPTH/2);
+				middleBox.translateZProperty().set(-map.getHeight(i, j)*BOX_DEPTH/2);
+				if(i %2==0) {
+					topBox.translateYProperty().set(heightFactor*(i/2));
+					botomBox.translateYProperty().set(10+(heightFactor*(i/2)));
+					middleBox.translateYProperty().set(5+(heightFactor*(i/2)));
+					
+					topBox.translateXProperty().set(14*j);
+					botomBox.translateXProperty().set(14*j);
+					middleBox.translateXProperty().set(14*j);
+				}
+				else {
+					topBox.translateYProperty().set(16.9+heightFactor*(i/2));
+					botomBox.translateYProperty().set(10+16.9+(heightFactor*(i/2)));
+					middleBox.translateYProperty().set(5+16.9+(heightFactor*(i/2)));
+					
+					topBox.translateXProperty().set(7+(14*j));
+					botomBox.translateXProperty().set(7+(14*j));
+					middleBox.translateXProperty().set(7+(14*j));
+					
+				}
+				group.getChildren().add(topBox);
+				group.getChildren().add(botomBox);
+				group.getChildren().add(middleBox);
+			}
+		}
     }
     
     class SmartGroup extends Group {
