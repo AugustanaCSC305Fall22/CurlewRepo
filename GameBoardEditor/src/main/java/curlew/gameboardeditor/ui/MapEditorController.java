@@ -98,6 +98,8 @@ import javafx.stage.Stage;
 		
 		private boolean isSavedRecent;
 		
+		private double mousePressedTime;
+		
 
 		private ContextMenu rightClickMenu;
 
@@ -148,12 +150,16 @@ import javafx.stage.Stage;
 	    	twoDCanvas.setOnMousePressed(event -> {
 				if(!creatingSelectionRect&&!moveClicked&&mapEditor.isValidDragEvt(event)) {
 					mapEditor.setOrigin(event);
+					mousePressedTime = System.nanoTime();
 				}
 	    	});
 	    	
 	    	twoDCanvas.setOnMouseDragged(event -> {
 	    		if(mapEditor.isValidDragEvt(event)) {
-	    			creatingSelectionRect =mapEditor.drawSelectionRect(event);
+	    			if((System.nanoTime()-mousePressedTime)/1000000>300) {
+	    				creatingSelectionRect =mapEditor.drawSelectionRect(event);
+	    			}
+	    	
 	    		}else {
 	    			if(!creatingSelectionRect) {
 	    				mapEditor.setOriginToNull();
@@ -487,7 +493,7 @@ import javafx.stage.Stage;
     
     @FXML
     private void openTutorialVideo() throws URISyntaxException, IOException {
-    	final URI uri = new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    	final URI uri = new URI("https://share.vidyard.com/watch/Uage924Mt5HaxEnVyLNhLZ?");
     	if(Desktop.isDesktopSupported()) {
     		Desktop.getDesktop().browse(uri);
     	}
