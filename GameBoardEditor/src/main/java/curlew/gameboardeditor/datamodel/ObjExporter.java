@@ -127,7 +127,7 @@ public class ObjExporter {
 				fileOut.println("f " + (12*N+4) + " " + (12*N+10) + " " + (12*N+11) + " " + (12*N+5));
 				fileOut.println("f " + (12*N+5) + " " + (12*N+11) + " " + (12*N+12) + " " + (12*N+6));
 				fileOut.println("f " + (12*N+6) + " " + (12*N+12) + " " + (12*N+7) + " " + (12*N+1));
-				fileOut.println("f " + (12*N+7) + " " + (12*N+8) + " " + (12*N+10) + " " + (12*N+9) + " " + (12*N+8) + " " + (12*N+7));
+				fileOut.println("f " + (12*N+7) + " " + (12*N+8) + " " + (12*N+9) + " " + (12*N+10) + " " + (12*N+11) + " " + (12*N+12));
 
 									
 				fileOut.println(" ");
