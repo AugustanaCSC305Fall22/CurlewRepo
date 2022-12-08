@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
+import curlew.gameboardeditor.datamodel.Tile2DGeometry;
 import curlew.gameboardeditor.generators.MazeMapGenerator;
 import curlew.gameboardeditor.generators.RandomMapGenerator;
 import javafx.beans.value.ChangeListener;
@@ -15,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 
 public class SizeController implements Initializable {
@@ -30,6 +32,9 @@ public class SizeController implements Initializable {
 	@FXML
 	private Button backButton;
 	
+	@FXML
+    private ChoiceBox<Tile2DGeometry.TileShape> shapeChoiceBox;
+	
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -37,13 +42,15 @@ public class SizeController implements Initializable {
 			rowSlider.setMin(20);
 			columnSlider.setMin(20);
 		}
+		shapeChoiceBox.getItems().addAll(Tile2DGeometry.TileShape.SQUARE ,Tile2DGeometry.TileShape.HEXAGON);
+		shapeChoiceBox.setValue(Tile2DGeometry.TileShape.SQUARE);
 	}
 	
 
 	
 	@FXML
 	void clickedNext() throws IOException {
-		App.setMap(new TerrainMap((int)rowSlider.getValue(),(int)columnSlider.getValue()));
+		App.setMap(new TerrainMap((int)rowSlider.getValue(),(int)columnSlider.getValue(), shapeChoiceBox.getValue()));
 
 		if(MainMenuController.genRandom) {
 			genRandom();	

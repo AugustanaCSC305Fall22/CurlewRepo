@@ -22,7 +22,7 @@
             </Label>
          </top>
          <center>
-            <TextArea editable="false" maxHeight="-Infinity" prefHeight="295.0" prefWidth="631.0" text="Made By:  Shazil Farhan, Joon Lee, Donald Peters, Farah Khan Brinto&#10;You can create your own table top RPG board map and print it out with a 3D printer!&#10;&#10;Create the map by editing the existing templates, generating random map, &#10;generating a maze, or &#10;even making your own map from scratch!&#10;&#10;Our App includes several different features you can add on your map &#10;or you can increase or decrease the size of the map. &#10;Once you are finished, or want to take a break, hit the Save As button.&#10;&#10;Get Creative!&#10;Click the button to get started." BorderPane.alignment="CENTER">
+            <TextArea editable="false" maxHeight="-Infinity" prefHeight="295.0" prefWidth="631.0" text="You can create your own table top RPG board map and print it out with a 3D printer!&#10;&#10;Create the map by editing the existing templates, generating random map, &#10;generating a maze, or &#10;even making your own map from scratch!&#10;&#10;Our App includes several different features you can add on your map.&#10;There are two tile shapes which are square and hexagon, and you can change to another form of &#10;tile while editing the map, too.&#10;&#10;Get Creative!&#10;Click the button to get started.&#10;&#10;Made By:  Shazil Farhan, Joon Lee, Donald Peters, Farah Khan Brinto" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="50.0" left="3.0" right="5.0" top="3.0" />
                </BorderPane.margin>

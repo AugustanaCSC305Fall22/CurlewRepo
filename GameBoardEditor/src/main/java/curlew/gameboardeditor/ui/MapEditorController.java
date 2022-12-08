@@ -13,15 +13,18 @@ import java.util.Iterator;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.TestClass;
+import curlew.gameboardeditor.datamodel.Tile2DGeometry;
 import curlew.gameboardeditor.generators.GateToHellLandformGenerator;
 import curlew.gameboardeditor.generators.LandformGenerator;
 import curlew.gameboardeditor.generators.MountainLandformGenerator;
 import curlew.gameboardeditor.generators.TrenchLandformGenerator;
 import curlew.gameboardeditor.generators.ValleyLandformGenerator;
 import curlew.gameboardeditor.generators.VolcanoLandformGenerator;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -29,7 +32,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -77,7 +83,10 @@ import javafx.stage.Stage;
 	    @FXML 
 	    private MenuItem featureHelp;
 	    
-	    private boolean dragging;
+	    @FXML
+	    private MenuItem switchTileItem;
+	    
+	    private boolean creatingSelectionRect;
 	    
 	    private ObservableList<LandformGenerator> featureList;
 	    
@@ -86,6 +95,15 @@ import javafx.stage.Stage;
 		private int legendSelectedHeight;
 
 		private boolean moveClicked;
+		
+		private boolean isSavedRecent;
+		
+		private double mousePressedTime;
+		
+
+		private ContextMenu rightClickMenu;
+
+		private ContextMenu squareSelectMenu;
 
 
 		/**
@@ -94,8 +112,19 @@ import javafx.stage.Stage;
 		 */
 	    @FXML
 	    private void initialize() {
-	    	twoDCanvas.setHeight(400);
+	    	twoDCanvas.setHeight(400); //delete this and set Height in scene builder directly.
 	    	twoDCanvas.setWidth(400);
+	    	isSavedRecent = false;
+	    	
+	    	rightClickMenu = new ContextMenu();
+	    	squareSelectMenu = new ContextMenu();
+	    	
+	    	if(App.getMap().getTileShape()== Tile2DGeometry.TileShape.SQUARE) {
+	    		switchTileItem.setText("Switch to "+Tile2DGeometry.TileShape.HEXAGON + " grid");
+	    	}else {
+	    		switchTileItem.setText("Switch to "+Tile2DGeometry.TileShape.SQUARE + " grid");
+	    	}
+	    	
 	    	
 	    	TerrainMap map = App.getMap();
 	    	mapEditor = new TwoDMapEditor(twoDCanvas);
@@ -113,39 +142,57 @@ import javafx.stage.Stage;
 	    		setLegendSelectedHeight(p.y);
 	    		if (p.x >= 0 && p.x < 100 && p.y >= 0 && p.y <= 400) {
 	    			mapEditor.raiseTile(legendSelectedHeight);
+	    			isSavedRecent = false;
 	    		}
 	    		
 	    	});
 	    	
 	    	twoDCanvas.setOnMousePressed(event -> {
-				if(!dragging&&!moveClicked) {
+				if(!creatingSelectionRect&&!moveClicked&&mapEditor.isValidDragEvt(event)) {
 					mapEditor.setOrigin(event);
+					mousePressedTime = System.nanoTime();
 				}
 	    	});
 	    	
 	    	twoDCanvas.setOnMouseDragged(event -> {
-	    		dragging=true;
-	    		if(mapEditor.isValid(event)) {
-	    			mapEditor.drawSelectionRect(event);
+	    		if(mapEditor.isValidDragEvt(event)) {
+	    			if((System.nanoTime()-mousePressedTime)/1000000>300) {
+	    				creatingSelectionRect =mapEditor.drawSelectionRect(event);
+	    			}
+	    	
+	    		}else {
+	    			if(!creatingSelectionRect) {
+	    				mapEditor.setOriginToNull();
+	    			}
 	    		}
 	    	});
 	    	
 	    	
 	    	twoDCanvas.setOnMouseClicked(event -> {
 
-	    		if (event.getButton() == MouseButton.SECONDARY && mapEditor.isValid(event)) {
-	    			createRightClickMenu(event);
+	    		if (event.getButton() == MouseButton.SECONDARY && mapEditor.isValidSelectEvt(event)) {
+	    			if(creatingSelectionRect) {
+	    				showSquareSelectionMenu(event);
+	    			}else {
+	    				showRightClickMenu(event);
+	    				squareSelectMenu.hide();
+	    				mapEditor.draw();
+	    			}
 	    			
 	    		} else {
-	    			if(dragging) {
-	    				createSquareSelectionMenu(event);
+	    			if(creatingSelectionRect) {
+	    				showSquareSelectionMenu(event);
 	    			}else if(moveClicked) {
-	    				mapEditor.squareMove(event);
-	    				moveClicked = false;
+	    				if(mapEditor.isValidSelectEvt(event)) {
+	    					mapEditor.squareMove(event);
+		    				moveClicked = false;
+	    				}
 	    			}
 	    			else {
 	    				mapEditor.canvasClicked(event);
+	    				squareSelectMenu.hide();
 	    			}
+	    			rightClickMenu.hide();
 	    		}
 	    		
 	    	});
@@ -156,7 +203,16 @@ import javafx.stage.Stage;
 	    
 	    	ToggleGroup toggleGroup = new ToggleGroup();
 	    	raiseTileButton.setToggleGroup(toggleGroup);
-	    	lowerTileButton.setToggleGroup(toggleGroup);	    	
+	    	lowerTileButton.setToggleGroup(toggleGroup);	
+	    	
+	    	Stage stage = App.getStage();
+	    	stage.setOnCloseRequest(e -> {
+				try {
+					windowExit();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			});
 	    }
 	    
 	    
@@ -220,10 +276,23 @@ import javafx.stage.Stage;
 	private void addFeatures(ActionEvent event) {
 		LandformGenerator feature = featureComboBox.getValue();
 		mapEditor.drawLandforms(feature, getScale());
+		isSavedRecent = false;
 	}
 	
     @FXML
     private void clickedBack(ActionEvent event) throws IOException {
+    	if (!isSavedRecent) {
+    		ButtonType saveAndBack = new ButtonType("Save and Back", ButtonBar.ButtonData.OK_DONE);
+    		ButtonType discard = new ButtonType("Discard", ButtonBar.ButtonData.CANCEL_CLOSE);
+    		
+    		Alert saveConfirmation = new Alert(AlertType.CONFIRMATION, "abcd", saveAndBack, discard);
+    		saveConfirmation.setTitle("CONFIRMATION");
+    		saveConfirmation.setHeaderText("You have unsaved changes");
+    		saveConfirmation.setContentText("Do you save before exiting?");
+    		if (saveConfirmation.showAndWait().get() == saveAndBack) {
+    			saveHandler();
+    		} 
+    	}
     	App.setRoot("mainMenu");
     }
 
@@ -235,6 +304,7 @@ import javafx.stage.Stage;
     @FXML
     void saveAsHandler(ActionEvent event) throws IOException {
     	App.saveAsProjectFile();
+    	isSavedRecent = true;
     }
     
     /**
@@ -243,8 +313,9 @@ import javafx.stage.Stage;
      * @throws IOException 
      */
     @FXML
-    void saveHandler(ActionEvent event) throws IOException {
+    void saveHandler() throws IOException {
     	App.saveProjectFile();
+    	isSavedRecent = true;
     }
     
 
@@ -265,6 +336,7 @@ import javafx.stage.Stage;
     @FXML
     private void lowerTileButtonHandler() {
     	mapEditor.lowerTile();
+    	isSavedRecent = false;
     }
     /**
      * this handles the buildButton and elevates the selected tiles if possible
@@ -272,6 +344,7 @@ import javafx.stage.Stage;
     @FXML
     private void raiseTileButtonHandler() {
     	mapEditor.raiseTile();
+    	isSavedRecent = false;
     }
     
     /**
@@ -286,7 +359,7 @@ import javafx.stage.Stage;
     
     
     @FXML
-    private void featureHelpClicked() {
+    private void helpMenuFeature() {
     	Alert featureInfo = new Alert(AlertType.INFORMATION, "Multiple features are provided in our program.\n\n" + 
     			"Mountain is 5 by 5 feature and the selected box will be the middle of the mountain.\n\n"
     			+ "Volcano is 5 by 5 feature and the selected box will be the middle of the volcano.\n\n"
@@ -299,7 +372,7 @@ import javafx.stage.Stage;
     }
     
     @FXML
-    private void scaleHelpClicked() {
+    private void helpMenuScale() {
     	Alert scaleInfo = new Alert(AlertType.INFORMATION, "Scale slider is provided in our program\n\n" +
     			"Scale slider determines the scale of the feature from 1 to 5.\n\n" +
     			"Higher the scale is, higher the mountains and volcanoes are.\n\n" +
@@ -312,7 +385,7 @@ import javafx.stage.Stage;
     }
     
     @FXML
-    private void infoHelpClicked() {
+    private void helpMenuInfo() {
     	Alert pageInfo = new Alert(AlertType.INFORMATION, "Welcome to the Terrain Editor.\n\n" 
     			+ "You can select multiple boxes at the same time and edit.\n" 
     			+ "With Tile Elevation Legend, you can modify the height of the selected tile immediately.\n" 
@@ -339,21 +412,25 @@ import javafx.stage.Stage;
     @FXML
     private void addRow() {
     	mapEditor.addRow();
+    	isSavedRecent = false;
     }
     
     @FXML
     private void deleteRow() {
     	mapEditor.deleteRow();
+    	isSavedRecent = false;
     }
     
     @FXML
     private void addColumn() {
     	mapEditor.addColumn();
+    	isSavedRecent = false;
     }
     
     @FXML
     private void deleteColumn() {
     	mapEditor.deleteColumn();
+    	isSavedRecent = false;
     }
     
     @FXML
@@ -361,9 +438,9 @@ import javafx.stage.Stage;
     	mapEditor.selectSameHeight();
     }
     
-    private void createRightClickMenu(MouseEvent event) {
-    	ContextMenu context = new ContextMenu();
-
+    
+    private void showRightClickMenu(MouseEvent event) {
+    	rightClickMenu.getItems().clear();
     	MenuItem addRowItem = new MenuItem("Add Row");
     	MenuItem delRowItem = new MenuItem("Delete Row");
     	MenuItem addColItem = new MenuItem("Add Column");
@@ -372,47 +449,51 @@ import javafx.stage.Stage;
     	MenuItem closeItem = new MenuItem("Close");
     	MenuItem pasteItem = new MenuItem("Paste");
     	
-    	context.getItems().addAll(pasteItem, addRowItem, delRowItem, addColItem, delColItem, sameHeightSelectItem, closeItem);
+    	rightClickMenu.getItems().addAll(pasteItem, addRowItem, delRowItem, addColItem, delColItem, sameHeightSelectItem, closeItem);
     	
     	if(!mapEditor.copied()) {
     		pasteItem.setDisable(true);
     	}
     	
-    	addRowItem.setOnAction(eve->{mapEditor.addRow(event);});
-    	delRowItem.setOnAction(eve ->{mapEditor.deleteRow(event);});
-    	addColItem.setOnAction(eve->{mapEditor.addColumn(event);});
-    	delColItem.setOnAction(eve->{mapEditor.deleteColumn(event);});
-    	closeItem.setOnAction(eve->{context.hide();});
+
+    	addRowItem.setOnAction(eve->{mapEditor.addRow(event); isSavedRecent = false;});
+    	delRowItem.setOnAction(eve ->{mapEditor.deleteRow(event); isSavedRecent = false;});
+    	addColItem.setOnAction(eve->{mapEditor.addColumn(event); isSavedRecent = false;});
+    	delColItem.setOnAction(eve->{mapEditor.deleteColumn(event); isSavedRecent = false;});
+    	closeItem.setOnAction(eve->{rightClickMenu.hide();});
+
     	sameHeightSelectItem.setOnAction(eve->{mapEditor.selectSameHeight(event);});
-    	pasteItem.setOnAction(eve->{mapEditor.paste(event);});
+    	pasteItem.setOnAction(eve->{mapEditor.paste(event); isSavedRecent = false;});
     	
-    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
+    	rightClickMenu.show(twoDCanvas, event.getScreenX(), event.getScreenY());
     }
     
-    private void createSquareSelectionMenu(MouseEvent event) {
-    	dragging = false;
-    	ContextMenu context = new ContextMenu();
-
+    private void showSquareSelectionMenu(MouseEvent event) {
+    	creatingSelectionRect = false;
+    	
+    	squareSelectMenu.getItems().clear();
     	MenuItem selectAllItem = new MenuItem("Select All");
     	MenuItem copyItem = new MenuItem("Copy");
     	MenuItem moveItem = new MenuItem("Move");
     	MenuItem clearItem = new MenuItem("Clear");
     	MenuItem closeItem = new MenuItem("Close");
-    	context.getItems().addAll(selectAllItem, copyItem, moveItem, clearItem,closeItem);
+    	squareSelectMenu.getItems().addAll(selectAllItem, copyItem, moveItem, clearItem,closeItem);
     	
-    	closeItem.setOnAction(eve->{context.hide(); mapEditor.draw();});
+    	closeItem.setOnAction(eve->{squareSelectMenu.hide(); mapEditor.draw();});
     	selectAllItem.setOnAction(eve->{mapEditor.squareSelect();});
     	copyItem.setOnAction(eve->{mapEditor.squareCopy();});
-    	clearItem.setOnAction(eve->{mapEditor.squareClear();});
-    	moveItem.setOnAction(eve->{moveClicked =true;});
+
+    	clearItem.setOnAction(eve->{mapEditor.squareClear(); isSavedRecent = false;});
+    	moveItem.setOnAction(eve->{moveClicked =true;mapEditor.drawMoveSquare(); isSavedRecent = false;});
+
     	
-    	context.show(twoDCanvas, event.getScreenX(), event.getScreenY());
+    	squareSelectMenu.show(twoDCanvas, event.getScreenX(), event.getScreenY());
 		
 	}
     
     @FXML
     private void openTutorialVideo() throws URISyntaxException, IOException {
-    	final URI uri = new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    	final URI uri = new URI("https://share.vidyard.com/watch/Uage924Mt5HaxEnVyLNhLZ?");
     	if(Desktop.isDesktopSupported()) {
     		Desktop.getDesktop().browse(uri);
     	}
@@ -421,10 +502,46 @@ import javafx.stage.Stage;
     @FXML
     private void undo() {
     	mapEditor.undo();
+    	isSavedRecent = false;
     }
     
     @FXML
     private void redo() {
     	mapEditor.redo();
+    	isSavedRecent = false;
     }
+    
+    @FXML
+    private void changeShape() {
+    	switchTileItem.setText("Switch to "+App.getMap().getTileShape() + " grid");
+    	if(App.getMap().getTileShape()== Tile2DGeometry.TileShape.SQUARE) {
+    		mapEditor.setShape(Tile2DGeometry.TileShape.HEXAGON);
+    	}else {
+    		mapEditor.setShape(Tile2DGeometry.TileShape.SQUARE);
+    	}
+    	isSavedRecent = false;
+    }
+    
+    
+    private void windowExit() throws IOException {
+    	if (!isSavedRecent) {
+    		ButtonType saveAndExit = new ButtonType("Save and Exit", ButtonBar.ButtonData.OK_DONE);
+    		ButtonType discard = new ButtonType("Discard", ButtonBar.ButtonData.CANCEL_CLOSE);
+    		
+    		Alert saveConfirmation = new Alert(AlertType.CONFIRMATION, "abcd", saveAndExit, discard);
+    		saveConfirmation.setTitle("CONFIRMATION");
+    		saveConfirmation.setHeaderText("You have unsaved changes");
+    		saveConfirmation.setContentText("Do you want to save before exiting?");
+    		if (saveConfirmation.showAndWait().get() == saveAndExit) {
+    			saveHandler();
+    			Platform.exit();
+    		} else {
+    			Platform.exit();
+    		}
+    	}
+    	Platform.exit();
+    	System.out.println(isSavedRecent);
+    }
+    
+    
 }

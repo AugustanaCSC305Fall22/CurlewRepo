@@ -26,7 +26,9 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-   
+    	this.stage = stage;
+    	
+    	
     	scene = new Scene(loadFXML("aboutPopUp"),640, 550);    	
         stage.setScene(scene);		
         stage.show();
@@ -148,13 +150,19 @@ public class App extends Application {
         launch();
     }
     
-    public static void setSelectedFileToNul() {
+    public static void setSelectedFileToNull() {
     	selectedFile = null;
     }
 
+//    private static void windowClosingWithoutSaving() throws IOException {
+//    	if (scene.getRoot() == loadFXML("mapEditor")) {
+//    		
+//    	}
+//    }
 
-
-
+    public static Stage getStage() {
+    	return stage;
+    }
 
 
 }
