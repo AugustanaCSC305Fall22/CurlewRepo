@@ -33,7 +33,6 @@ public class TwoDMapEditor {
 	/**
 	 * Constructs TwoDMapEditor by combining the terrainMap and the twoDMapEditor
 	 * Then it sets the data fields from both objects to this object to be used in the MapEditorController
-	 * @param map
 	 * @param twoDCanvas
 	 */
 	public TwoDMapEditor(Canvas twoDCanvas) {
@@ -43,9 +42,17 @@ public class TwoDMapEditor {
 		setTileLength();
 		draw();
 	}
+	public TwoDMapEditor(Canvas twoDCanvas, UndoRedoHandler undoRedoHandler) {
+		//test purpouses only
+		this.undoRedoHandler = undoRedoHandler;
+		canvas = twoDCanvas;
+		pointSet= new HashSet<>();
+		setTileLength();
+		draw();
+	}
 	
 	public void setTileLength() {
-		length=  (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())));
+		length = (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())));
 	}
 	
 	public void draw() {
@@ -327,7 +334,9 @@ public class TwoDMapEditor {
 		}
 		draw();
 	}
-	
+	public HashSet<Point> getPointSet(){
+		return this.pointSet;
+	}
 	public boolean copied() {
 		return copyArray!=null;
 	}

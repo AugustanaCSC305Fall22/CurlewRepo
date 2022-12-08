@@ -1,6 +1,6 @@
 package curlew.gameboardeditor.datamodel;
 
-public class TerrainMap  implements UndoRedoAble {
+public class TerrainMap implements UndoRedoAble {
 
 	private double[][] heightArray;
 	
@@ -193,8 +193,8 @@ public class TerrainMap  implements UndoRedoAble {
 				clone.setHeightAt(i, j, heightArray[i][j]);
 			}
 		}
-		TestClass.printMap(clone);
-		System.out.println();
+//		TestClass.printMap(clone);
+//		System.out.println();
 		return clone;
 	}
 
@@ -204,7 +204,7 @@ public class TerrainMap  implements UndoRedoAble {
 		heightArray=newMap.getHeightArray();
 //		TestClass.printMap(newMap);
 //		System.out.println();
-		TestClass.printMap(this);
+//		TestClass.printMap(this);
 	}
 
 	
