@@ -55,19 +55,19 @@
                            </accelerator></MenuItem>
                     <MenuItem mnemonicParsing="false" onAction="#addRow" text="Add Row">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="R" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="DOWN" code="SPACE" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#deleteRow" text="Delete Row">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="D" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="DOWN" code="BACK_SPACE" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                            </accelerator></MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#addColumn" text="Add Column">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="C" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="SPACE" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator></MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#deleteColumn" text="Delete Column">
                            <accelerator>
-                              <KeyCodeCombination alt="UP" code="G" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                              <KeyCodeCombination alt="UP" code="BACK_SPACE" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
                            </accelerator></MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#selectTilesOfSameHeight" text="Select Tiles of Same Height">
                            <accelerator>
