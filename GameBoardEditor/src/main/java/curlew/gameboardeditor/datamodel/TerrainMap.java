@@ -74,14 +74,14 @@ public class TerrainMap implements UndoRedoAble {
 		}
 	}
 	
-	// Return the Tile2DGeometry which woul contain the x and y coordinates
+	// Return the Tile2DGeometry which would contain the x and y coordinates
 	private Tile2DGeometry getHexContaining(double x, double y, double scalingFactor) {
 		int probableCol = (int) (x/scalingFactor);
 		double heightFactor = 3*scalingFactor/Math.tan(Math.PI/3);
 		int probableRow =((int)(y/heightFactor))*2;
-		double mindis = 10000;
+		double minDis = 10000;
 		Tile2DGeometry selectedHex = getShapeAt(-1,-1);
-		System.out.println(probableRow +" "+ probableCol);
+		
 		for(int row=probableRow-1;row<=probableRow+1;row++) {
 			for(int col=probableCol-1;col<=probableCol;col++) {
 				Tile2DGeometry hexGeometry = this.getShapeAt(row, col);
@@ -92,9 +92,8 @@ public class TerrainMap implements UndoRedoAble {
 				double midy = (yCoord[1]+yCoord[4])/2;
 				double distance = Math.sqrt((midx-x)*(midx-x)+(midy-y)*(midy-y));
 				
-				System.out.println(distance);
-				if(distance <= mindis) {
-					mindis = distance;
+				if(distance <= minDis) {
+					minDis = distance;
 					selectedHex = hexGeometry;
 				}
 			}
