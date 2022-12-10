@@ -1,10 +1,13 @@
 package curlew.gameboardeditor.datamodel;
 
-
-import java.awt.Polygon;
-
 import curlew.gameboardeditor.datamodel.Tile2DGeometry.TileShape;
 
+/**
+ * 
+ * @author Team Curlew
+ * This class holds information regarding the map/data model and is responsible for editing it.
+ *
+ */
 public class TerrainMap implements UndoRedoAble {
 
 
@@ -30,15 +33,29 @@ public class TerrainMap implements UndoRedoAble {
 			}
 		}
 	}
-
+	
+	/**
+	 * Returns the shape of the map
+	 * @return The current shape of the map
+	 */
 	public Tile2DGeometry.TileShape getTileShape() {
 		return tileShape;
 	}
 	
+	/**
+	 * Sets the map shape to the shape provided in the argument
+	 * @param shape The shape to set the map to
+	 */
 	public void setTileShape(Tile2DGeometry.TileShape shape) {
 		tileShape = shape;
 	}
 	
+	/**
+	 * Returns the Tile2DGeometry at a given row and column
+	 * @param row Number of row
+	 * @param col Number of col
+	 * @return The Tile2DGeometry at a given row and column
+	 */
 	public Tile2DGeometry getShapeAt(int row, int col) {
 		return new Tile2DGeometry(row, col, tileShape);
 	}
@@ -56,7 +73,8 @@ public class TerrainMap implements UndoRedoAble {
 			return getHexContaining(x,y,scalingFactor);
 		}
 	}
-
+	
+	// Return the Tile2DGeometry which woul contain the x and y coordinates
 	private Tile2DGeometry getHexContaining(double x, double y, double scalingFactor) {
 		int probableCol = (int) (x/scalingFactor);
 		double heightFactor = 3*scalingFactor/Math.tan(Math.PI/3);
@@ -158,10 +176,18 @@ public class TerrainMap implements UndoRedoAble {
 		heightArray = array;
 	}
 	
+	/**
+	 * Returns the height Array
+	 * @return the heightArray
+	 */
 	public double[][] getHeightArray(){
 		return heightArray;
 	}
 	
+	/**
+	 * Adds a row after the given row
+	 * @param row The number of row where we need to add a new row
+	 */
 	public void addRow(int row) {
 		if(row<0||row>=getRows()) {
 			throw new IllegalArgumentException();
@@ -182,6 +208,10 @@ public class TerrainMap implements UndoRedoAble {
 		heightArray = newArray;
 	}
 	
+	/**
+	 * Deletes the given row
+	 * @param row The row to delete
+	 */
 	public void deleteRow(int row) {
 		if(row<0||row>=getRows()) {
 			throw new IllegalArgumentException();
@@ -203,7 +233,10 @@ public class TerrainMap implements UndoRedoAble {
 		heightArray = newArray;
 	}
 	
-	
+	/**
+	 * Adds a column after the given column.
+	 * @param column The column after which we add new column
+	 */
 	public void addColumn(int column) {
 		if(column<0||column>=getColumns()) {
 			throw new IllegalArgumentException();
@@ -224,7 +257,10 @@ public class TerrainMap implements UndoRedoAble {
 	}
 	
 	
-	
+	/**
+	 * Deletes the given column
+	 * @param column The column to delete
+	 */
 	public void deleteColumn(int column) {
 		
 		if(column<0||column>=getColumns()) {
@@ -255,8 +291,6 @@ public class TerrainMap implements UndoRedoAble {
 				clone.setHeightAt(i, j, heightArray[i][j]);
 			}
 		}
-//		TestClass.printMap(clone);
-//		System.out.println();
 		return clone;
 	}
 
@@ -265,9 +299,7 @@ public class TerrainMap implements UndoRedoAble {
 		TerrainMap newMap = (TerrainMap) state;
 		heightArray=newMap.getHeightArray();
 		tileShape = newMap.getTileShape(); 
-//		TestClass.printMap(newMap);
-//		System.out.println();
-//		TestClass.printMap(this);
+
 	}
 
 	

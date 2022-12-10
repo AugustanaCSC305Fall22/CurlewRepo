@@ -2,6 +2,7 @@
 
 package curlew.gameboardeditor.ui;
 
+
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.Tile2DGeometry.TileShape;
 import javafx.animation.AnimationTimer;
@@ -22,6 +23,16 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
+
+/**
+ * @author afsal villan
+ * @version 1.0
+ *
+ * http://www.genuinecoder.com
+ * @author Team Curlew
+ * @version 2.0 
+ * Updated it so it can 3d preview terrain maps with square and hexagonal tiles 
+ */
 
 public class ThreeDController  {
     private static final int WIDTH = 600;

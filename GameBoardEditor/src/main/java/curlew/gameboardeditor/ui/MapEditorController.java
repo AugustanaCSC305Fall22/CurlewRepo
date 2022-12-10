@@ -1,5 +1,6 @@
 package curlew.gameboardeditor.ui;
 
+
 import java.awt.Desktop;
 import java.awt.Point;
 import java.io.IOException;
