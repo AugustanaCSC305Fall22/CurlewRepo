@@ -4,6 +4,12 @@ import java.util.Random;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
 
+/**
+ * This class follows a similar logical pattern to Conway's game of life, by checking the neighboring cells of alive and
+ * dead, the software with near perfect accuracy will create a solveable maze
+ * @author Team Curlew
+ *
+ */
 public class MazeMapGenerator {
 	private static double ALIVE = 8;
 	private static double DEAD = 2;
