@@ -90,7 +90,7 @@ class TwoDMapEditorTest {
 		addToShapeSet(mapEditor, 3, 3);
 		addToShapeSet(mapEditor, 5, 5);
 		assertEquals(3, mapEditor.getSelectedShapeSet().size());
-		mapEditor.unSelectAllPoints();
+		mapEditor.unSelectAllTiles();
 		assertEquals(0, mapEditor.getSelectedShapeSet().size());
 	}
 
@@ -141,7 +141,7 @@ class TwoDMapEditorTest {
 		addToShapeSet(mapEditor, 2, 2);
 		addToShapeSet(mapEditor, 3, 3);
 		mapEditor.raiseTile();
-		mapEditor.unSelectAllPoints();
+		mapEditor.unSelectAllTiles();
 		addToShapeSet(mapEditor, 1, 1);
 		mapEditor.selectSameHeight();
 		assertEquals(3, mapEditor.getSelectedShapeSet().size());

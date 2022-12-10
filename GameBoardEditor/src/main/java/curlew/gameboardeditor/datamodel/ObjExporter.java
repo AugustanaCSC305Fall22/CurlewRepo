@@ -13,12 +13,7 @@ import java.io.PrintWriter;
 
 public class ObjExporter {
 	
-	Tile2DGeometry coords;
-	
-	
 	TerrainMap map;
-	
-	
 	
 	/**
 	 * Makes an ObjExporter for a given TerrainMap.

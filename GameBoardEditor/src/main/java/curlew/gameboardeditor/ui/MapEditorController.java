@@ -114,7 +114,7 @@ public class MapEditorController {
 	    	
 	    	twoDCanvas.setOnMousePressed(event -> {
 				if(!creatingSelectionRect&&!moveClicked&&mapEditor.isValidDragEvt(event)) {
-					mapEditor.setOrigin(event);
+					mapEditor.setOriginOfSelectionArea(event);
 					mousePressedTime = System.nanoTime();
 				}
 	    	});
@@ -122,12 +122,12 @@ public class MapEditorController {
 	    	twoDCanvas.setOnMouseDragged(event -> {
 	    		if(mapEditor.isValidDragEvt(event)) {
 	    			if((System.nanoTime()-mousePressedTime)/1000000>300) {
-	    				creatingSelectionRect =mapEditor.drawSelectionRect(event);
+	    				creatingSelectionRect =mapEditor.drawSelectionArea(event);
 	    			}
 	    	
 	    		}else {
 	    			if(!creatingSelectionRect) {
-	    				mapEditor.setOriginToNull();
+	    				mapEditor.setOriginOfSelectedAreaToNull();
 	    			}
 	    		}
 	    	});
@@ -305,7 +305,7 @@ public class MapEditorController {
      */
     @FXML
     void unselectAll() {
-    	mapEditor.unSelectAllPoints();
+    	mapEditor.unSelectAllTiles();
     }
     
 	
@@ -437,7 +437,7 @@ public class MapEditorController {
     	copyItem.setOnAction(eve->{mapEditor.squareCopy();});
 
     	clearItem.setOnAction(eve->{mapEditor.squareClear(); isSavedRecent = false;});
-    	moveItem.setOnAction(eve->{moveClicked =true;mapEditor.drawMoveSquare(); isSavedRecent = false;});
+    	moveItem.setOnAction(eve->{moveClicked =true;mapEditor.drawMoveArea(); isSavedRecent = false;});
 
     	
     	squareSelectMenu.show(twoDCanvas, event.getScreenX(), event.getScreenY());

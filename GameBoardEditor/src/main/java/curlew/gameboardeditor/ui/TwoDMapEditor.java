@@ -29,8 +29,8 @@ public class TwoDMapEditor {
 	private Canvas canvas;
 	private HashSet<Tile2DGeometry> selectedShapeSet;
 	private double scale;
-	private Tile2DGeometry origin;
-	private Tile2DGeometry end;
+	private Tile2DGeometry originOfSelectionArea;
+	private Tile2DGeometry endOfSelectionArea;
 	private double[][] copyArray;
 	private UndoRedoHandler undoRedoHandler;
 	
@@ -47,7 +47,9 @@ public class TwoDMapEditor {
 		draw();
 	}
 
-	
+	/**
+	 * Updates the scale when size or the shape of the map changes
+	 */
 	public void updateScale() {
 		if(App.getMap().getTileShape()== Tile2DGeometry.TileShape.SQUARE) {
 			scale=  (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())));
@@ -57,6 +59,9 @@ public class TwoDMapEditor {
 
 	}
 	
+	/**
+	 * Draws the map on the canvas
+	 */
 	public void draw() {
 		TerrainMap map = App.getMap();
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -87,6 +92,10 @@ public class TwoDMapEditor {
 		
 	}
 	
+	/**
+	 * Selects the tile if it is not selected and unselects the tile if it's selected.
+	 * @param event the mouse event
+	 */
 	public void canvasClicked(MouseEvent event) {
 		
 		Tile2DGeometry shape =getShapeFromEvent(event);
@@ -102,11 +111,16 @@ public class TwoDMapEditor {
 		}
 	}
 	
+	/**
+	 * Draws the landfor according to the scale
+	 * @param landform the landform to be drawn
+	 * @param scale the scale of the landform
+	 */
 	public void drawLandforms(LandformGenerator landform, int scale) {
 		if(selectedShapeSet.isEmpty()) {
     		new Alert(AlertType.WARNING, "Select a box first!").show();
     	}else if(selectedShapeSet.size()!=1) {
-    		unSelectAllPoints();
+    		unSelectAllTiles();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
     	}
 		else if (landform == null) {
@@ -124,6 +138,9 @@ public class TwoDMapEditor {
 		}
 	}
 	
+	/**
+	 * Raises the height of all the selected tiles
+	 */
 	public void raiseTile() {
 		for(Tile2DGeometry shape:selectedShapeSet) {
 			try {
@@ -134,6 +151,10 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 	}
 	
+	/**
+	 * Raises the height of all the selected tile to the elevation provided
+	 * @param elevation The elevation needed
+	 */
 	public void raiseTile(int elevation) {
 		for(Tile2DGeometry shape:selectedShapeSet) {
 			try {
@@ -143,6 +164,10 @@ public class TwoDMapEditor {
 		draw();
 		undoRedoHandler.saveState();
 	}
+	
+	/**
+	 * Lowers the height of all the selected tiles
+	 */
 	public void lowerTile() {
 		for(Tile2DGeometry shape:selectedShapeSet) {
 			try {
@@ -153,18 +178,20 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 	}
 	
-
-	
-
-	public void unSelectAllPoints() {
+	/**
+	 * Unselects all the points
+	 */
+	public void unSelectAllTiles() {
 		selectedShapeSet.clear();
 		draw();
-		
 	}
 	
+	/**
+	 * Add row to the selected tile
+	 */
 	public void addRow() {
 		if(selectedShapeSet.size()!=1) {
-			unSelectAllPoints();
+			unSelectAllTiles();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
@@ -173,6 +200,10 @@ public class TwoDMapEditor {
 		}
 	}
 	
+	/**
+	 * Add row where the mouse was clicked
+	 * @param event Mouse event
+	 */
 	public void addRow(MouseEvent event) {
 		Tile2DGeometry shape= getShapeFromEvent(event);
 		addRow(shape);
@@ -186,9 +217,12 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 	}
 	
+	/**
+	 * Delete row of the selected tile
+	 */
 	public void deleteRow() {
 		if(selectedShapeSet.size()!=1) {
-			unSelectAllPoints();
+			unSelectAllTiles();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
@@ -197,6 +231,10 @@ public class TwoDMapEditor {
 		}
 	}
 	
+	/**
+	 * Delete row on the tile that was clicked
+	 * @param event Mouse event
+	 */
 	public void deleteRow(MouseEvent event) {
 		deleteRow(getShapeFromEvent(event));
 	}
@@ -209,9 +247,12 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 	}
 	
+	/**
+	 * Add column after the column of the selected tile
+	 */
 	public void addColumn() {
 		if(selectedShapeSet.size()!=1) {
-			unSelectAllPoints();
+			unSelectAllTiles();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
@@ -220,6 +261,10 @@ public class TwoDMapEditor {
 		}
 	}
 	
+	/**
+	 * Adds column after the column of the tile that was clicked 
+	 * @param event Mouse Event
+	 */
 	public void addColumn(MouseEvent event) {
 		addColumn(getShapeFromEvent(event));
 	}
@@ -232,9 +277,12 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 	}
 	
+	/**
+	 * Deletes the column of the selected tile
+	 */
 	public void deleteColumn() {
 		if(selectedShapeSet.size()!=1) {
-			unSelectAllPoints();
+			unSelectAllTiles();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
@@ -243,6 +291,10 @@ public class TwoDMapEditor {
 		}
 	}
 	
+	/**
+	 * Deletes the column of the tile mouse was clicked at
+	 * @param event Mouse Event
+	 */
 	public void deleteColumn(MouseEvent event) {
 		deleteColumn(getShapeFromEvent(event));
 	}
@@ -255,10 +307,12 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 	}
 	
-	
+	/**
+	 * Selects all the tiles having the same height as the selected tile
+	 */
 	public void selectSameHeight() {
 		if(selectedShapeSet.size()!=1) {
-			unSelectAllPoints();
+			unSelectAllTiles();
     		new Alert(AlertType.WARNING, "Select only one box!").show();
 		}else {
 			Iterator<Tile2DGeometry> it = selectedShapeSet.iterator();
@@ -267,6 +321,10 @@ public class TwoDMapEditor {
 		}
 	}
 	
+	/**
+	 * Selects all the tile having the same height as the tile mouse was clicked on
+	 * @param event Mouse Event
+	 */
 	public void selectSameHeight(MouseEvent event) {
 		selectSameHeight(getShapeFromEvent(event));
 	}
@@ -283,22 +341,29 @@ public class TwoDMapEditor {
 		}
 		draw();
 	}
-
-	public void setOrigin(MouseEvent event) {
-		origin =getShapeFromEvent(event);
+	
+	/**
+	 * Sets the origin of selected area.
+	 * @param event Mouse Event
+	 */
+	public void setOriginOfSelectionArea(MouseEvent event) {
+		originOfSelectionArea =getShapeFromEvent(event);
 	}
 	
-	public void setOriginToNull() {
-		origin = null;
+	/**
+	 * Sets the origin of selected area to null
+	 */
+	public void setOriginOfSelectedAreaToNull() {
+		originOfSelectionArea = null;
 	}
 
-	private void drawRect(Color color, boolean fill) {
+	private void drawArea(Color color, boolean fill) {
 		TerrainMap map = App.getMap();
 		draw();
-		int startRow = (int) Math.min(end.getRow(), origin.getRow());
-		int startCol = (int) Math.min(end.getCol(), origin.getCol());
-		int endRow = (int) Math.max(end.getRow(), origin.getRow());
-		int endCol = (int) Math.max(end.getCol(), origin.getCol());
+		int startRow = (int) Math.min(endOfSelectionArea.getRow(), originOfSelectionArea.getRow());
+		int startCol = (int) Math.min(endOfSelectionArea.getCol(), originOfSelectionArea.getCol());
+		int endRow = (int) Math.max(endOfSelectionArea.getRow(), originOfSelectionArea.getRow());
+		int endCol = (int) Math.max(endOfSelectionArea.getCol(), originOfSelectionArea.getCol());
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		for (int row = startRow; row < endRow; row++) {
@@ -317,33 +382,41 @@ public class TwoDMapEditor {
 		}
 	}
 
-	public boolean drawSelectionRect(MouseEvent event) {
+	/**
+	 * Draws the selection area
+	 * @param event MouseEvent
+	 * @return True if the area was drawn else false
+	 */
+	public boolean drawSelectionArea(MouseEvent event) {
 		TerrainMap map = App.getMap();
-		if(origin!=null) {
-			end=this.getShapeFromEvent(event);
-			if(end.getCol() ==origin.getCol()) {
-				if(end.getCol()>=map.getColumns()) {
-					end=map.getShapeAt(end.getRow(), end.getCol()-1);
+		if(originOfSelectionArea!=null) {
+			endOfSelectionArea=this.getShapeFromEvent(event);
+			if(endOfSelectionArea.getCol() ==originOfSelectionArea.getCol()) {
+				if(endOfSelectionArea.getCol()>=map.getColumns()) {
+					endOfSelectionArea=map.getShapeAt(endOfSelectionArea.getRow(), endOfSelectionArea.getCol()-1);
 				}else {
-					end= map.getShapeAt(end.getRow(), end.getCol()+1);
+					endOfSelectionArea= map.getShapeAt(endOfSelectionArea.getRow(), endOfSelectionArea.getCol()+1);
 				}
 				
-			}if(end.getRow() == origin.getRow()) {
-				if(end.getRow()>=map.getRows()) {
-					end=map.getShapeAt(end.getRow()-1, end.getCol());
+			}if(endOfSelectionArea.getRow() == originOfSelectionArea.getRow()) {
+				if(endOfSelectionArea.getRow()>=map.getRows()) {
+					endOfSelectionArea=map.getShapeAt(endOfSelectionArea.getRow()-1, endOfSelectionArea.getCol());
 				}else {
-					end=map.getShapeAt(end.getRow()+1, end.getCol());;
+					endOfSelectionArea=map.getShapeAt(endOfSelectionArea.getRow()+1, endOfSelectionArea.getCol());;
 				}
 			}
-			drawRect(Color.rgb(137, 207, 240, 0.5), true);
+			drawArea(Color.rgb(137, 207, 240, 0.5), true);
 			return true;
 		}else {
 			return false;
 		}
 	}
 	
-	public void drawMoveSquare() {
-		drawRect(Color.RED,false);
+	/**
+	 * Draws the move area
+	 */
+	public void drawMoveArea() {
+		drawArea(Color.RED,false);
 	}
 	
 	private Tile2DGeometry getShapeFromEvent(MouseEvent event) {
@@ -351,22 +424,35 @@ public class TwoDMapEditor {
 
 	}
 
+	/**
+	 * Checks whether a drag event is valid or not
+	 * @param event Mouse Event
+	 * @return True if its a valid drag event else false
+	 */
 	public boolean isValidDragEvt(MouseEvent event) {
 		Tile2DGeometry shape = getShapeFromEvent(event);
 		return (shape.getCol() >=0 && shape.getCol()<=App.getMap().getColumns() && shape.getRow()>=0 && shape.getRow() <= App.getMap().getRows());
 	}
 	
+	/**
+	 * Checks whether a selection event is valid or not 
+	 * @param event Mouse Event
+	 * @return True if its a valid selection event else false
+	 */
 	public boolean isValidSelectEvt(MouseEvent event) {
 		Tile2DGeometry shape = getShapeFromEvent(event);
 		return (shape.getCol() >=0 && shape.getCol()<App.getMap().getColumns() && shape.getRow()>=0 && shape.getRow() < App.getMap().getRows());
 	}
 
+	/**
+	 * Selects all the tiles in the selection area
+	 */
 	public void squareSelect() {
 		
-		int startRow = (int) Math.min(end.getRow(), origin.getRow());
-		int startCol = (int) Math.min(end.getCol(), origin.getCol());
-		int endRow = (int) Math.max(end.getRow(), origin.getRow());
-		int endCol = (int) Math.max(end.getCol(), origin.getCol());
+		int startRow = (int) Math.min(endOfSelectionArea.getRow(), originOfSelectionArea.getRow());
+		int startCol = (int) Math.min(endOfSelectionArea.getCol(), originOfSelectionArea.getCol());
+		int endRow = (int) Math.max(endOfSelectionArea.getRow(), originOfSelectionArea.getRow());
+		int endCol = (int) Math.max(endOfSelectionArea.getCol(), originOfSelectionArea.getCol());
 		for(int row = startRow; row< endRow; row++) {
 			for(int col= startCol; col<endCol; col++) {
 				selectedShapeSet.add(App.getMap().getShapeAt(row, col));
@@ -374,12 +460,15 @@ public class TwoDMapEditor {
 		}
 		draw();
 	}
-
+	
+	/**
+	 * Copies all the heights of tiles in the selection area
+	 */
 	public void squareCopy() {
-		int startRow = (int) Math.min(end.getRow(), origin.getRow());
-		int startCol = (int) Math.min(end.getCol(), origin.getCol());
-		int endRow = (int) Math.max(end.getRow(), origin.getRow());
-		int endCol = (int) Math.max(end.getCol(), origin.getCol());
+		int startRow = (int) Math.min(endOfSelectionArea.getRow(), originOfSelectionArea.getRow());
+		int startCol = (int) Math.min(endOfSelectionArea.getCol(), originOfSelectionArea.getCol());
+		int endRow = (int) Math.max(endOfSelectionArea.getRow(), originOfSelectionArea.getRow());
+		int endCol = (int) Math.max(endOfSelectionArea.getCol(), originOfSelectionArea.getCol());
 		copyArray =new double[endRow-startRow][endCol-startCol];
 		for(int row = startRow; row< endRow; row++) {
 			for(int col= startCol; col<endCol; col++) {
@@ -388,13 +477,19 @@ public class TwoDMapEditor {
 		}
 		draw();
 	}
-	public HashSet<Tile2DGeometry> getSelectedShapeSet(){
-		return this.selectedShapeSet;
-	}
+	
+	/**
+	 * Returns whether something is copied in the clip board or not
+	 * @return true if copied else false
+	 */
 	public boolean copied() {
 		return copyArray!=null;
 	}
-
+	
+	/**
+	 * Starts changing the height of tiles according to the copied array.
+	 * @param event Mouse Event
+	 */
 	public void paste(MouseEvent event) {
 		Tile2DGeometry shape = getShapeFromEvent(event);
 		for(int i=0;i<copyArray.length;i++) {
@@ -408,12 +503,15 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 		
 	}
-
+	
+	/**
+	 * Resets the height of the tiles in the selected area to InitialDepth
+	 */
 	public void squareClear() {
-		int startRow = (int) Math.min(end.getRow(), origin.getRow());
-		int startCol = (int) Math.min(end.getCol(), origin.getCol());
-		int endRow = (int) Math.max(end.getRow(), origin.getRow());
-		int endCol = (int) Math.max(end.getCol(), origin.getCol());
+		int startRow = (int) Math.min(endOfSelectionArea.getRow(), originOfSelectionArea.getRow());
+		int startCol = (int) Math.min(endOfSelectionArea.getCol(), originOfSelectionArea.getCol());
+		int endRow = (int) Math.max(endOfSelectionArea.getRow(), originOfSelectionArea.getRow());
+		int endCol = (int) Math.max(endOfSelectionArea.getCol(), originOfSelectionArea.getCol());
 		for(int row = startRow; row<endRow; row++) {
 			for(int col= startCol; col<endCol; col++) {
 				App.getMap().setHeightAt(row, col, App.getMap().getInitialDepth());
@@ -423,7 +521,11 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 		
 	}
-
+	
+	/**
+	 * Moves the selected area to the tile which was clicked
+	 * @param event Mouse Event
+	 */
 	public void squareMove(MouseEvent event) {
 		double[][] temp=new double[0][0];
 		if(copied()) {
@@ -444,20 +546,30 @@ public class TwoDMapEditor {
 		
 	}
 	
+	/**
+	 * Undos the last change in the data model
+	 */
 	public void undo() {
 		undoRedoHandler.undo();
-		this.unSelectAllPoints();
+		this.unSelectAllTiles();
 		this.updateScale();
 		draw();
 	}
 	
+	/**
+	 * Redos the last undo
+	 */
 	public void redo() {
 		undoRedoHandler.redo();
-		this.unSelectAllPoints();
+		this.unSelectAllTiles();
 		this.updateScale();
 		draw();
 	}
 	
+	/**
+	 * Sets the shape of the TerrainMap
+	 * @param shape The shape needed to set the TerraimMap to.
+	 */
 	public void setShape(Tile2DGeometry.TileShape shape) {
 		App.getMap().setTileShape(shape);
 		updateScale();
