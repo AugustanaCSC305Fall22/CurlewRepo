@@ -3,7 +3,7 @@
 package curlew.gameboardeditor.ui;
 
 
-import java.awt.Desktop;
+import java.awt.Desktop; 
 import java.awt.Point;
 import java.io.IOException;
 import java.net.URI;
@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
-import curlew.gameboardeditor.datamodel.TestClass;
 import curlew.gameboardeditor.datamodel.Tile2DGeometry;
 import curlew.gameboardeditor.generators.GateToHellLandformGenerator;
 import curlew.gameboardeditor.generators.LandformGenerator;

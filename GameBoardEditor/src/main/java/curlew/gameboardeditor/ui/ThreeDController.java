@@ -2,13 +2,12 @@
 
 package curlew.gameboardeditor.ui;
 
-import java.io.File;
+import java.io.File; 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import curlew.gameboardeditor.datamodel.GameBoardIO;
 import curlew.gameboardeditor.datamodel.TerrainMap;
-import curlew.gameboardeditor.datamodel.TestClass;
 import curlew.gameboardeditor.datamodel.Tile2DGeometry.TileShape;
 import curlew.gameboardeditor.generators.RandomMapGenerator;
 import javafx.animation.AnimationTimer;

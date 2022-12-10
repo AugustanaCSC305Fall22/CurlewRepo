@@ -4,7 +4,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-
+/**
+ * 
+ * @author Team Curlew
+ * This class is responsible for exporting TerrainMaps to obj file format
+ *
+ */
 
 public class ObjExporter {
 	
@@ -13,19 +18,22 @@ public class ObjExporter {
 	
 	TerrainMap map;
 	
-	private static int TOTAL_VERTICES = 8;
 	
-	private static int TOTAL_FACES = 6;
 	
-	private static int numOfTiles;
-	
-
+	/**
+	 * Makes an ObjExporter for a given TerrainMap.
+	 * 
+	 */
 	public ObjExporter(TerrainMap map) {
 		super();
 		this.map = map;
 	}
 
-	
+	/**
+	 * Returns the OBJ file of the TerrainMap
+	 * @param objFile The file to write in.
+	 * @throws IOException
+	 */
 	public void export(File objFile) throws IOException {
 		FileWriter fWriter = new FileWriter(objFile);
 		PrintWriter fileOut = new PrintWriter(fWriter);
@@ -39,6 +47,8 @@ public class ObjExporter {
 		}
 		fileOut.close();
 	}
+	
+	// Writes the vertices of Square grids.
 	private void exportSquareVertices(PrintWriter fileOut) {
 		
 		for (int r = 0; r < map.getRows() ; r++) {
@@ -60,14 +70,12 @@ public class ObjExporter {
 			}
 		}
 	
-	
+	// Writes the faces of Square grids.
 	private void exportSquareFaces(PrintWriter fileOut) {
 		int count = 0;
 		for (int r = 0; r < map.getRows() ; r++) {
 			for ( int c = 0 ; c < map.getColumns() ; c++) {
-				double z = map.getHeight(r, c);
 				int N = count++;
-				System.out.println("N = " + N);
 				fileOut.println("f " + (8*N+4) + " " + (8*N+3) + " " + (8*N+2) + " " + (8*N+1));
 				fileOut.println("f " + (8*N+2) + " " + (8*N+6) + " " + (8*N+5) + " " + (8*N+1));
 				fileOut.println("f " + (8*N+3) + " " + (8*N+7) + " " + (8*N+6) + " " + (8*N+2));
@@ -81,6 +89,7 @@ public class ObjExporter {
 		
 	}
 	
+	//Writes the vertices of Hexagon grids.
 	private void exportHexVertices(PrintWriter fileOut) {
 		for (int r = 0; r < map.getRows() ; r++) {
 			for ( int c = 0 ; c < map.getColumns() ; c++) {
@@ -104,22 +113,19 @@ public class ObjExporter {
 				fileOut.println("v " + xCoords[5]  + " " + yCoords[5]   + " " + z);
 				fileOut.println(" ");
 
-
-
 				
 			}
-	}
+		}
 		
 		
 	}
 	
-	
+	//Writes the face of Hexagon grids.
 	private void exportHexFaces(PrintWriter fileOut) {
 		int count = 0;
 		for (int r = 0; r <  map.getRows() ; r++) {
 			for ( int c = 0 ; c < map.getColumns() ; c++) {
 				int N = count++;
-				System.out.println("N = " + N);
 				fileOut.println("f " + (12*N+6) + " " + (12*N+5) + " " + (12*N+4) + " " + (12*N+3) + " " + (12*N+2) + " " + (12*N+1));
 				fileOut.println("f " + (12*N+1) + " " + (12*N+7) + " " + (12*N+8) + " " + (12*N+2));
 				fileOut.println("f " + (12*N+2) + " " + (12*N+8) + " " + (12*N+9) + " " + (12*N+3));

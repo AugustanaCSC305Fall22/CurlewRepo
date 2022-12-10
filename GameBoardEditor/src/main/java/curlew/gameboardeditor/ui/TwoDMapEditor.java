@@ -1,6 +1,6 @@
 package curlew.gameboardeditor.ui;
 
-import javafx.event.ActionEvent;  
+import javafx.event.ActionEvent;   
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
-import curlew.gameboardeditor.datamodel.TestClass;
 import curlew.gameboardeditor.datamodel.Tile2DGeometry;
 import curlew.gameboardeditor.datamodel.UndoRedoHandler;
 import curlew.gameboardeditor.generators.LandformGenerator;
