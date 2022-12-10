@@ -1,14 +1,8 @@
 package curlew.gameboardeditor.datamodel;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import curlew.gameboardeditor.datamodel.TerrainMap;
-import curlew.gameboardeditor.datamodel.UndoRedoAble;
 import curlew.gameboardeditor.datamodel.Tile2DGeometry.TileShape;
-
 
 class TerrainMapTest {
 
@@ -94,8 +88,6 @@ class TerrainMapTest {
 		double[][] testArray = map.getHeightArray();
 		assertEquals(newSizeArray[0].length, testArray[0].length);
 		assertEquals(newSizeArray.length, testArray.length);
-		
-		
 	}
 
 	@Test

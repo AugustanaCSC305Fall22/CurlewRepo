@@ -1,18 +1,10 @@
-
-
 package curlew.gameboardeditor.ui;
-
 
 import java.awt.Desktop;
 import java.awt.Point;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashSet;
-import java.util.Iterator;
-
-import curlew.gameboardeditor.datamodel.TerrainMap;
-import curlew.gameboardeditor.datamodel.TestClass;
 import curlew.gameboardeditor.datamodel.Tile2DGeometry;
 import curlew.gameboardeditor.generators.GateToHellLandformGenerator;
 import curlew.gameboardeditor.generators.LandformGenerator;
@@ -24,7 +16,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -32,47 +23,25 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 	public class MapEditorController {
 		
 	    @FXML
-	    private MenuItem saveAsButton;
-
-	    @FXML
-	    private MenuItem saveButton;
-	    
-	    @FXML
-	    private Button backButton;
-	    
-	    @FXML
 	    private ComboBox<LandformGenerator> featureComboBox;
-	    
-	    @FXML
-	    private Button addFeatureButton;
 
 	    @FXML
 	    private Canvas tileElevationLegendCanvas;
 	    
 	    @FXML
 	    private Canvas twoDCanvas;
-	    
-	    @FXML
-	    private ToggleButton raiseTileButton;
-
-	    @FXML
-	    private ToggleButton lowerTileButton;
 	    
 	    @FXML
 	    private Slider scaleSlider;
@@ -100,7 +69,6 @@ import javafx.stage.Stage;
 		
 		private double mousePressedTime;
 		
-
 		private ContextMenu rightClickMenu;
 
 		private ContextMenu squareSelectMenu;
@@ -112,10 +80,7 @@ import javafx.stage.Stage;
 		 */
 	    @FXML
 	    private void initialize() {
-	    	twoDCanvas.setHeight(400); //delete this and set Height in scene builder directly.
-	    	twoDCanvas.setWidth(400);
 	    	isSavedRecent = false;
-	    	
 	    	rightClickMenu = new ContextMenu();
 	    	squareSelectMenu = new ContextMenu();
 	    	
@@ -125,18 +90,11 @@ import javafx.stage.Stage;
 	    		switchTileItem.setText("Switch to "+Tile2DGeometry.TileShape.SQUARE + " grid");
 	    	}
 	    	
-	    	
-	    	TerrainMap map = App.getMap();
-	    	mapEditor = new TwoDMapEditor(twoDCanvas);
-	    	
+	    	mapEditor = new TwoDMapEditor(twoDCanvas);	    	
 	    	featureList = FXCollections.observableArrayList(new MountainLandformGenerator(), new VolcanoLandformGenerator(), new ValleyLandformGenerator(), new TrenchLandformGenerator(), new GateToHellLandformGenerator());
-
-	    	GraphicsContext gcLegend = tileElevationLegendCanvas.getGraphicsContext2D();
-	    	
+	    	GraphicsContext gcLegend = tileElevationLegendCanvas.getGraphicsContext2D();	    	
 	    	drawLegendOnCanvas(gcLegend);
-	    	//Nested for loops to outline the canvas based on the desired size from the user
 
-	    	
 	    	tileElevationLegendCanvas.setOnMouseClicked(event -> {
 	    		Point p = new Point(Math.round((int) event.getX()), Math.round((int) event.getY()));
 	    		setLegendSelectedHeight(p.y);
@@ -197,13 +155,7 @@ import javafx.stage.Stage;
 	    		
 	    	});
 	    	
-	    	
-	    	
 	    	featureComboBox.setItems(featureList);
-	    
-	    	ToggleGroup toggleGroup = new ToggleGroup();
-	    	raiseTileButton.setToggleGroup(toggleGroup);
-	    	lowerTileButton.setToggleGroup(toggleGroup);	
 	    	
 	    	Stage stage = App.getStage();
 	    	stage.setOnCloseRequest(e -> {
@@ -214,19 +166,13 @@ import javafx.stage.Stage;
 				}
 			});
 	    }
-	    
-	    
-	   
-
 
 		private void drawLegendOnCanvas(GraphicsContext gcLegend) {
 	    	gcLegend.setStroke(Color.BLACK);
 	    	for (int i = 0; i < 7; i++) {
 	    		gcLegend.strokeRect(50 , (i * 50) + (i * 6) + 1 , 50, 50);
-	    		System.out.println((i * 50) + (i * 6) + 1);
 	    		gcLegend.setFill(Color.rgb(250-(40*i), 250-(40*i) ,250-(40*i)));
 	    		gcLegend.fillRect(50 , (i * 50) + (i * 6) + 1, 50, 50);
-	    		
 	    		gcLegend.strokeRect(0 , (i * 50) + (i * 6) + 1 , 50, 50);
 	    		if (i == 0) {
 	    			gcLegend.strokeText("Level" + 0, 10, 28);

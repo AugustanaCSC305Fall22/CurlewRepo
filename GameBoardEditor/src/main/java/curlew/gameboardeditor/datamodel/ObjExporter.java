@@ -10,7 +10,6 @@ public class ObjExporter {
 	
 	Tile2DGeometry coords;
 	
-	
 	TerrainMap map;	
 
 	public ObjExporter(TerrainMap map) {

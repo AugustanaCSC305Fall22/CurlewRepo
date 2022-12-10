@@ -2,42 +2,28 @@
 
 package curlew.gameboardeditor.ui;
 
-import java.awt.Point;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 import curlew.gameboardeditor.datamodel.GameBoardIO;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.Tile2DGeometry;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;

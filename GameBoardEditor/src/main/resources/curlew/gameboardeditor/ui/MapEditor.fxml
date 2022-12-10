@@ -9,7 +9,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -119,17 +118,17 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <ToggleButton fx:id="lowerTileButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#lowerTileButtonHandler" text="Lower Tile" GridPane.rowIndex="1">
+                  <Button mnemonicParsing="false" onAction="#unselectAll" prefHeight="26.0" prefWidth="102.0" text="Unselect Tiles" GridPane.columnIndex="1" />
+                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#raiseTileButtonHandler" text="Raise Tile">
                      <GridPane.margin>
                         <Insets left="10.0" right="10.0" />
                      </GridPane.margin>
-                  </ToggleButton>
-                  <ToggleButton fx:id="raiseTileButton" mnemonicParsing="false" onAction="#raiseTileButtonHandler" text="Raise Tile">
+                  </Button>
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#lowerTileButtonHandler" prefHeight="26.0" prefWidth="74.0" text="Lower Tile" GridPane.rowIndex="1">
                      <GridPane.margin>
-                        <Insets left="10.0" />
+                        <Insets left="10.0" right="10.0" />
                      </GridPane.margin>
-                  </ToggleButton>
-                  <Button mnemonicParsing="false" onAction="#unselectAll" prefHeight="26.0" prefWidth="102.0" text="Unselect Tiles" GridPane.columnIndex="1" />
+                  </Button>
                </children>
             </GridPane>
             <GridPane>

@@ -10,7 +10,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
-
 public class GameBoardIO {
 
 	public static void saveMap(TerrainMap map, File outputFile) throws IOException {
@@ -33,11 +32,5 @@ public class GameBoardIO {
 		ObjExporter objMap = new ObjExporter(map);
 		objMap.export(file);
 	}
-
-//	public static void saveMapAsTemplate(TerrainMap map) {
-//		File file = new File("templates:\\map\\map. TMap");
-//		
-//	}		
-	
 
 }
