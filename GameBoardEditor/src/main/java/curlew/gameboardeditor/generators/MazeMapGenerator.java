@@ -5,8 +5,10 @@ import java.util.Random;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 
 /**
- * This class follows a similar logical pattern to Conway's game of life, by checking the neighboring cells of alive and
- * dead, the software with near perfect accuracy will create a solveable maze
+ * This class follows a similar logical pattern to Conway's game of life with the addition 
+ * that a cell will survive if it has 1 to 5 neighbors,
+ * by checking the neighboring cells of alive and
+ * dead, the software with near perfect accuracy will create a maze
  * @author Team Curlew
  *
  */

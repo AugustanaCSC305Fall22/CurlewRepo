@@ -2,6 +2,12 @@ package curlew.gameboardeditor.generators;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
 
+/**
+ * 
+ * @author Team Curlew
+ * This class is responsible for making Mountains.
+ *
+ */
 public class MountainLandformGenerator extends LandformGenerator {
 
 	@Override

@@ -2,6 +2,12 @@ package curlew.gameboardeditor.generators;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
 
+/**
+ * 
+ * @author Team Curlew
+ * This class is responsible for making trenches.
+ *
+ */
 public class TrenchLandformGenerator extends LandformGenerator{
 
 	private final static double TRENCH_HEIGHT = 1.0;

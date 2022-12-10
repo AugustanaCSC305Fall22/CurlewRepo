@@ -1,7 +1,12 @@
 package curlew.gameboardeditor.generators;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
-
+/**
+ * 
+ * @author Team Curlew
+ * This class generates a gate to hell on a Map
+ *
+ */
 public class GateToHellLandformGenerator extends LandformGenerator {
 
 	@Override

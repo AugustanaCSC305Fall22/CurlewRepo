@@ -2,6 +2,12 @@ package curlew.gameboardeditor.generators;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
 
+/**
+ * 
+ * @author Team Curlew
+ * This class is responsible for creating valleys.
+ *
+ */
 public class ValleyLandformGenerator extends LandformGenerator {
 	
 	@Override
