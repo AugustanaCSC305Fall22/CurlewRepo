@@ -33,7 +33,13 @@ import javafx.scene.control.Slider;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-	public class MapEditorController {
+/**
+ * 	
+ * @author Team Curlew
+ * The class is a controller for MapEditor fxml
+ *
+ */
+public class MapEditorController {
 		
 	    @FXML
 	    private ComboBox<LandformGenerator> featureComboBox;

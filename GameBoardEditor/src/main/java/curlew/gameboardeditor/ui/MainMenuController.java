@@ -6,6 +6,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
+/**
+ * 
+ * @author Team Curlew
+ * This class is a controller for MainMenu fxml
+ */
 public class MainMenuController {
 
 	@FXML
@@ -14,8 +19,8 @@ public class MainMenuController {
 	@FXML
 	private Button mazeButton;
 	
-	protected static boolean genRandom;
-	protected static boolean genMaze;
+	private static boolean randomSelected;
+	private static boolean mazeSelected;
 	
 	@FXML
     private void initialize() {
@@ -23,20 +28,36 @@ public class MainMenuController {
 	}
 
 	@FXML
-	public void loadExistingFile() throws IOException{
+	private void loadExistingFile() throws IOException{
 		App.loadExistingFile();
 	}
 	
 	@FXML
-	void switchToPreviewScreen(ActionEvent event) throws IOException {
+	private void switchToPreviewScreen(ActionEvent event) throws IOException {
 		App.setRoot("previewMap");
 	}
 
 	@FXML
-	void switchToSizeScreen(ActionEvent event) throws IOException {
-		genRandom =event.getSource().equals(GenRandomButton);
-		genMaze= event.getSource().equals(mazeButton);
+	private void switchToSizeScreen(ActionEvent event) throws IOException {
+		randomSelected =event.getSource().equals(GenRandomButton);
+		mazeSelected= event.getSource().equals(mazeButton);
 		App.setRoot("sizeScreen");
+	}
+	
+	/**
+	 * Returns whether maze idea button was pressed
+	 * @return whether maze idea button was pressed
+	 */
+	public static boolean mazeSelected() {
+		return mazeSelected;
+	}
+	
+	/**
+	 * Returns whether generate random button was pressed
+	 * @return whether generate random button was pressed
+	 */
+	public static boolean radomSelected() {
+		return randomSelected;
 	}
 }
 

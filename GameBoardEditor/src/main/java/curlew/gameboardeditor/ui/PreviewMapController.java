@@ -28,7 +28,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-
+/**
+ * 
+ * @author Team Curlew
+ * This class is a controller for PreviewMap fxml
+ *
+ */
 public class PreviewMapController {    
 
     private static final int BOX_LENGTH = 30;
@@ -79,7 +84,6 @@ public class PreviewMapController {
     			try {
     				onMouseClicked(evt);
     			} catch (IOException e) {
-    				// TODO Auto-generated catch block
     				e.printStackTrace();
     			}
     			rightClickMenu.hide();
@@ -106,6 +110,7 @@ public class PreviewMapController {
     	App.setRoot("mainMenu");
     }
     
+	//Updates the preview according to the file selected
     @FXML
     private void onMouseClicked(MouseEvent event) throws IOException {
     	mapNameLabel.setText(templateFiles[selectedAreaIndex].getName().replace(".TMap", ""));
@@ -117,6 +122,7 @@ public class PreviewMapController {
     	
     }
     
+    // Creates a right click menu
     private void createRightClickMenu(MouseEvent event) {
     	rightClickMenu.getItems().clear();
     	
@@ -137,6 +143,7 @@ public class PreviewMapController {
     	rightClickMenu.show(templateCanvas, event.getScreenX(), event.getScreenY());
     }
     
+    // Creates a file selection menu and draws it on the template canvas
     private void makeFileSelectionMenu() {
     	templateFiles = templatesFolder.listFiles();
 
@@ -152,7 +159,7 @@ public class PreviewMapController {
     	}
     }
 
-
+    //Deletes the selected file
     private void deleteSelectdFile(MouseEvent event) {
     	File file = this.templateFiles[selectedAreaIndex];
 		

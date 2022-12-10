@@ -1,16 +1,14 @@
 package curlew.gameboardeditor.ui;
 
-import javafx.event.ActionEvent;   
+   
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
-import java.awt.Point;
-import java.util.ArrayList;
+
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -19,6 +17,12 @@ import curlew.gameboardeditor.datamodel.Tile2DGeometry;
 import curlew.gameboardeditor.datamodel.UndoRedoHandler;
 import curlew.gameboardeditor.generators.LandformGenerator;
 
+/**
+ * 
+ * @author Team Curlew
+ * This class is responsible for editing the map and show it in the UI 
+ *
+ */
 public class TwoDMapEditor {
 	
 
@@ -42,16 +46,8 @@ public class TwoDMapEditor {
 		updateScale();
 		draw();
 	}
-//	public TwoDMapEditor(Canvas twoDCanvas, UndoRedoHandler undoRedoHandler) {
-//		//test purpouses only
-//		this.undoRedoHandler = undoRedoHandler;
-//		canvas = twoDCanvas;
-//		pointSet= new HashSet<>();
-//		updateScale();
-//		draw();
-//	}
-	
 
+	
 	public void updateScale() {
 		if(App.getMap().getTileShape()== Tile2DGeometry.TileShape.SQUARE) {
 			scale=  (canvas.getHeight()/(Math.max(App.getMap().getColumns(), App.getMap().getRows())));

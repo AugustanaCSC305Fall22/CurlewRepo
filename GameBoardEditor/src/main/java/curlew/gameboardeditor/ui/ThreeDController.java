@@ -160,6 +160,7 @@ public class ThreeDController  {
           });
     }
     
+    // Creates boxes in order to make square tile preview
     private void makeSquarePreview(Group group) {
     	TerrainMap map = App.getMap();
     	Box[][] boxArray = new Box[map.getRows()][map.getColumns()];
@@ -174,6 +175,7 @@ public class ThreeDController  {
 		}
     }
     
+    // Creates boxes in order to make hexagon preview
     private void makeHexPreview(Group group) {
     	TerrainMap map = App.getMap();
     	double heightFactor = 23.33+5.25;

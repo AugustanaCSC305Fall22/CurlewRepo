@@ -1,6 +1,6 @@
 package curlew.gameboardeditor.ui;
 
-import java.io.IOException;
+import java.io.IOException; 
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -10,10 +10,15 @@ import curlew.gameboardeditor.generators.MazeMapGenerator;
 import curlew.gameboardeditor.generators.RandomMapGenerator;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 
+/**
+ * 
+ * @author Team Curlew
+ * This class is a controller for SizesScreen fxml
+ *
+ */
 public class SizeController implements Initializable {
 	@FXML
 	private Slider columnSlider;
@@ -26,7 +31,7 @@ public class SizeController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		if(MainMenuController.genMaze) {
+		if(MainMenuController.mazeSelected()) {
 			rowSlider.setMin(20);
 			columnSlider.setMin(20);
 		}
@@ -35,28 +40,28 @@ public class SizeController implements Initializable {
 	}
 	
 	@FXML
-	void clickedNext() throws IOException {
+	private void clickedNext() throws IOException {
 		App.setMap(new TerrainMap((int)rowSlider.getValue(),(int)columnSlider.getValue(), shapeChoiceBox.getValue()));
 
-		if(MainMenuController.genRandom) {
+		if(MainMenuController.radomSelected()) {
 			genRandom();	
-		} else if(MainMenuController.genMaze) {
+		} else if(MainMenuController.mazeSelected()) {
 			genMaze();
 		}
 		App.setRoot("mapEditor");
 	}
 	
 	@FXML
-	void clickedBack() throws IOException {
+	private void clickedBack() throws IOException {
 		App.setRoot("mainMenu");
 	}
 	
-	void genRandom() {
+	private void genRandom() {
 		RandomMapGenerator rg= new RandomMapGenerator(App.getMap());
 		rg.createMap();
 	}
 	
-	void genMaze() {
+	private void genMaze() {
 		MazeMapGenerator mg = new MazeMapGenerator(App.getMap());
 		mg.genrateMaze();
 	}

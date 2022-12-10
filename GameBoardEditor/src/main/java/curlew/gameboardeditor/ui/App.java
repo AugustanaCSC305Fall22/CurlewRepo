@@ -15,7 +15,7 @@ import curlew.gameboardeditor.datamodel.TerrainMap;
 
 
 /**
- * JavaFX App
+ * App of Terrain Map
  */
 public class App extends Application {
 	
@@ -89,6 +89,10 @@ public class App extends Application {
     	}
 	}
 	
+	/**
+	 * Saves the file in OBJ format
+	 * @throws IOException
+	 */
 	public static void exportFile() throws IOException {
 		FileChooser fileChooser = new FileChooser();
     	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("3D Object File", "*.Obj"));
@@ -100,6 +104,10 @@ public class App extends Application {
     	} 
 	}
 	
+	/**
+	 * Save the Terrain Map in TMAP format.
+	 * @throws IOException
+	 */
 	public static void saveAsTemplate() throws IOException {
     	FileChooser fileChooser = new FileChooser();
     	fileChooser.getExtensionFilters().addAll(new ExtensionFilter("3D TerrainMap File", "*.TMap"));
@@ -113,14 +121,14 @@ public class App extends Application {
 	}
 	
     /**
-   	 * getMap()
+   	 * Returns the map
    	 * @return the current map
    	 */
 	public static TerrainMap getMap() {
 		return map;
 	}
 	
-	/**
+	/** Sets the map
 	 * setMap()
 	 * @param newMap
 	 * sets the map data field to the new incoming map
@@ -145,10 +153,17 @@ public class App extends Application {
         launch();
     }
     
+    /**
+     * Sets the selected file to null
+     */
     public static void setSelectedFileToNull() {
     	selectedFile = null;
     }
 
+    /**
+     * Returns the stage of the App
+     * @return the stage of the App
+     */
     public static Stage getStage() {
     	return stage;
     }
