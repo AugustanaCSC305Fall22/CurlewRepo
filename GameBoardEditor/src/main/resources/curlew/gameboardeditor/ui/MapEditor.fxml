@@ -94,6 +94,7 @@
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
+                        <MenuItem mnemonicParsing="false" onAction="#helpMenuAbout" text="About" />
                         <MenuItem mnemonicParsing="false" onAction="#helpMenuInfo" text="Info" />
                     <MenuItem mnemonicParsing="false" onAction="#helpMenuScale" text="Scale info" />
                         <MenuItem mnemonicParsing="false" onAction="#helpMenuFeature" text="Features info" />

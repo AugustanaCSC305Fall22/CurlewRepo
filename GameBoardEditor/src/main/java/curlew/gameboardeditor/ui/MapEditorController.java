@@ -355,6 +355,16 @@ public class MapEditorController {
     }
     
     @FXML
+    private void helpMenuAbout() throws IOException {
+    	Alert AboutInfo = new Alert(AlertType.INFORMATION, "Made By: Shazil Farhan, Joon Lee, Farah Kahn Brinto, Donald Peters \n\n"
+    			+ "Supervised by: Dr. Forrest Stonedahl, CSC 305 at Augustana College \n"
+    			+ "Special Thanks to: Genuine Coder, Dale Skrien, Elizabeth Sloan.");
+    	AboutInfo.setTitle("About");
+    	AboutInfo.setHeaderText("Credits:");
+    	AboutInfo.show();
+    }
+    
+    @FXML
     private void threeDView() throws Exception {
     	ThreeDController threeDController = new ThreeDController();
 		Stage stage = new Stage();
