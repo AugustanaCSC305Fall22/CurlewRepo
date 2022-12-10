@@ -5,8 +5,12 @@ import java.util.Random;
 
 import curlew.gameboardeditor.datamodel.TerrainMap;
 
-
-
+/**
+ * 
+ * @author Team Curlew 
+ * This class is a Random Map Generator which draws a blank map, then adds random landforms which changes elevations within the map
+ * 
+ */
 public class RandomMapGenerator {
 	
 	private Random rand = new Random();
