@@ -11,14 +11,7 @@ public class ObjExporter {
 	Tile2DGeometry coords;
 	
 	
-	TerrainMap map;
-	
-	private static int TOTAL_VERTICES = 8;
-	
-	private static int TOTAL_FACES = 6;
-	
-	private static int numOfTiles;
-	
+	TerrainMap map;	
 
 	public ObjExporter(TerrainMap map) {
 		super();

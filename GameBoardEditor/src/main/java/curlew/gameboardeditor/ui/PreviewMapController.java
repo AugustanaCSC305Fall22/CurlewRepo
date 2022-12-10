@@ -47,17 +47,8 @@ public class PreviewMapController {
 
     private static final int BOX_LENGTH = 30;
 
-	@FXML
-    private Button backButton;
-
     @FXML
     private Label mapNameLabel;
-
-    @FXML
-    private ScrollBar mapScrollBar;
-
-    @FXML
-    private Button nextButton;
 
     @FXML
     private Canvas previewCanvas;
@@ -68,25 +59,22 @@ public class PreviewMapController {
     @FXML
     private Canvas templateCanvas;
     
-    private TwoDMapEditor mapPreview;
-    private int selectedAreaIndex;
-    File[] templateFiles;
-    
     @FXML
     private ChoiceBox<Tile2DGeometry.TileShape> shapeChoiceBox;
+    
+    private TwoDMapEditor mapPreview;
+    private int selectedAreaIndex;
+    private ContextMenu rightClickMenu;
+    File[] templateFiles;
     
     private static final ArrayList<String> ORIGINAL_FILES= new ArrayList<String>(Arrays.asList( 
     		"ACE.TMap","cliff.TMap","colussium.TMap","elevated corner.TMap" ,"many walls.TMap", 
     		"Maze.TMap" ,"mountains.TMap", "statue in a pit.TMap","volcano hell.TMap")); 
-    
-    
-    
+        
     //create new file that represents the templates folder 
     File templatesFolder = new File("templates/");
 
-	private ContextMenu rightClickMenu;
-    
-    
+
     @FXML
     private void initialize() throws JsonSyntaxException, JsonIOException, IOException {
     	//Initializes the canvas, builds the map and makes the 2DEditor
@@ -125,8 +113,11 @@ public class PreviewMapController {
     
 	@FXML
     void clickNext(ActionEvent event) throws IOException {
-//    	App.setMap(GameBoardIO.loadMap(templateFiles[selectedAreaIndex]));
     	App.setRoot("mapEditor");
+    }
+	@FXML
+    void clickedBack(ActionEvent event) throws IOException {
+    	App.setRoot("mainMenu");
     }
     
     @FXML
@@ -154,8 +145,6 @@ public class PreviewMapController {
 			e.printStackTrace();
 		}});
     	deleteItem.setOnAction(eve ->{deleteSelectdFile(event);});
-    	//Add if condition.
-    	//deleteItem.setDisable(true);
     	if(ORIGINAL_FILES.contains( templateFiles[selectedAreaIndex].getName())) {
     		deleteItem.setDisable(true);
     	}
@@ -194,26 +183,14 @@ public class PreviewMapController {
 	    	try {
 				App.setMap(GameBoardIO.loadMap(templateFiles[0]));
 			} catch (JsonSyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (JsonIOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    	mapPreview.updateScale();
 	    	mapPreview.draw();
 		} 
-    	
-	}
-
-	@FXML
-    void clickedBack(ActionEvent event) throws IOException {
-    	App.setRoot("mainMenu");
-    }
-    
-    
-
+    }    
 }

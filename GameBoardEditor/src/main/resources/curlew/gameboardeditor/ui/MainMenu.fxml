@@ -11,7 +11,7 @@
    <center>
       <VBox alignment="CENTER" spacing="20.0">
          <children>
-            <Button fx:id="templateButton" mnemonicParsing="false" onAction="#switchToSecondary" text="Template For Ideas" />
+            <Button fx:id="templateButton" mnemonicParsing="false" onAction="#switchToPreviewScreen" text="Template For Ideas" />
             <Button fx:id="scratchButton" mnemonicParsing="false" onAction="#switchToSizeScreen" text="Start From Scratch" />
             <Button fx:id="loadFileButton" mnemonicParsing="false" onAction="#loadExistingFile" text="Load Existing File" />
             <Button fx:id="GenRandomButton" onAction="#switchToSizeScreen" text="Generate Random" />

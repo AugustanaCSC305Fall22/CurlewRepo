@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPane" prefHeight="550.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.MapEditorController">
+<BorderPane fx:id="mainPane" prefHeight="550.0" prefWidth="527.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="curlew.gameboardeditor.ui.MapEditorController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>

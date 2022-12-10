@@ -35,15 +35,12 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
-public class ThreeDController extends Application {
+public class ThreeDController  {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
     private static double BOX_WIDTH =10;
 	private static double BOX_HEIGHT =10;
 	private static double BOX_DEPTH =5;
- 
-	private Button backButton;
-	
 	private final DoubleProperty angleX = new SimpleDoubleProperty(0);
 	private final DoubleProperty angleY = new SimpleDoubleProperty(0);
 	private double anchorX, anchorY;
@@ -162,10 +159,6 @@ public class ThreeDController extends Application {
             double delta = event.getDeltaY();
             group.translateZProperty().set(group.getTranslateZ() + delta);
           });
-    }
-    
-    public static void main(String[] args) {
-        launch(args);
     }
     
     private void makeSquarePreview(Group group) {
