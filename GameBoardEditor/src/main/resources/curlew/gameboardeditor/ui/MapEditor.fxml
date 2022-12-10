@@ -165,7 +165,7 @@
       </HBox>
    </bottom>
    <center>
-      <Canvas fx:id="twoDCanvas" height="400.0" width="400.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="twoDCanvas" height="400.0" onMouseClicked="#drawingCanvasMousedClickedEvent" onMouseDragged="#drawingCanvasMouseDragedEvent" onMousePressed="#drawingCanvasMousePressedEvent" width="400.0" BorderPane.alignment="CENTER" />
    </center>
    <left>
       <VBox fillWidth="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -175,7 +175,7 @@
                   <Font size="10.0" />
                </font>
             </Label>
-            <Canvas fx:id="tileElevationLegendCanvas" height="400.0" width="100.0" />
+            <Canvas fx:id="tileElevationLegendCanvas" height="400.0" onMouseClicked="#legendCanvasMouseEvent" width="100.0" />
          </children>
       </VBox>
    </left>

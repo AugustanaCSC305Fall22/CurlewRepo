@@ -101,66 +101,6 @@ public class MapEditorController {
 	    	featureList = FXCollections.observableArrayList(new MountainLandformGenerator(), new VolcanoLandformGenerator(), new ValleyLandformGenerator(), new TrenchLandformGenerator(), new GateToHellLandformGenerator());
 	    	GraphicsContext gcLegend = tileElevationLegendCanvas.getGraphicsContext2D();	    	
 	    	drawLegendOnCanvas(gcLegend);
-
-	    	tileElevationLegendCanvas.setOnMouseClicked(event -> {
-	    		Point p = new Point(Math.round((int) event.getX()), Math.round((int) event.getY()));
-	    		setLegendSelectedHeight(p.y);
-	    		if (p.x >= 0 && p.x < 100 && p.y >= 0 && p.y <= 400) {
-	    			mapEditor.raiseTile(legendSelectedHeight);
-	    			isSavedRecent = false;
-	    		}
-	    		
-	    	});
-	    	
-	    	twoDCanvas.setOnMousePressed(event -> {
-				if(!creatingSelectionRect&&!moveClicked&&mapEditor.isValidDragEvt(event)) {
-					mapEditor.setOriginOfSelectionArea(event);
-					mousePressedTime = System.nanoTime();
-				}
-	    	});
-	    	
-	    	twoDCanvas.setOnMouseDragged(event -> {
-	    		if(mapEditor.isValidDragEvt(event)) {
-	    			if((System.nanoTime()-mousePressedTime)/1000000>300) {
-	    				creatingSelectionRect =mapEditor.drawSelectionArea(event);
-	    			}
-	    	
-	    		}else {
-	    			if(!creatingSelectionRect) {
-	    				mapEditor.setOriginOfSelectedAreaToNull();
-	    			}
-	    		}
-	    	});
-	    	
-	    	
-	    	twoDCanvas.setOnMouseClicked(event -> {
-
-	    		if (event.getButton() == MouseButton.SECONDARY && mapEditor.isValidSelectEvt(event)) {
-	    			if(creatingSelectionRect) {
-	    				showSquareSelectionMenu(event);
-	    			}else {
-	    				showRightClickMenu(event);
-	    				squareSelectMenu.hide();
-	    				mapEditor.draw();
-	    			}
-	    			
-	    		} else {
-	    			if(creatingSelectionRect) {
-	    				showSquareSelectionMenu(event);
-	    			}else if(moveClicked) {
-	    				if(mapEditor.isValidSelectEvt(event)) {
-	    					mapEditor.squareMove(event);
-		    				moveClicked = false;
-	    				}
-	    			}
-	    			else {
-	    				mapEditor.canvasClicked(event);
-	    				squareSelectMenu.hide();
-	    			}
-	    			rightClickMenu.hide();
-	    		}
-	    		
-	    	});
 	    	
 	    	featureComboBox.setItems(featureList);
 	    	
@@ -172,6 +112,66 @@ public class MapEditorController {
 					e1.printStackTrace();
 				}
 			});
+	    }
+	    
+	    @FXML
+	    private void legendCanvasMouseEvent(MouseEvent event) {
+	    	Point p = new Point(Math.round((int) event.getX()), Math.round((int) event.getY()));
+    		setLegendSelectedHeight(p.y);
+    		if (p.x >= 0 && p.x < 100 && p.y >= 0 && p.y <= 400) {
+    			mapEditor.raiseTile(legendSelectedHeight);
+    			isSavedRecent = false;
+    		}
+	    }
+	    
+	    @FXML 
+	    private void drawingCanvasMousePressedEvent(MouseEvent event) {
+	    	if(!creatingSelectionRect&&!moveClicked&&mapEditor.isValidDragEvt(event)) {
+				mapEditor.setOriginOfSelectionArea(event);
+				mousePressedTime = System.nanoTime();
+			}
+	    }
+	    
+	    @FXML
+	    private void drawingCanvasMouseDragedEvent(MouseEvent event) {
+	    	if(mapEditor.isValidDragEvt(event)) {
+    			if((System.nanoTime()-mousePressedTime)/1000000>300) {
+    				creatingSelectionRect =mapEditor.drawSelectionArea(event);
+    			}
+    	
+    		}else {
+    			if(!creatingSelectionRect) {
+    				mapEditor.setOriginOfSelectedAreaToNull();
+    			}
+    		}
+	    }
+	    
+	    @FXML
+	    private void drawingCanvasMousedClickedEvent(MouseEvent event) {
+	    	if (event.getButton() == MouseButton.SECONDARY && mapEditor.isValidSelectEvt(event)) {
+    			if(creatingSelectionRect) {
+    				showSquareSelectionMenu(event);
+    			}else {
+    				showRightClickMenu(event);
+    				squareSelectMenu.hide();
+    				mapEditor.draw();
+    			}
+    			
+    		} else {
+    			if(creatingSelectionRect) {
+    				showSquareSelectionMenu(event);
+    			}else if(moveClicked) {
+    				if(mapEditor.isValidSelectEvt(event)) {
+    					mapEditor.squareMove(event);
+	    				moveClicked = false;
+    				}
+    			}
+    			else {
+    				mapEditor.canvasClicked(event);
+    				squareSelectMenu.hide();
+    			}
+    			rightClickMenu.hide();
+    		}
 	    }
 
 		private void drawLegendOnCanvas(GraphicsContext gcLegend) {
@@ -215,7 +215,7 @@ public class MapEditorController {
 	 * @return Int the scale of the feature being added to the map
 	 */
 	@FXML
-	int getScale() {
+	private int getScale() {
 		int scale = (int) scaleSlider.getValue();
 		return scale;
 	}
@@ -246,6 +246,7 @@ public class MapEditorController {
     			saveHandler();
     		} 
     	}
+    	isSavedRecent = true;
     	App.setRoot("mainMenu");
     }
 
@@ -255,7 +256,7 @@ public class MapEditorController {
      * @throws IOException
      */
     @FXML
-    void saveAsHandler(ActionEvent event) throws IOException {
+    private void saveAsHandler(ActionEvent event) throws IOException {
     	App.saveAsProjectFile();
     	isSavedRecent = true;
     }
@@ -266,20 +267,20 @@ public class MapEditorController {
      * @throws IOException 
      */
     @FXML
-    void saveHandler() throws IOException {
+    private void saveHandler() throws IOException {
     	App.saveProjectFile();
     	isSavedRecent = true;
     }
     
 
     @FXML
-    void exportHandler(ActionEvent event) throws IOException {
+    private void exportHandler(ActionEvent event) throws IOException {
     	App.exportFile();
     }
     
     
     @FXML
-    void saveAsTemplateHandler(ActionEvent event) throws IOException {
+    private void saveAsTemplateHandler(ActionEvent event) throws IOException {
     	App.saveAsTemplate();
     }
     
@@ -309,7 +310,6 @@ public class MapEditorController {
     }
     
 	
-    
     
     @FXML
     private void helpMenuFeature() {
@@ -492,8 +492,6 @@ public class MapEditorController {
     			Platform.exit();
     		}
     	}
-    	Platform.exit();
-    	System.out.println(isSavedRecent);
     }
     
     

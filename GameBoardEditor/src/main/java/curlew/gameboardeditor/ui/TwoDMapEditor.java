@@ -578,6 +578,10 @@ public class TwoDMapEditor {
 		undoRedoHandler.saveState();
 	}
 	
+	public HashSet<Tile2DGeometry> getSelectedShapeSet() {
+		return this.selectedShapeSet;
+	}
+	
 }
 
 
