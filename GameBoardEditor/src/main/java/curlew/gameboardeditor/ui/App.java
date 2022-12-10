@@ -27,8 +27,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
     	this.stage = stage;
-    	
-    	
     	scene = new Scene(loadFXML("aboutPopUp"),640, 550);    	
         stage.setScene(scene);		
         stage.show();
@@ -77,7 +75,6 @@ public class App extends Application {
     		selectedFile = file;
     		GameBoardIO.saveMap(map, file);
     	} 
-	
     }
     
     /**
@@ -100,9 +97,7 @@ public class App extends Application {
     	File file = fileChooser.showSaveDialog(stage);
     	if (file != null) {
     		GameBoardIO.exportMap(map, file);
-    		
     	} 
-	
 	}
 	
 	public static void saveAsTemplate() throws IOException {
@@ -153,12 +148,6 @@ public class App extends Application {
     public static void setSelectedFileToNull() {
     	selectedFile = null;
     }
-
-//    private static void windowClosingWithoutSaving() throws IOException {
-//    	if (scene.getRoot() == loadFXML("mapEditor")) {
-//    		
-//    	}
-//    }
 
     public static Stage getStage() {
     	return stage;

@@ -2,28 +2,18 @@
 
 package curlew.gameboardeditor.ui;
 
-import java.io.File; 
-import java.net.URL;
-import java.util.ResourceBundle;
 
-import curlew.gameboardeditor.datamodel.GameBoardIO;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 import curlew.gameboardeditor.datamodel.Tile2DGeometry.TileShape;
-import curlew.gameboardeditor.generators.RandomMapGenerator;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.AmbientLight;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.PointLight;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
@@ -34,15 +24,22 @@ import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
-public class ThreeDController extends Application {
+/**
+ * @author afsal villan
+ * @version 1.0
+ *
+ * http://www.genuinecoder.com
+ * @author Team Curlew
+ * @version 2.0 
+ * Updated it so it can 3d preview terrain maps with square and hexagonal tiles 
+ */
+
+public class ThreeDController  {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
     private static double BOX_WIDTH =10;
 	private static double BOX_HEIGHT =10;
 	private static double BOX_DEPTH =5;
- 
-	private Button backButton;
-	
 	private final DoubleProperty angleX = new SimpleDoubleProperty(0);
 	private final DoubleProperty angleY = new SimpleDoubleProperty(0);
 	private double anchorX, anchorY;
@@ -161,10 +158,6 @@ public class ThreeDController extends Application {
             double delta = event.getDeltaY();
             group.translateZProperty().set(group.getTranslateZ() + delta);
           });
-    }
-    
-    public static void main(String[] args) {
-        launch(args);
     }
     
     private void makeSquarePreview(Group group) {

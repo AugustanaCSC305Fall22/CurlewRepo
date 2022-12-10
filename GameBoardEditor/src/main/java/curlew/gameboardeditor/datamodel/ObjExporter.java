@@ -24,6 +24,7 @@ public class ObjExporter {
 	 * Makes an ObjExporter for a given TerrainMap.
 	 * 
 	 */
+
 	public ObjExporter(TerrainMap map) {
 		super();
 		this.map = map;

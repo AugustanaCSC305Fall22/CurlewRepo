@@ -10,12 +10,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
+
 /**
  * 
  * @author Team Curlew
  * This class is responsible for saving and uploading Terrain Map into obj or TMAP format
  *
  */
+
 public class GameBoardIO {
 	/**
 	 * Saves the map in TMAP format
@@ -57,7 +59,5 @@ public class GameBoardIO {
 		objMap.export(file);
 	}
 
-		
-	
 
 }
