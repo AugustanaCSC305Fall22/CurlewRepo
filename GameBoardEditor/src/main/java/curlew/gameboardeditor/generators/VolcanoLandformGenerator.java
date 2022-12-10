@@ -4,6 +4,7 @@ import curlew.gameboardeditor.datamodel.TerrainMap;
 
 public class VolcanoLandformGenerator extends MountainLandformGenerator{
 
+	@Override
 	public void build(TerrainMap map, int row, int column, int scale) {
 		super.build(map, row, column, scale);
 		if (scale == 0) {

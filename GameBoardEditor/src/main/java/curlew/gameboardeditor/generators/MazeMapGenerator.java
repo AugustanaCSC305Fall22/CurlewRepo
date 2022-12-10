@@ -9,10 +9,17 @@ public class MazeMapGenerator {
 	private static double DEAD = 2;
 	private TerrainMap map;
 	
+	/**
+	 * Creates a object of MazeMapGenerator
+	 * @param map The map on which the maze is to be build
+	 */
 	public MazeMapGenerator(TerrainMap map) {
 		this.map = map;
 	}
-
+	
+	/**
+	 * Creates a randomized maze.
+	 */
 	public void genrateMaze() {
 		Random rand = new Random();
 		
