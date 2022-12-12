@@ -16,7 +16,7 @@ The program allows a user to edit and export the map in .obj file so it is 3d pr
 Menus:
 
 The user can start creating a map by choosing among 5 given menus, which are using premade templates, starting from scratch, loading existing file, generating random map, or generating a maze.
-A user is given with the choice of what shape of tiles that users want to use (either hexagon or square). User is also allowed to change the style of tiles while in editing phase.
+Users are given with the choice of what shape of tiles that they want to use (either hexagon or square). 
 
 Features:
 
@@ -24,10 +24,10 @@ For editing part of the map, a lot of advanced features are given.
 First, Users will be able to select multiple tiles at the same time to edit.
 Most basic one is a feature where a user can increase/decrease the height of the tiles through several ways (e.i. raise, lower, tile elevation legends).
 Also, landform features are given.
-There are 5 different landform features that are already given by a program (mountain, volcano, trench, valley, gate to hell).
+There are 5 different landforms that are already given by a program (mountain, volcano, trench, valley, gate to hell).
 Furthermore, a user can set a scale of the features with scale slider. Users can add those features at a wanted tile.
 The program also provides multiple useful tools in editing which are undo, redo, copy, paste, clear, and move.
-More advanced tool, "add/delete-row/column" allows users to resize the map while editing.
+More advanced tool, "add/delete row/column" allows users to resize the map while editing.
 Users are also allowed to select all the tiles that are at the same height and edit all those tiles simultaneously.
 For one of the most advanced feature, users will be able to switch the style of tiles while editing.
 Also, users can also save the map that they created/edited as a template if they'd like to keep it.
