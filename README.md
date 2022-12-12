@@ -42,5 +42,5 @@ https://docs.google.com/presentation/d/1Xcu_hOgsjHBlCY3VECX5bhjnziFduq-D80tPh1d-
 Known Issues:
 
 This program has a save-handling feature where it asks the user if they want to save the file before exiting the page or the application, if they haven't saved the project or the changes made in the project. However, once users enter an map editing window, even though the map hasn't had any changes from the template or a scratch, if the user tries to exit the window or an application, the program will still ask the user if they wanted to save the changes.
-Also, once users delete the templates they added, they will not be able to restored the deleted templates.
+Also, once users delete the templates they added, they will not be able to restore the deleted templates.
 Lastly, this program will not automatically resize or reposition the components accordingly when the size of the window is increased.
