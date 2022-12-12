@@ -5,7 +5,6 @@ Team Curlew's 3-D Tabletop RPG Game Board Editor.
 This program was made for CSC 305 Software Development class at Augustana College.
 
 Made By: Shazil Farhan, Joon Lee, Farah Kahn Brinto, Donald Peters
-
 Supervised By: Dr. Forrest Stonedahl
 
 ABOUT:
