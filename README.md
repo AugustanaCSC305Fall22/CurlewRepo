@@ -25,3 +25,6 @@ Users can even access the tutorial video, where it explains how to use the appli
 
 Demo video(Tutorial) link:
 https://share.vidyard.com/watch/Uage924Mt5HaxEnVyLNhLZ?
+
+Software launch presentation link:
+https://docs.google.com/presentation/d/1Xcu_hOgsjHBlCY3VECX5bhjnziFduq-D80tPh1d-SM0/edit?usp=sharing
