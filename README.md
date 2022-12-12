@@ -23,5 +23,5 @@ Users will be able to preview the RPG map that they created in 3D prior to expor
 For those users who are not familiar with the program, we have several information about the application under "help" menu. 
 Users can even access the tutorial video, where it explains how to use the application.
 
-Demo video(Tutorial) link below:
+Demo video(Tutorial) link:
 https://share.vidyard.com/watch/Uage924Mt5HaxEnVyLNhLZ?
