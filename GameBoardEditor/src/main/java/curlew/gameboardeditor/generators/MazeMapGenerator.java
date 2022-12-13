@@ -5,6 +5,8 @@ import java.util.Random;
 import curlew.gameboardeditor.datamodel.TerrainMap;
 
 /**
+ * Code originally written for CSC 202 Spring Semester 2022 Lab Game of Life 
+ * 
  * This class follows a similar logical pattern to Conway's game of life with the addition 
  * that a cell will survive if it has 1 to 5 neighbors,
  * by checking the neighboring cells of alive and
