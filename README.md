@@ -47,4 +47,4 @@ Known Issues:
 
 This program has a save-handling feature where it asks the user if they want to save the file before exiting the page or the application, if they haven't saved the project or the changes made in the project. However, once users enter an map editing window, even though the map hasn't had any changes from the template or a scratch, if the user tries to exit the window or an application, the program will still ask the user if they wanted to save the changes.
 Also, once users delete the templates they added, they will not be able to restore the deleted templates.
-Lastly, this program will not automatically resize or reposition the components accordingly when the size of the window is increased.
+Lastly, this program will not automatically resize or reposition the components accordingly when the size of the window is increased. Lastly, this program allows users to set their map size from 10 by 10 to 30 by 30 size. Users will not be able to start their projects bigger than 30 by 30; however, once users enter the editing phase, they can keep adding rows and columns which will exceed 30 by 30.
